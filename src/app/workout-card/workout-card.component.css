@@ -7,6 +7,10 @@
     width: 400px;
 }
 
+.exercise-list-header {
+    background-color: #f0f0f0;
+}
+
 .exercise-list {
     list-style-type: none;
 }

@@ -1,0 +1,9 @@
+#all-workouts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.workout-card-wrapper {
+    padding: 10px;
+}
