@@ -1,0 +1,23 @@
+<div>
+    <mat-card class="cdk-drag" cdkDrag>
+        <mat-card-header class="exercise-list-header">
+            <h2>{{workout.name}}</h2>
+        </mat-card-header>
+
+        <mat-card-content>
+            <ul class="exercise-list">
+                <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
+                    <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
+                    <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                    <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                </li>
+            </ul>
+        </mat-card-content>
+
+        <mat-card-actions class="exercise-list-footer">
+            <div><i>Edit button here?</i></div>
+        </mat-card-actions>
+
+    </mat-card>
+
+</div>

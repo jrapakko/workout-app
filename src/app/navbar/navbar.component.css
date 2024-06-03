@@ -1,0 +1,9 @@
+nav {
+    background-color: #551a8b;
+}
+
+
+/* move username, etc. to right edge on wider screens */
+.user-nav {
+    margin-left: auto;
+}

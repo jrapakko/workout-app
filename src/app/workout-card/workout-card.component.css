@@ -1,0 +1,37 @@
+.cdk-drag {
+    cursor: default;
+}
+
+.mat-mdc-card {
+    background-color: white;
+    width: 400px;
+}
+
+.exercise-list {
+    list-style-type: none;
+}
+
+.exercise-card {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    border-bottom: 1px solid #dadada;
+}
+
+.row-item {
+    display: flex;
+    flex: 1;
+    font-size: 14px;
+    padding: 8px 0;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.15s ease-in-out;
+}
+
+.row-item:hover {
+    background-color: #f0f0f0;
+}
+
+.exercise-list-header, .exercise-list-footer {
+    padding-left: 2rem;
+}
