@@ -1,1 +1,8 @@
 <p>workouts works!</p>
+
+
+<div id="all-workouts" *ngFor="let workout of regimen.workouts">
+    <div>
+        <app-workout-card [workout]="workout"></app-workout-card>
+    </div>
+</div>
