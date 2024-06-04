@@ -1,9 +1,9 @@
 import { DragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import {MatCardModule} from '@angular/material/card'
-import { Component, Input, inject } from '@angular/core';
-import { Regimen, Workout, Exercise } from '../workout';
+import { Component, Input, inject, booleanAttribute } from '@angular/core';
+import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { NgFor } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 
 
 @Component({
@@ -12,6 +12,7 @@ import { NgFor } from '@angular/common';
   imports: [
     DragDropModule,
     MatCardModule,
+    NgIf,
     NgFor
   ],
   templateUrl: './workout-card.component.html',
@@ -19,12 +20,14 @@ import { NgFor } from '@angular/common';
 })
 export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
-  card!: Workout;
+  @Input({ transform: booleanAttribute }) drag: boolean;
+  @Input({ transform: booleanAttribute }) dashboard: boolean;
   workoutService: WorkoutService = inject(WorkoutService);
 
 
   constructor() {
-    this.card = this.workoutService.getWorkoutById(2);
+    this.drag = false;
+    this.dashboard = false;
   }
 
 }

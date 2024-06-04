@@ -1,4 +1,4 @@
-export interface Set {
+export interface ExerciseSet {
     reps: number,
     weight: number
 }
@@ -10,7 +10,7 @@ export interface Exercise {
     reps: number,
     prev_wt: number,
     avg_wt: number,
-    cur_sets: Set[]
+    cur_sets: ExerciseSet[]
 }
 
 export interface Workout {

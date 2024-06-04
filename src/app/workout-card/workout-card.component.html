@@ -1,23 +1,96 @@
-<div>
-    <mat-card class="cdk-drag" cdkDrag>
-        <mat-card-header class="exercise-list-header">
-            <h2>{{workout.name}}</h2>
-        </mat-card-header>
 
-        <mat-card-content>
-            <ul class="exercise-list">
-                <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
-                    <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
-                    <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
-                    <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
-                </li>
-            </ul>
-        </mat-card-content>
+<div *ngIf="dashboard; then workoutDash else workoutCard"></div>
 
-        <mat-card-actions class="exercise-list-footer">
-            <div><i>Edit button here?</i></div>
-        </mat-card-actions>
 
-    </mat-card>
+    <ng-template #workoutDash>
 
-</div>
+        <mat-card class="exercise-card-dash">
+            <mat-card-header class="exercise-list-header">
+                <h2>{{workout.name}}</h2>
+            </mat-card-header>
+
+            <mat-card-content>
+                <ul class="exercise-list">
+                    <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
+                        <div class="exercise-name exercise-name-dash row-item"><b>{{exercise.name}}</b></div>
+                        <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                        <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                        <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.prev_wt}}</div>
+                        <div class="exercise-curr exercise-dash-sub-row row-sub-container">
+                            <div *ngFor="let set of exercise.cur_sets">
+                                <div class="row-item">
+                                    <label for="weight">Weight: </label>
+                                    <input id="weight" type="number">
+                                </div>
+                                <div class="row-item">
+                                    <label for="reps">Reps: </label>
+                                    <input id="reps" type="number">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg row-item">Save Sets</button>
+                        </div>
+                    </li>
+                </ul>
+            </mat-card-content>
+
+            <mat-card-actions class="exercise-list-footer">
+            </mat-card-actions>
+
+        </mat-card>
+
+    </ng-template>
+
+
+    <ng-template #workoutCard>
+
+    <div *ngIf="drag; then workoutDrag else workoutEdit"></div>
+
+        <ng-template #workoutDrag>
+            <mat-card class="cdk-drag" cdkDrag>
+                <mat-card-header class="exercise-list-header">
+                    <h2>{{workout.name}}</h2>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <ul class="exercise-list">
+                        <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
+                            <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
+                            <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                            <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                        </li>
+                    </ul>
+                </mat-card-content>
+
+                <mat-card-actions class="exercise-list-footer">
+                    <div><i>Edit button here?</i></div>
+                </mat-card-actions>
+
+            </mat-card>
+        </ng-template>
+
+        <ng-template #workoutEdit>
+            <mat-card>
+                <mat-card-header class="exercise-list-header">
+                    <h2>{{workout.name}}</h2>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <ul class="exercise-list">
+                        <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
+                            <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
+                            <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                            <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                        </li>
+                    </ul>
+                </mat-card-content>
+
+                <mat-card-actions class="exercise-list-footer">
+                    <div><i>Edit button here?</i></div>
+                </mat-card-actions>
+
+            </mat-card>
+        </ng-template>
+    </ng-template>
+
+
+
