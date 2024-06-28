@@ -1,0 +1,19 @@
+#all-workouts {
+    display: grid;
+    flex-direction: column;
+}
+
+.regimen-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    height: auto;
+    min-height: 400px;
+}
+
+.workouts, .regimen {
+    display: flex;
+    height: 100%;
+    min-height: 400px;
+    clear: both;
+}

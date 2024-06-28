@@ -1,1 +1,41 @@
-<p>regimen works!</p>
+<div id="all-workouts" cdkDropListGroup>
+    <div class="regimen-wrapper">
+        <h2>Routine</h2>
+        <div class="regimen" cdkDropList>
+            <div class="workout-card-wrapper cdk-drag" cdkDragPlaceholder>
+                <mat-card>
+                    <mat-card-header class="exercise-list-header">
+                        <h2>Placeholder</h2>
+                    </mat-card-header>
+    
+                    <mat-card-content>
+                        <ul class="exercise-list">
+                            <li class="exercise-card table-row">
+                                <div class="exercise-name row-item"><b>Add workouts here</b></div>
+                                <div class="exercise-sets row-item">Put Them in order</div>
+                                <div class="exercise-reps row-item"> </div>
+                            </li>
+                        </ul>
+                    </mat-card-content>
+    
+                    <mat-card-actions class="exercise-list-footer">
+                        <div><i>Edit button here?</i></div>
+                    </mat-card-actions>
+    
+                </mat-card>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="regimen-wrapper">
+        <h2>Workouts</h2>
+        <div class="workouts" cdkDropList>
+            <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of regimen.workouts" cdkDrag>
+                <app-workout-card [workout]="workout" [drag]="false"></app-workout-card>
+            </div>
+        </div>
+    </div>
+</div>

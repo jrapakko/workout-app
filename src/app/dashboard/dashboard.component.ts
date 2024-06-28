@@ -23,9 +23,12 @@ export class DashboardComponent {
 
   constructor() {
     this.nextWorkout = this.workoutService.getNextWorkout();
-    for (var exercise of this.nextWorkout.exercises) {
-      for(var i = 0; i < exercise.sets; i++) {
-        exercise.cur_sets.push(<ExerciseSet>{});
+    // don't add every time dashboard is constructed to our object
+    if (this.nextWorkout.exercises[0].cur_sets.length < 1 ) {
+      for (var exercise of this.nextWorkout.exercises) {
+        for(var i = 0; i < exercise.sets; i++) {
+          exercise.cur_sets.push(<ExerciseSet>{});
+        }
       }
     }
   }
