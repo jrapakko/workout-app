@@ -9,6 +9,7 @@
     overflow: hidden;
     height: auto;
     min-height: 400px;
+    overflow: scroll;
 }
 
 .workouts, .regimen {

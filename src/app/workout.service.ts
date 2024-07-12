@@ -255,6 +255,10 @@ export class WorkoutService {
     return this.REGIMEN;
   }
 
+  getWorkouts(): Workout[] {
+    return [this.W1, this.W2, this.W3, this.W4];
+  }
+
   getWorkoutById(id: number): Workout {
     return this.REGIMEN.workouts.filter((workout) => workout.id == id)[0];
   }

@@ -1,7 +1,10 @@
 <div id="all-workouts" cdkDropListGroup>
     <div class="regimen-wrapper">
         <h2>Routine</h2>
-        <div class="regimen" cdkDropList>
+        <div class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+            <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of regimen.workouts" cdkDrag>
+                <app-workout-card [workout]="workout" [drag]="false"></app-workout-card>
+            </div>
             <div class="workout-card-wrapper cdk-drag" cdkDragPlaceholder>
                 <mat-card>
                     <mat-card-header class="exercise-list-header">
@@ -32,8 +35,8 @@
     </div>
     <div class="regimen-wrapper">
         <h2>Workouts</h2>
-        <div class="workouts" cdkDropList>
-            <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of regimen.workouts" cdkDrag>
+        <div class="workouts" cdkDropList cdkDropListOrientation="horizontal">
+            <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of this.workouts" cdkDrag>
                 <app-workout-card [workout]="workout" [drag]="false"></app-workout-card>
             </div>
         </div>
