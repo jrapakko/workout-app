@@ -1,4 +1,3 @@
-import { DragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card';
 import { Component, Input, inject, booleanAttribute } from '@angular/core';
 import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
@@ -11,7 +10,6 @@ import { FormsModule, NgModel } from '@angular/forms';
   selector: 'app-workout-card',
   standalone: true,
   imports: [
-    DragDropModule,
     MatCardModule,
     NgIf,
     NgFor,
