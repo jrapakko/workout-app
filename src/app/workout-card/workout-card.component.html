@@ -48,7 +48,7 @@
     <div *ngIf="edit; then workoutEdit else workoutDisp"></div>
 
         <ng-template #workoutDisp>
-            <mat-card class="cdk-drag" cdkDrag>
+            <mat-card>
                 <mat-card-header class="exercise-list-header">
                     <h2>{{workout.name}}</h2>
                 </mat-card-header>
