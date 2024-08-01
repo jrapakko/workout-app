@@ -45,9 +45,9 @@
 
     <ng-template #workoutCard>
 
-    <div *ngIf="drag; then workoutDrag else workoutEdit"></div>
+    <div *ngIf="edit; then workoutEdit else workoutDisp"></div>
 
-        <ng-template #workoutDrag>
+        <ng-template #workoutDisp>
             <mat-card class="cdk-drag" cdkDrag>
                 <mat-card-header class="exercise-list-header">
                     <h2>{{workout.name}}</h2>
@@ -64,7 +64,7 @@
                 </mat-card-content>
 
                 <mat-card-actions class="exercise-list-footer">
-                    <div><i>Edit button here?</i></div>
+                    <div><button (click)="toggleEdit()">Edit</button></div>
                 </mat-card-actions>
 
             </mat-card>
@@ -82,12 +82,14 @@
                             <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
                             <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
                             <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                            <button>Remove Exercise</button>
                         </li>
                     </ul>
                 </mat-card-content>
 
                 <mat-card-actions class="exercise-list-footer">
-                    <div><i>Edit button here?</i></div>
+                    <div><button (click)="toggleEdit()">Save Changes</button></div>
+                    <div><button>Remove Workout</button></div>
                 </mat-card-actions>
 
             </mat-card>

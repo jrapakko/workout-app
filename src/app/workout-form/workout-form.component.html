@@ -1,7 +1,6 @@
 
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-    <h1>Workout Name</h1>
-    <label for="workout-name">Workout Name: </label>
+    <h1><label for="workout-name">Workout Name: </label></h1>
     <input id="workout-name" type="text" class="form-control"
         formControlName="name" name="workout-name">
 

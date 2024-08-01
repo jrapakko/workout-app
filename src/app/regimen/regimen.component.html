@@ -3,7 +3,7 @@
         <h2>Routine</h2>
         <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
             <div class="workout-card-wrapper cdk-drag" cdkDrag *ngFor="let workout of regimen.workouts">
-                <app-workout-card [workout]="workout" [drag]="false"></app-workout-card>
+                <app-workout-card [workout]="workout"></app-workout-card>
             </div>
             <div class="workout-card-wrapper cdk-drag" cdkDragPlaceholder>
                 <mat-card>
@@ -37,7 +37,7 @@
         <h2>Workouts</h2>
         <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
             <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of this.workouts" cdkDrag>
-                <app-workout-card [workout]="workout" [drag]="false"></app-workout-card>
+                <app-workout-card [workout]="workout"></app-workout-card>
             </div>
         </div>
     </div>

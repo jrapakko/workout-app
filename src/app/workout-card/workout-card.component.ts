@@ -22,18 +22,22 @@ import { FormsModule, NgModel } from '@angular/forms';
 })
 export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
-  @Input({ transform: booleanAttribute }) drag: boolean;
+  @Input({ transform: booleanAttribute }) edit: boolean;
   @Input({ transform: booleanAttribute }) dashboard: boolean;
   workoutService: WorkoutService = inject(WorkoutService);
 
 
   constructor() {
-    this.drag = false;
+    this.edit = false;
     this.dashboard = false;
   }
 
   log() {
     console.log(this.workout);
+  }
+
+  toggleEdit() {
+    this.edit = !this.edit;
   }
 
 }
