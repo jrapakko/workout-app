@@ -30,7 +30,7 @@ export class RegimenComponent {
   }
 
   drop(event: CdkDragDrop<Workout[]>) {
-    if (event.container.id === "regimen" && event.previousContainer.id === "regmien") {
+    if (event.container.id === "regimen" && event.previousContainer.id === "regimen") {
       // moving in regimen
       moveItemInArray(this.regimen.workouts, event.previousIndex, event.currentIndex);
     }

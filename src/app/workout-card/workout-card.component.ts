@@ -1,9 +1,10 @@
 import { DragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import {MatCardModule} from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
 import { Component, Input, inject, booleanAttribute } from '@angular/core';
 import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { NgIf, NgFor } from '@angular/common';
+import { FormsModule, NgModel } from '@angular/forms';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { NgIf, NgFor } from '@angular/common';
     DragDropModule,
     MatCardModule,
     NgIf,
-    NgFor
+    NgFor,
+    FormsModule
   ],
   templateUrl: './workout-card.component.html',
   styleUrl: './workout-card.component.css'
@@ -28,6 +30,10 @@ export class WorkoutCardComponent {
   constructor() {
     this.drag = false;
     this.dashboard = false;
+  }
+
+  log() {
+    console.log(this.workout);
   }
 
 }

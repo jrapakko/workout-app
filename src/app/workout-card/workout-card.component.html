@@ -18,16 +18,18 @@
                         <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.prev_wt}}</div>
                         <div class="exercise-curr exercise-dash-sub-row row-sub-container">
                             <div *ngFor="let set of exercise.cur_sets">
-                                <div class="row-item">
+                                <div class="row-item form-group">
                                     <label for="weight">Weight: </label>
-                                    <input id="weight" type="number">
+                                    <input id="weight" type="number" class="form-control"
+                                            [(ngModel)]="set.weight" name="weight">
                                 </div>
                                 <div class="row-item">
                                     <label for="reps">Reps: </label>
-                                    <input id="reps" type="number">
+                                    <input id="reps" type="number" class="form-control"
+                                            [(ngModel)]="set.reps" name="reps">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg row-item">Save Sets</button>
+                            <button type="button" class="btn btn-primary btn-lg row-item" (click)="log();">Save Sets</button>
                         </div>
                     </li>
                 </ul>

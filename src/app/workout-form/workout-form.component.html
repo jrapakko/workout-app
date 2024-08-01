@@ -1,1 +1,28 @@
 <p>workout-form works!</p>
+
+
+<h1>Workout Name</h1>
+<p>Add Exercise Button</p>
+
+<h2>Exercise Name</h2>
+<p>Number of Sets</p>
+<p>Number of Reps</p>
+
+<pre><code>
+    export interface Exercise {{ '{' }}
+        id: number,
+        name: string,
+        sets: number,
+        reps: number,
+        prev_wt: number,
+        avg_wt: number,
+        cur_sets: ExerciseSet[]
+    {{ '}' }}
+    
+    export interface Workout {{ '{' }}
+        id: number,
+        name: string,
+        num_exercise: number,
+        exercises: Exercise[]
+    {{ '}' }}
+</code></pre>
