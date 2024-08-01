@@ -1,28 +1,28 @@
-<p>workout-form works!</p>
 
+<form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+    <h1>Workout Name</h1>
+    <label for="workout-name">Workout Name: </label>
+    <input id="workout-name" type="text" class="form-control"
+        formControlName="name" name="workout-name">
 
-<h1>Workout Name</h1>
-<p>Add Exercise Button</p>
+    <div formArrayName="exercises">
+        <h2>Exercises</h2>
 
-<h2>Exercise Name</h2>
-<p>Number of Sets</p>
-<p>Number of Reps</p>
+        <h2><button (click)="addExercise()">Add Exercise</button></h2>
 
-<pre><code>
-    export interface Exercise {{ '{' }}
-        id: number,
-        name: string,
-        sets: number,
-        reps: number,
-        prev_wt: number,
-        avg_wt: number,
-        cur_sets: ExerciseSet[]
-    {{ '}' }}
-    
-    export interface Workout {{ '{' }}
-        id: number,
-        name: string,
-        num_exercise: number,
-        exercises: Exercise[]
-    {{ '}' }}
-</code></pre>
+        <div *ngFor="let exercise of exercises.controls; let i=index">
+            <div formGroupName="{{ i }}">
+                <label for="exercise-{{ i }}-name">Exercise Name: </label>
+                <input id="exercise-{{ i }}-name" type="text" formControlName="name">
+                <label for="exercise-{{ i }}-sets">Sets: </label>
+                <input id="exercise-{{ i }}-sets" type="number" formControlName="sets">
+                <label for="exercise-{{ i }}-reps">Reps: </label>
+                <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
+                <button (click)="removeExercise(i)">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <h2><button type="submit" [disabled]="!workoutForm.valid">Submit</button></h2>
+
+</form>
