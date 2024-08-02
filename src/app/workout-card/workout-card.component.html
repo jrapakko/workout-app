@@ -103,7 +103,7 @@
                 </mat-card-content>
 
                 <mat-card-actions class="exercise-list-footer">
-                    <div><button (click)="toggleEdit()">Edit</button></div>
+                    <div *ngIf="!(regimen)"><button (click)="toggleEdit()">Edit</button></div>
                 </mat-card-actions>
 
             </mat-card>

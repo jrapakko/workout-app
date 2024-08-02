@@ -22,6 +22,7 @@ export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
   @Input({ transform: booleanAttribute }) edit: boolean;
   @Input({ transform: booleanAttribute }) dashboard: boolean;
+  @Input({ transform: booleanAttribute }) regimen: boolean;
   @Output() deleteWorkoutEvent = new EventEmitter<void>();
   @Output() saveWorkoutEvent = new EventEmitter<void>();
   @Output() deleteExerciseEvent = new EventEmitter<void>();
@@ -31,6 +32,7 @@ export class WorkoutCardComponent {
   constructor() {
     this.edit = false;
     this.dashboard = false;
+    this.regimen = false;
   }
 
   log() {
