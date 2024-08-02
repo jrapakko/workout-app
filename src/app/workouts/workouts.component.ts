@@ -16,10 +16,14 @@ import { NgFor } from '@angular/common';
 })
 export class WorkoutsComponent {
 
-  regimen!: Regimen;
+  workouts!: Workout[];
   workoutService: WorkoutService = inject(WorkoutService);
 
   constructor() {
-    this.regimen = this.workoutService.getRegimen();
+    this.workouts = this.workoutService.getWorkouts();
+  }
+
+  removeWorkout(index: number) {
+    this.workouts.splice(index, 1);
   }
 }

@@ -1,5 +1,5 @@
 <div id="all-workouts">
-    <div class="workout-card-wrapper" *ngFor="let workout of regimen.workouts">
-        <app-workout-card [workout]="workout"></app-workout-card>
+    <div class="workout-card-wrapper" *ngFor="let workout of this.workouts; let i=index">
+        <app-workout-card [workout]="workout" (deleteWorkoutEvent)="removeWorkout(i)"></app-workout-card>
     </div>
 </div>

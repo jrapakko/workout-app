@@ -1,5 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
-import { Component, Input, inject, booleanAttribute } from '@angular/core';
+import { Component, Input, inject, Output, booleanAttribute, EventEmitter } from '@angular/core';
 import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { NgIf, NgFor } from '@angular/common';
@@ -22,6 +22,7 @@ export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
   @Input({ transform: booleanAttribute }) edit: boolean;
   @Input({ transform: booleanAttribute }) dashboard: boolean;
+  @Output() deleteWorkoutEvent = new EventEmitter<void>();
   workoutService: WorkoutService = inject(WorkoutService);
 
 
@@ -36,6 +37,14 @@ export class WorkoutCardComponent {
 
   toggleEdit() {
     this.edit = !this.edit;
+  }
+
+  removeExercise(index: number) {
+    this.workout.exercises.splice(index, 1);
+  }
+
+  deleteWorkout() {
+    this.deleteWorkoutEvent.emit();
   }
 
 }

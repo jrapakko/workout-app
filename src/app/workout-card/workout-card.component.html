@@ -17,8 +17,8 @@
                         <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
                         <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.prev_wt}}</div>
                         <div class="exercise-curr exercise-dash-sub-row row-sub-container">
-                            <div *ngFor="let set of exercise.cur_sets">
-                                <div class="row-item form-group">
+                            <div *ngFor="let set of exercise.cur_sets" class="form-group">
+                                <div class="row-item">
                                     <label for="weight">Weight: </label>
                                     <input id="weight" type="number" class="form-control"
                                             [(ngModel)]="set.weight" name="weight">
@@ -55,18 +55,32 @@
 
                 <mat-card-content>
                     <ul class="exercise-list">
-                        <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
-                            <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
-                            <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
-                            <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
-                            <button>Remove Exercise</button>
+                        <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises; let i=index">
+                            <div class="exercise-name row-item">
+                                <input id="exercise-name"
+                                    type="text" class="form-control"
+                                    [(ngModel)]="exercise.name" name="exercise-name">
+                            </div>
+                            <div class="exercise-sets-reps-sub-row row-sub-container">
+                                <div class="exercise-sets row-item">
+                                    <label for="sets">Sets: </label>
+                                    <input id="sets" type="number" class="form-control"
+                                    [(ngModel)]="exercise.sets" name="sets">
+                                </div>
+                                <div class="exercise-reps row-item">
+                                    <label for="reps">Reps: </label>
+                                    <input id="reps" type="number" class="form-control"
+                                    [(ngModel)]="exercise.reps" name="reps">
+                                </div>
+                                <button (click)="removeExercise(i)">Remove Exercise</button>
+                            </div>
                         </li>
                     </ul>
                 </mat-card-content>
 
                 <mat-card-actions class="exercise-list-footer">
                     <div><button (click)="toggleEdit()">Save Changes</button></div>
-                    <div><button>Remove Workout</button></div>
+                    <div><button (click)="deleteWorkout()">Remove Workout</button></div>
                 </mat-card-actions>
 
             </mat-card>

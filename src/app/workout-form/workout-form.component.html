@@ -1,8 +1,10 @@
 
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-    <h1><label for="workout-name">Workout Name: </label></h1>
-    <input id="workout-name" type="text" class="form-control"
-        formControlName="name" name="workout-name">
+    <h1>
+        <label for="workout-name">Workout Name: </label>
+        <input id="workout-name" type="text" class="form-control"
+            formControlName="name" name="workout-name">
+    </h1>
 
     <div formArrayName="exercises">
         <h2>Exercises</h2>
