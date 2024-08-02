@@ -26,4 +26,12 @@ export class WorkoutsComponent {
   removeWorkout(index: number) {
     this.workouts.splice(index, 1);
   }
+
+  decrementExerciseNum(index: number) {
+    this.workouts[index].num_exercise--;
+  }
+
+  updateWorkout(index: number) {
+    console.log(this.workouts[index]);
+  }
 }

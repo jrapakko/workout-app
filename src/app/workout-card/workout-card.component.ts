@@ -3,7 +3,7 @@ import { Component, Input, inject, Output, booleanAttribute, EventEmitter } from
 import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { NgIf, NgFor } from '@angular/common';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -23,6 +23,8 @@ export class WorkoutCardComponent {
   @Input({ transform: booleanAttribute }) edit: boolean;
   @Input({ transform: booleanAttribute }) dashboard: boolean;
   @Output() deleteWorkoutEvent = new EventEmitter<void>();
+  @Output() saveWorkoutEvent = new EventEmitter<void>();
+  @Output() deleteExerciseEvent = new EventEmitter<void>();
   workoutService: WorkoutService = inject(WorkoutService);
 
 
@@ -41,10 +43,16 @@ export class WorkoutCardComponent {
 
   removeExercise(index: number) {
     this.workout.exercises.splice(index, 1);
+    this.deleteExerciseEvent.emit();
   }
 
   deleteWorkout() {
     this.deleteWorkoutEvent.emit();
+  }
+
+  saveWorkout() {
+    this.toggleEdit();
+    this.saveWorkoutEvent.emit();
   }
 
 }
