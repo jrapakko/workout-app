@@ -32,7 +32,6 @@ export class DashboardComponent {
           exercise.cur_sets = [];
         }
       }
-      // don't add every time dashboard is constructed to our object
       if (this.nextWorkout.exercises[0].cur_sets.length < 1 ) {
         for (var exercise of this.nextWorkout.exercises) {
           for(var i = 0; i < exercise.sets; i++) {
