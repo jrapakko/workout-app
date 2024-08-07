@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-workouts',
   standalone: true,
   imports: [
+    NgIf,
     NgFor,
     WorkoutCardComponent
   ],
@@ -20,7 +21,9 @@ export class WorkoutsComponent {
   workoutService: WorkoutService = inject(WorkoutService);
 
   constructor() {
-    this.workouts = this.workoutService.getWorkouts();
+    this.workoutService.getWorkouts().then((workouts: Workout[]) => {
+      this.workouts = workouts;
+    });
   }
 
   removeWorkout(index: number) {
@@ -28,7 +31,7 @@ export class WorkoutsComponent {
   }
 
   decrementExerciseNum(index: number) {
-    this.workouts[index].num_exercise--;
+    this.workouts[index].numberExercises--;
   }
 
   updateWorkout(index: number) {

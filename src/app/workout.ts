@@ -8,21 +8,21 @@ export interface Exercise {
     name: string,
     sets: number,
     reps: number,
-    prev_wt: number,
-    avg_wt: number,
+    previousWeight: number,
+    averageWeight: number,
     cur_sets: ExerciseSet[]
 }
 
 export interface Workout {
     id: number,
     name: string,
-    num_exercise: number,
+    numberExercises: number,
     exercises: Exercise[]
 }
 
 export interface Regimen {
     id: number,
     name: string,
-    num_workout: number,
+    numberWorkouts: number,
     workouts: Workout[]
 }

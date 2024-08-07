@@ -1,4 +1,5 @@
 <div id="all-workouts">
+    <ng-container *ngIf="workouts">
     <div class="workout-card-wrapper" *ngFor="let workout of this.workouts; let i=index">
         <app-workout-card
             [workout]="workout"
@@ -7,4 +8,5 @@
             (deleteExerciseEvent)="decrementExerciseNum(i)">
         </app-workout-card>
     </div>
+    </ng-container>
 </div>
