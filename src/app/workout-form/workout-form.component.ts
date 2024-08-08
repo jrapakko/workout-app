@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Workout, Exercise, ExerciseSet } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
+import { WorkoutService } from '../workout.service';
 
 @Component({
   selector: 'app-workout-form',
@@ -14,6 +15,8 @@ import { NgFor } from '@angular/common';
   styleUrl: './workout-form.component.css'
 })
 export class WorkoutFormComponent {
+
+  workoutService: WorkoutService = inject(WorkoutService);
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -43,6 +46,12 @@ export class WorkoutFormComponent {
   }
 
   onSubmit() {
-    console.log(this.workoutForm.value);
+    var w: Workout = {
+      id: -1,
+      name: this.workoutForm.getRawValue().name as string,
+      exercises: this.workoutForm.getRawValue().exercises as Exercise[],
+      numberExercises: this.workoutForm.getRawValue().exercises.length
+    };
+    this.workoutService.saveWorkout(w);
   }
 }

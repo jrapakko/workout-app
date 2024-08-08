@@ -24,4 +24,14 @@ export class WorkoutService {
     const data = await fetch(this.baseUrl + '/regimen/nextWorkout');
     return await data.json() ?? [];
   }
+
+  saveWorkout(w: Workout) {
+    fetch((this.baseUrl + '/workout'), {
+      method: "POST",
+      body: JSON.stringify(w),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => response.json()).then(json => console.log(json));
+  }
 }
