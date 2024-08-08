@@ -24,5 +24,6 @@ export interface Regimen {
     id: number,
     name: string,
     numberWorkouts: number,
+    nextWorkoutIndex: number,
     workouts: Workout[]
 }

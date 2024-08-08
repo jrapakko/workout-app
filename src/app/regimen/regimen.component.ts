@@ -38,18 +38,30 @@ export class RegimenComponent {
     if (event.container.id === "regimen" && event.previousContainer.id === "regimen") {
       // moving in regimen
       moveItemInArray(this.regimen.workouts, event.previousIndex, event.currentIndex);
+      this.workoutService.saveRegimen(this.regimen);
     }
     if (event.container.id === "regimen" && event.previousContainer.id === "workouts") {
       // adding to regimen
       copyArrayItem(this.workouts, this.regimen.workouts, event.previousIndex, event.currentIndex);
+      this.workoutService.saveRegimen(this.regimen);
     }
     if (event.container.id === "workouts" && event.previousContainer.id === "regimen") {
       // remove from regimen if moved to workouts
       this.regimen.workouts.splice(event.currentIndex, 1);
+      this.regimen.nextWorkoutIndex--; // edge case
+      if (this.regimen.nextWorkoutIndex < 0) {
+        this.regimen.nextWorkoutIndex = 0;
+      }
+      this.workoutService.saveRegimen(this.regimen);
     }
     if (event.container.id === "regimen" && event.isPointerOverContainer === false) {
       // remove from regimen if not over a container as well
       this.regimen.workouts.splice(event.currentIndex, 1);
+      this.regimen.nextWorkoutIndex--; // edge case
+      if (this.regimen.nextWorkoutIndex < 0) {
+        this.regimen.nextWorkoutIndex = 0;
+      }
+      this.workoutService.saveRegimen(this.regimen);
     }
   }
 }

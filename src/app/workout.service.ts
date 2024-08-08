@@ -34,4 +34,14 @@ export class WorkoutService {
       }
     }).then(response => response.json()).then(json => console.log(json));
   }
+
+  saveRegimen(r: Regimen) {
+    fetch((this.baseUrl + '/regimen'), {
+      method: "PUT",
+      body: JSON.stringify(r),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => response.json()).then(json => console.log(json));
+  }
 }
