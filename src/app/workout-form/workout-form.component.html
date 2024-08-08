@@ -9,7 +9,7 @@
     <div formArrayName="exercises">
         <h2>Exercises</h2>
 
-        <h2><button (click)="addExercise()">Add Exercise</button></h2>
+        <h2><button type="button" (click)="addExercise()">Add Exercise</button></h2>
 
         <div *ngFor="let exercise of exercises.controls; let i=index">
             <div formGroupName="{{ i }}">
@@ -19,7 +19,7 @@
                 <input id="exercise-{{ i }}-sets" type="number" formControlName="sets">
                 <label for="exercise-{{ i }}-reps">Reps: </label>
                 <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
-                <button (click)="removeExercise(i)">Remove</button>
+                <button type="button" (click)="removeExercise(i)">Remove</button>
             </div>
         </div>
     </div>

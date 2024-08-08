@@ -15,8 +15,6 @@ import { NgFor } from '@angular/common';
 })
 export class WorkoutFormComponent {
 
-  
-
   constructor(private formBuilder: FormBuilder) {}
 
   workoutForm = this.formBuilder.group({
