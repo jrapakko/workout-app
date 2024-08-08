@@ -53,5 +53,7 @@ export class WorkoutFormComponent {
       numberExercises: this.workoutForm.getRawValue().exercises.length
     };
     this.workoutService.saveWorkout(w);
+    this.workoutForm.reset();
+    this.exercises.clear();
   }
 }
