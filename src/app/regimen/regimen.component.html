@@ -6,6 +6,7 @@
             <div class="workout-card-wrapper cdk-drag" cdkDrag *ngFor="let workout of regimen.workouts">
                 <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
             </div>
+            <ng-container *ngIf="!(regimen.workouts.length)">
             <div class="workout-card-placeholder" cdkDragPlaceholder>
                 <mat-card>
                     <mat-card-header class="exercise-list-header">
@@ -16,6 +17,7 @@
                     </mat-card-content>
                 </mat-card>
             </div>
+            </ng-container>
         </div>
     </div>
     </ng-container>
