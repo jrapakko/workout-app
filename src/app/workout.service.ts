@@ -25,6 +25,12 @@ export class WorkoutService {
     return await data.json() ?? [];
   }
 
+  deleteWorkout(id: number) {
+    fetch((this.baseUrl + '/workout/delete/' + id), {
+      method: "DELETE"
+    }).then(response => console.log(response));
+  }
+
   saveWorkout(w: Workout) {
     fetch((this.baseUrl + '/workout'), {
       method: "POST",
@@ -39,6 +45,27 @@ export class WorkoutService {
     fetch((this.baseUrl + '/regimen'), {
       method: "PUT",
       body: JSON.stringify(r),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => console.log(response));
+  }
+
+  async saveExercise(e: Exercise): Promise<Exercise> {
+    const data = await fetch((this.baseUrl + '/exercise'), {
+      method: "POST",
+      body: JSON.stringify(e),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    return await data.json() ?? [];
+  }
+
+  updateWorkout(w: Workout) {
+    fetch((this.baseUrl + '/workout'), {
+      method: "PUT",
+      body: JSON.stringify(w),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }

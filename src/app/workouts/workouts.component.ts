@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Regimen, Workout } from '../workout';
+import { Exercise, Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { NgFor, NgIf } from '@angular/common';
@@ -27,6 +27,7 @@ export class WorkoutsComponent {
   }
 
   removeWorkout(index: number) {
+    this.workoutService.deleteWorkout(this.workouts[index].id);
     this.workouts.splice(index, 1);
   }
 
@@ -35,6 +36,6 @@ export class WorkoutsComponent {
   }
 
   updateWorkout(index: number) {
-    console.log(this.workouts[index]);
+    this.workoutService.updateWorkout(this.workouts[index]);
   }
 }

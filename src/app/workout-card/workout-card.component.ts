@@ -43,9 +43,17 @@ export class WorkoutCardComponent {
     this.edit = !this.edit;
   }
 
+  addExercise() {
+    var e: Exercise = {id: -1, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, averageWeight: 0, cur_sets: []};
+    this.workoutService.saveExercise(e).then((exercise: Exercise) => {
+      console.log(exercise);
+      this.workout.numberExercises = this.workout.exercises.push(exercise);
+    });
+  }
+
   removeExercise(index: number) {
     this.workout.exercises.splice(index, 1);
-    this.deleteExerciseEvent.emit();
+    this.deleteExerciseEvent.emit(); //decrement in parent
   }
 
   deleteWorkout() {

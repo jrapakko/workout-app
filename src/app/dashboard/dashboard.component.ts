@@ -26,7 +26,6 @@ export class DashboardComponent {
   constructor() {
     this.workoutService.getNextWorkout().then((nextWorkout: Workout) => {
       this.nextWorkout = nextWorkout;
-      console.log(nextWorkout);
       for (var exercise of this.nextWorkout.exercises) {
         if (!exercise.cur_sets) {
           exercise.cur_sets = [];
