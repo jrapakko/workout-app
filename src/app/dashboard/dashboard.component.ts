@@ -1,9 +1,11 @@
+import { MatCardModule } from '@angular/material/card';
 import { Component, inject } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -11,9 +13,12 @@ import { NgIf } from '@angular/common';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    MatCardModule,
     NgIf,
+    NgFor,
     DragDropModule,
     WorkoutCardComponent,
+    FormsModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -41,4 +46,8 @@ export class DashboardComponent {
     });
   }
 
+
+  saveSets(index: number) {
+
+  }
 }

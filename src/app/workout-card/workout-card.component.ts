@@ -21,22 +21,15 @@ import { FormsModule } from '@angular/forms';
 export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
   @Input({ transform: booleanAttribute }) edit: boolean;
-  @Input({ transform: booleanAttribute }) dashboard: boolean;
   @Input({ transform: booleanAttribute }) regimen: boolean;
   @Output() deleteWorkoutEvent = new EventEmitter<void>();
   @Output() saveWorkoutEvent = new EventEmitter<void>();
   @Output() deleteExerciseEvent = new EventEmitter<void>();
   workoutService: WorkoutService = inject(WorkoutService);
 
-
   constructor() {
     this.edit = false;
-    this.dashboard = false;
     this.regimen = false;
-  }
-
-  log() {
-    console.log(this.workout);
   }
 
   toggleEdit() {
@@ -44,9 +37,8 @@ export class WorkoutCardComponent {
   }
 
   addExercise() {
-    var e: Exercise = {id: -1, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, averageWeight: 0, cur_sets: []};
+    var e: Exercise = {id: -1, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: []};
     this.workoutService.saveExercise(e).then((exercise: Exercise) => {
-      console.log(exercise);
       this.workout.numberExercises = this.workout.exercises.push(exercise);
     });
   }

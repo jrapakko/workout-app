@@ -1,3 +1,47 @@
 <ng-container *ngIf="nextWorkout">
-<app-workout-card [workout]="nextWorkout" [dashboard]="true"></app-workout-card>
+    <mat-card id="exercise-card-dash">
+        <mat-card-header class="exercise-list-header">
+            <h2>{{ nextWorkout.name }}</h2>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <ul class="exercise-list">
+                <li class="exercise-card table-row" *ngFor="let exercise of nextWorkout.exercises; let i=index;">
+                    <div class="exercise-name exercise-name-dash row-item"><b>{{exercise.name}}</b></div>
+                    <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                    <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                    <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
+                    <div class="exercise-curr exercise-dash-sub-row row-sub-container">
+                        
+                        <div *ngFor="let set of exercise.cur_sets; let j=index;" class="form-group form-exercise-{{ exercise.id }}">
+                            
+                            <div class="row-item">
+                                <label for="weight-exercise-{{ i }}-set-{{ j }}">Weight: </label>
+                                <input id="weight-exercise-{{ i }}-set-{{ j }}" type="number" class="form-control"
+                                        [(ngModel)]="set.weight" name="weight-exercise-{{ i }}-set-{{ j }}"
+                                        required>
+                            </div>
+                            <div class="row-item">
+                                <label for="reps-exercise-{{ i }}-set-{{ j }}">Reps: </label>
+                                <input id="reps-exercise-{{ i }}-set-{{ j }}" type="number" class="form-control"
+                                        [(ngModel)]="set.reps" name="reps-exercise-{{ i }}-set-{{ j }}"
+                                        required>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary btn-lg row-item" (click)="saveSets(i);">Save Sets</button>
+                    </div>
+                </li>
+            </ul>
+            <hr >
+
+        </mat-card-content>
+
+        <mat-card-actions class="exercise-list-footer">
+            <button type="button" class="btn btn-primary btn-lg row-item">Next Workout</button>
+        </mat-card-actions>
+
+    </mat-card>
+
 </ng-container>

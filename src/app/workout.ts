@@ -9,7 +9,6 @@ export interface Exercise {
     sets: number,
     reps: number,
     previousWeight: number,
-    averageWeight: number,
     cur_sets: ExerciseSet[]
 }
 
