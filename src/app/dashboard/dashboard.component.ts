@@ -1,7 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
 import { Component, inject } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { NgIf, NgFor } from '@angular/common';
@@ -16,8 +14,6 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     NgIf,
     NgFor,
-    DragDropModule,
-    WorkoutCardComponent,
     FormsModule
   ],
   templateUrl: './dashboard.component.html',
@@ -48,6 +44,6 @@ export class DashboardComponent {
 
 
   saveSets(index: number) {
-
+    this.workoutService.saveExerciseSets(this.nextWorkout.id, this.nextWorkout.exercises[index].id, this.nextWorkout.exercises[index])
   }
 }

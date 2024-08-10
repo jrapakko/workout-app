@@ -71,4 +71,14 @@ export class WorkoutService {
       }
     }).then(response => response.json()).then(json => console.log(json));
   }
+
+  saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise) {
+    fetch((this.baseUrl + '/exercise/sets/' + workoutId + '/' + exerciseId), {
+      method: "POST",
+      body: JSON.stringify(exercise.cur_sets),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => console.log(response));
+  }
 }

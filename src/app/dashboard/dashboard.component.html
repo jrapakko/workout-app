@@ -13,9 +13,8 @@
                     <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
                     <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
                     <div class="exercise-curr exercise-dash-sub-row row-sub-container">
-                        
-                        <div *ngFor="let set of exercise.cur_sets; let j=index;" class="form-group form-exercise-{{ exercise.id }}">
-                            
+                    <form onsubmit="void(0)" #exerciseForm="ngForm">
+                        <div *ngFor="let set of exercise.cur_sets; let j=index;" class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
                             <div class="row-item">
                                 <label for="weight-exercise-{{ i }}-set-{{ j }}">Weight: </label>
                                 <input id="weight-exercise-{{ i }}-set-{{ j }}" type="number" class="form-control"
@@ -30,7 +29,8 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-primary btn-lg row-item" (click)="saveSets(i);">Save Sets</button>
+                        <button class="btn btn-primary btn-lg" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i);">Save Sets</button>
+                    </form>
                     </div>
                 </li>
             </ul>
