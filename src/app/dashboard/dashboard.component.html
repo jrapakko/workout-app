@@ -13,7 +13,7 @@
                     <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
                     <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
                     <div class="exercise-curr exercise-dash-sub-row row-sub-container">
-                    <form onsubmit="void(0)" #exerciseForm="ngForm">
+                    <form (ngSubmit)="exerciseForm.resetForm();" #exerciseForm="ngForm">
                         <div *ngFor="let set of exercise.cur_sets; let j=index;" class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
                             <div class="row-item">
                                 <label for="weight-exercise-{{ i }}-set-{{ j }}">Weight: </label>
@@ -29,7 +29,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary btn-lg" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i);">Save Sets</button>
+                        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i, exerciseForm);">Save Sets</button>
                     </form>
                     </div>
                 </li>
@@ -39,7 +39,7 @@
         </mat-card-content>
 
         <mat-card-actions class="exercise-list-footer">
-            <button type="button" class="btn btn-primary btn-lg row-item">Next Workout</button>
+            <button type="button" class="btn btn-primary btn-lg row-item" (click)="incrementNextWorkout()">Next Workout</button>
         </mat-card-actions>
 
     </mat-card>

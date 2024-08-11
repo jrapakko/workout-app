@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { NgIf, NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 
 
@@ -43,7 +43,26 @@ export class DashboardComponent {
   }
 
 
-  saveSets(index: number) {
-    this.workoutService.saveExerciseSets(this.nextWorkout.id, this.nextWorkout.exercises[index].id, this.nextWorkout.exercises[index])
+  saveSets(index: number, exerciseForm: NgForm) {
+    this.workoutService.saveExerciseSets(this.nextWorkout.id, this.nextWorkout.exercises[index].id, this.nextWorkout.exercises[index]);
   }
+
+  incrementNextWorkout() {
+    this.workoutService.incrementNextWorkout(this.nextWorkout.id).then((nextWorkout: Workout) => {
+      this.nextWorkout = nextWorkout;
+      for (var exercise of this.nextWorkout.exercises) {
+        if (!exercise.cur_sets) {
+          exercise.cur_sets = [];
+        }
+      }
+      if (this.nextWorkout.exercises[0].cur_sets.length < 1 ) {
+        for (var exercise of this.nextWorkout.exercises) {
+          for(var i = 0; i < exercise.sets; i++) {
+            exercise.cur_sets.push(<ExerciseSet>{});
+          }
+        }
+      }
+    });
+  }
+
 }

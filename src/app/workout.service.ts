@@ -81,4 +81,9 @@ export class WorkoutService {
       }
     }).then(response => console.log(response));
   }
+
+  async incrementNextWorkout(workoutId: number) {
+    const data = await fetch((this.baseUrl) + '/regimen/nextWorkout/' + workoutId);
+    return await data.json() ?? [];
+  }
 }
