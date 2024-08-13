@@ -6,7 +6,7 @@ import { Regimen, Workout, Exercise } from './workout';
 })
 export class WorkoutService {
 
-  private baseUrl = 'http://localhost:8080/api'
+  private baseUrl = 'http://localhost:8080/resource-server/api'
 
   constructor() { }
 
