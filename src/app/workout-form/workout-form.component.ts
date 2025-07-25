@@ -47,7 +47,7 @@ export class WorkoutFormComponent {
 
   onSubmit() {
     var w: Workout = {
-      id: -1,
+      id: 0,
       name: this.workoutForm.getRawValue().name as string,
       exercises: this.workoutForm.getRawValue().exercises as Exercise[],
       numberExercises: this.workoutForm.getRawValue().exercises.length
