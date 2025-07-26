@@ -6,6 +6,7 @@ import { WorkoutService } from '../workout.service';
 
 @Component({
     selector: 'app-workout-form',
+    standalone: true,
     imports: [
         NgFor,
         ReactiveFormsModule
