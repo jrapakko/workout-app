@@ -7,16 +7,15 @@ import { FormsModule } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-workout-card',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    NgIf,
-    NgFor,
-    FormsModule
-  ],
-  templateUrl: './workout-card.component.html',
-  styleUrl: './workout-card.component.css'
+    selector: 'app-workout-card',
+    imports: [
+        MatCardModule,
+        NgIf,
+        NgFor,
+        FormsModule
+    ],
+    templateUrl: './workout-card.component.html',
+    styleUrl: './workout-card.component.css'
 })
 export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;

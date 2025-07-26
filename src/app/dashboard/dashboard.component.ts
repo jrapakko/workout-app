@@ -8,16 +8,15 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    NgIf,
-    NgFor,
-    FormsModule
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [
+        MatCardModule,
+        NgIf,
+        NgFor,
+        FormsModule
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
 

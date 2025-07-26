@@ -5,14 +5,13 @@ import { NgFor } from '@angular/common';
 import { WorkoutService } from '../workout.service';
 
 @Component({
-  selector: 'app-workout-form',
-  standalone: true,
-  imports: [
-    NgFor,
-    ReactiveFormsModule
-  ],
-  templateUrl: './workout-form.component.html',
-  styleUrl: './workout-form.component.css'
+    selector: 'app-workout-form',
+    imports: [
+        NgFor,
+        ReactiveFormsModule
+    ],
+    templateUrl: './workout-form.component.html',
+    styleUrl: './workout-form.component.css'
 })
 export class WorkoutFormComponent {
 

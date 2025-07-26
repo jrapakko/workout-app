@@ -5,15 +5,14 @@ import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-workouts',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    WorkoutCardComponent
-  ],
-  templateUrl: './workouts.component.html',
-  styleUrl: './workouts.component.css'
+    selector: 'app-workouts',
+    imports: [
+        NgIf,
+        NgFor,
+        WorkoutCardComponent
+    ],
+    templateUrl: './workouts.component.html',
+    styleUrl: './workouts.component.css'
 })
 export class WorkoutsComponent {
 

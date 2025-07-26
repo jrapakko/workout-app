@@ -7,17 +7,16 @@ import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 
 @Component({
-  selector: 'app-regimen',
-  standalone: true,
-  imports: [
-    NgIf,
-    DragDropModule,
-    MatCardModule,
-    NgFor,
-    WorkoutCardComponent
-  ],
-  templateUrl: './regimen.component.html',
-  styleUrl: './regimen.component.css'
+    selector: 'app-regimen',
+    imports: [
+        NgIf,
+        DragDropModule,
+        MatCardModule,
+        NgFor,
+        WorkoutCardComponent
+    ],
+    templateUrl: './regimen.component.html',
+    styleUrl: './regimen.component.css'
 })
 export class RegimenComponent {
 
