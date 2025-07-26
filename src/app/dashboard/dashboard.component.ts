@@ -2,17 +2,17 @@ import { MatCardModule } from '@angular/material/card';
 import { Component, inject } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { NgIf, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 
 
 
 @Component({
     selector: 'app-dashboard',
+    standalone: true,
     imports: [
         MatCardModule,
-        NgIf,
-        NgFor,
+        CommonModule,
         FormsModule
     ],
     templateUrl: './dashboard.component.html',

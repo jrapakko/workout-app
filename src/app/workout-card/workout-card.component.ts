@@ -2,16 +2,16 @@ import { MatCardModule } from '@angular/material/card';
 import { Component, Input, inject, Output, booleanAttribute, EventEmitter } from '@angular/core';
 import { Regimen, Workout, Exercise, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { NgIf, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
 @Component({
     selector: 'app-workout-card',
+    standalone: true,
     imports: [
         MatCardModule,
-        NgIf,
-        NgFor,
+        CommonModule,
         FormsModule
     ],
     templateUrl: './workout-card.component.html',

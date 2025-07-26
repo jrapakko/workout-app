@@ -4,6 +4,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-navbar',
+    standalone: true,
     imports: [
         NgbCollapse,
         RouterLink

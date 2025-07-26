@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Workout, Exercise, ExerciseSet } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { WorkoutService } from '../workout.service';
 
 @Component({
     selector: 'app-workout-form',
     standalone: true,
     imports: [
-        NgFor,
+        CommonModule,
         ReactiveFormsModule
     ],
     templateUrl: './workout-form.component.html',

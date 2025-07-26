@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { Exercise, Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-workouts',
+    standalone: true,
     imports: [
-        NgIf,
-        NgFor,
+        CommonModule,
         WorkoutCardComponent
     ],
     templateUrl: './workouts.component.html',
