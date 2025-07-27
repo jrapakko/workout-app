@@ -1,38 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Regimen, Workout, Exercise } from './workout';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutService {
 
-  private baseUrl = 'http://localhost:8080/api'
-
   constructor() { }
 
   async getRegimen(): Promise<Regimen> {
-    const data = await fetch(this.baseUrl + '/regimen/get');
+    const data = await fetch(environment.apiUrl + '/regimen/get');
     return await data.json() ?? [];
   }
 
   async getWorkouts(): Promise<Workout[]> {
-    const data = await fetch(this.baseUrl + '/workout/all');
+    const data = await fetch(environment.apiUrl + '/workout/all');
     return await data.json() ?? [];
   }
 
   async getNextWorkout(): Promise<Workout> {
-    const data = await fetch(this.baseUrl + '/regimen/nextWorkout');
+    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout');
     return await data.json() ?? [];
   }
 
   deleteWorkout(id: number) {
-    fetch((this.baseUrl + '/workout/delete/' + id), {
+    fetch((environment.apiUrl + '/workout/delete/' + id), {
       method: "DELETE"
     }).then(response => console.log(response));
   }
 
   saveWorkout(w: Workout) {
-    fetch((this.baseUrl + '/workout'), {
+    fetch((environment.apiUrl + '/workout'), {
       method: "POST",
       body: JSON.stringify(w),
       headers: {
@@ -42,7 +41,7 @@ export class WorkoutService {
   }
 
   saveRegimen(r: Regimen) {
-    fetch((this.baseUrl + '/regimen'), {
+    fetch((environment.apiUrl + '/regimen'), {
       method: "PUT",
       body: JSON.stringify(r),
       headers: {
@@ -52,7 +51,7 @@ export class WorkoutService {
   }
 
   async saveExercise(e: Exercise): Promise<Exercise> {
-    const data = await fetch((this.baseUrl + '/exercise'), {
+    const data = await fetch((environment.apiUrl + '/exercise'), {
       method: "POST",
       body: JSON.stringify(e),
       headers: {
@@ -63,7 +62,7 @@ export class WorkoutService {
   }
 
   updateWorkout(w: Workout) {
-    fetch((this.baseUrl + '/workout'), {
+    fetch((environment.apiUrl + '/workout'), {
       method: "PUT",
       body: JSON.stringify(w),
       headers: {
@@ -73,7 +72,7 @@ export class WorkoutService {
   }
 
   saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise) {
-    fetch((this.baseUrl + '/exercise/sets/' + workoutId + '/' + exerciseId), {
+    fetch((environment.apiUrl + '/exercise/sets/' + workoutId + '/' + exerciseId), {
       method: "POST",
       body: JSON.stringify(exercise.cur_sets),
       headers: {
@@ -83,7 +82,7 @@ export class WorkoutService {
   }
 
   async incrementNextWorkout(workoutId: number) {
-    const data = await fetch((this.baseUrl) + '/regimen/nextWorkout/' + workoutId);
+    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId);
     return await data.json() ?? [];
   }
 }
