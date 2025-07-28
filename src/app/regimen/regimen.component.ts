@@ -39,7 +39,7 @@ export class RegimenComponent {
       moveItemInArray(this.regimen.workouts, event.previousIndex, event.currentIndex);
       this.workoutService.saveRegimen(this.regimen);
     }
-    if (event.container.id === "regimen" && event.previousContainer.id === "workouts") {
+    if (event.container.id === "regimen" && event.previousContainer.id === "workouts" && !this.regimen.workouts.some(e => e.id === this.workouts[event.previousIndex].id)) {
       // adding to regimen
       copyArrayItem(this.workouts, this.regimen.workouts, event.previousIndex, event.currentIndex);
       this.workoutService.saveRegimen(this.regimen);
