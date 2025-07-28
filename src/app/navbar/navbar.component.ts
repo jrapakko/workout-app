@@ -18,10 +18,11 @@ import { CommonModule } from '@angular/common';
 export class NavbarComponent {
   constructor(private authService: AuthService) { }
   isMenuCollapsed: boolean = true;
-  isLoggedIn: boolean = this.authService.isLoggedIn();
 
+  isAuthed(): boolean {
+    return this.authService.isLoggedIn();
+  }
   logout() {
     this.authService.logout();
-    this.isLoggedIn = false;
   }
 }

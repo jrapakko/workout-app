@@ -23,11 +23,11 @@
             </ul>
             <ul class="navbar-nav user-nav ml-auto">
                 <li class="nav-item">
-					<ng-container *ngIf="isLoggedIn">
+					<ng-container *ngIf="isAuthed()">
 						<a class="nav-link user-link" [routerLink]="'/'" (click)="isMenuCollapsed = true; logout()"> Logout </a>
 					</ng-container>
-					<ng-container *ngIf="!isLoggedIn">
-						<a class="nav-link user-link" [routerLink]="'login'" (click)="isMenuCollapsed = true; this.isLoggedIn = true"> Login </a>
+					<ng-container *ngIf="!isAuthed()">
+						<a class="nav-link user-link" [routerLink]="'login'" (click)="isMenuCollapsed = true"> Login </a>
 					</ng-container>
                 </li>
 			</ul>

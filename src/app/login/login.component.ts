@@ -23,9 +23,9 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).then(reponse => {
       reponse.json().then(data => {
         this.authService.setToken(data.access_token);
+        this.router.navigate(['/']);
       }
       )
-      this.router.navigate(['/']);
     })
     .catch(console.error);
 
