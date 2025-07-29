@@ -11,51 +11,31 @@ export class WorkoutService {
   constructor(private authService: AuthService) { }
 
   async getRegimen(): Promise<Regimen> {
-    const data = await fetch(environment.apiUrl + '/regimen/get',
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-      }
-    );
+    const data = await fetch(environment.apiUrl + '/regimen/get', {
+        headers: this.authService.getAuthHeader()
+    });
     return await data.json() ?? [];
   }
 
   async getWorkouts(): Promise<Workout[]> {
-    const data = await fetch(environment.apiUrl + '/workout/all',
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-      }
-    );
+    const headers = this.authService.getAuthHeader();
+    const data = await fetch(environment.apiUrl + '/workout/all', {
+        headers: this.authService.getAuthHeader()
+    });
     return await data.json() ?? [];
   }
 
   async getNextWorkout(): Promise<Workout> {
-    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout',
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-      }
-    );
+    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout', {
+        headers: this.authService.getAuthHeader() 
+    });
     return await data.json() ?? [];
   }
 
   deleteWorkout(id: number) {
     fetch((environment.apiUrl + '/workout/delete/' + id), {
       method: "DELETE",
-      headers: {
-        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     }).then(response => console.log(response));
   }
 
@@ -63,10 +43,7 @@ export class WorkoutService {
     fetch((environment.apiUrl + '/workout'), {
       method: "POST",
       body: JSON.stringify(w),
-      headers: {
-        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     }).then(response => response.json()).then(json => console.log(json));
   }
 
@@ -74,9 +51,7 @@ export class WorkoutService {
     fetch((environment.apiUrl + '/regimen'), {
       method: "PUT",
       body: JSON.stringify(r),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     }).then(response => console.log(response));
   }
 
@@ -84,10 +59,7 @@ export class WorkoutService {
     const data = await fetch((environment.apiUrl + '/exercise'), {
       method: "POST",
       body: JSON.stringify(e),
-      headers: {
-        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     });
     return await data.json() ?? [];
   }
@@ -96,10 +68,7 @@ export class WorkoutService {
     fetch((environment.apiUrl + '/workout'), {
       method: "PUT",
       body: JSON.stringify(w),
-      headers: {
-        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     }).then(response => response.json()).then(json => console.log(json));
   }
 
@@ -107,23 +76,14 @@ export class WorkoutService {
     fetch((environment.apiUrl + '/exercise/sets/' + workoutId + '/' + exerciseId), {
       method: "POST",
       body: JSON.stringify(exercise.cur_sets),
-      headers: {
-        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-        "Content-type": "application/json; charset=UTF-8"
-      }
+      headers: this.authService.getAuthHeader()
     }).then(response => console.log(response));
   }
 
   async incrementNextWorkout(workoutId: number) {
-    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-      }
-    );
+    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId, {
+        headers: this.authService.getAuthHeader()
+    });
     return await data.json() ?? [];
   }
 }

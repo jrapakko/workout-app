@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment'; // Adjust the path as necessary
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,15 @@ export class AuthService {
 
   getToken(): string | null {
     return this.token || localStorage.getItem('token');
+  }
+
+  getAuthHeader(): HeadersInit {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json; charset=UTF-8");
+    if (this.getToken()) {
+      myHeaders.append("Authorization", `Bearer ${this.getToken()}`);
+    };
+    return myHeaders;
   }
 
   logout(): void {
