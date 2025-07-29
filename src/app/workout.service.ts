@@ -1,32 +1,61 @@
 import { Injectable } from '@angular/core';
 import { Regimen, Workout, Exercise } from './workout';
 import { environment } from '../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutService {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   async getRegimen(): Promise<Regimen> {
-    const data = await fetch(environment.apiUrl + '/regimen/get');
+    const data = await fetch(environment.apiUrl + '/regimen/get',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }
+    );
     return await data.json() ?? [];
   }
 
   async getWorkouts(): Promise<Workout[]> {
-    const data = await fetch(environment.apiUrl + '/workout/all');
+    const data = await fetch(environment.apiUrl + '/workout/all',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }
+    );
     return await data.json() ?? [];
   }
 
   async getNextWorkout(): Promise<Workout> {
-    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout');
+    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }
+    );
     return await data.json() ?? [];
   }
 
   deleteWorkout(id: number) {
     fetch((environment.apiUrl + '/workout/delete/' + id), {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
+        "Content-type": "application/json; charset=UTF-8"
+      }
     }).then(response => console.log(response));
   }
 
@@ -35,6 +64,7 @@ export class WorkoutService {
       method: "POST",
       body: JSON.stringify(w),
       headers: {
+        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
         "Content-type": "application/json; charset=UTF-8"
       }
     }).then(response => response.json()).then(json => console.log(json));
@@ -55,6 +85,7 @@ export class WorkoutService {
       method: "POST",
       body: JSON.stringify(e),
       headers: {
+        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
         "Content-type": "application/json; charset=UTF-8"
       }
     });
@@ -66,6 +97,7 @@ export class WorkoutService {
       method: "PUT",
       body: JSON.stringify(w),
       headers: {
+        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
         "Content-type": "application/json; charset=UTF-8"
       }
     }).then(response => response.json()).then(json => console.log(json));
@@ -76,13 +108,22 @@ export class WorkoutService {
       method: "POST",
       body: JSON.stringify(exercise.cur_sets),
       headers: {
+        'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
         "Content-type": "application/json; charset=UTF-8"
       }
     }).then(response => console.log(response));
   }
 
   async incrementNextWorkout(workoutId: number) {
-    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId);
+    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': this.authService.getToken() ? `Bearer ${this.authService.getToken()}` : '' ,
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+      }
+    );
     return await data.json() ?? [];
   }
 }
