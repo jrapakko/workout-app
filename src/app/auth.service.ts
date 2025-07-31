@@ -35,16 +35,16 @@ export class AuthService {
   setToken(token: string, refreshToken: string): void {
     this.token = token;
     this.refreshToken = refreshToken;
-    localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshToken);
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('refreshToken', refreshToken);
   }
 
   getToken(): string | null {
-    return this.token || localStorage.getItem('token');
+    return this.token || sessionStorage.getItem('token');
   }
 
   getRefreshToken(): string | null {
-    return this.refreshToken || localStorage.getItem('refreshToken');
+    return this.refreshToken || sessionStorage.getItem('refreshToken');
   }
 
   getAuthHeader(): HeadersInit {
@@ -98,9 +98,9 @@ export class AuthService {
     })
     }).then(response => {console.log(response);});
     this.token = null;
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.refreshToken = null;
-    localStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('refreshToken');
     this.router.navigate(['/login']);
   }
 
