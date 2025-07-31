@@ -8,8 +8,8 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private oauthUrl = 'http://localhost:8083/realms/workout-app/protocol/openid-connect/token';
-  private logoutUrl = 'http://localhost:8083/realms/workout-app/protocol/openid-connect/revoke';
+  private oauthUrl = 'http://keycloak.localhost/realms/workout-app/protocol/openid-connect/token';
+  private logoutUrl = 'http://keycloak.localhost/realms/workout-app/protocol/openid-connect/revoke';
   private token: string | null = null;
   private refreshToken: string | null = null;
 
