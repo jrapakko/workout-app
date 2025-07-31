@@ -22,12 +22,11 @@ export class LoginComponent {
 
     this.authService.login(this.username, this.password).then(reponse => {
       reponse.json().then(data => {
-        this.authService.setToken(data.access_token);
+        this.authService.setToken(data.access_token, data.refresh_token);
+        this.authService.setRefreshInterval(data.expires_in)
         this.router.navigate(['/']);
-      }
-      )
-    })
-    .catch(console.error);
+      })
+    }).catch(console.error);
 
   }
 
