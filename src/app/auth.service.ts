@@ -8,15 +8,13 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private oauthUrl = 'http://keycloak.localhost/realms/workout-app/protocol/openid-connect/token';
-  private logoutUrl = 'http://keycloak.localhost/realms/workout-app/protocol/openid-connect/revoke';
   private token: string | null = null;
   private refreshToken: string | null = null;
 
   constructor(private router: Router)  {}
 
   async login(username: string, password: string): Promise<Response> {
-    return await fetch(this.oauthUrl, {
+    return await fetch(environment.oauthUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,7 +56,7 @@ export class AuthService {
 
 
   getNewToken(): void {
-    fetch(this.oauthUrl, {
+    fetch(environment.oauthUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -85,7 +83,7 @@ export class AuthService {
   }
 
   logout(): void {
-    fetch(this.logoutUrl, {
+    fetch(environment.logoutUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
