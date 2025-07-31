@@ -33,8 +33,8 @@ export class AuthService {
   }
 
   setToken(token: string, refreshToken: string): void {
-    this.token = token;
-    this.refreshToken = refreshToken;
+    this.token = token ? token : null;
+    this.refreshToken = refreshToken ? refreshToken : null;
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('refreshToken', refreshToken);
   }
@@ -96,7 +96,8 @@ export class AuthService {
         'token': this.getRefreshToken() || '',
         'client_secret': environment.oAuthClientSecret // Replace with your actual client secret
     })
-    }).then(response => {console.log(response);});
+    }).then(response => {console.log(response);}).catch(error => {
+      console.error('Error during logout:', error)});
     this.token = null;
     sessionStorage.removeItem('token');
     this.refreshToken = null;

@@ -22,6 +22,10 @@ export class LoginComponent {
 
     this.authService.login(this.username, this.password).then(reponse => {
       reponse.json().then(data => {
+        if (reponse.status !== 200) {
+          console.error('Login failed', data);
+          return;
+        }
         this.authService.setToken(data.access_token, data.refresh_token);
         this.authService.setRefreshInterval(data.expires_in)
         this.router.navigate(['/']);
