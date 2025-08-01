@@ -36,7 +36,7 @@ export class WorkoutCardComponent {
   }
 
   addExercise() {
-    var e: Exercise = {id: -1, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: []};
+    var e: Exercise = {id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: []};
     this.workoutService.saveExercise(e).then((exercise: Exercise) => {
       this.workout.numberExercises = this.workout.exercises.push(exercise);
     });
