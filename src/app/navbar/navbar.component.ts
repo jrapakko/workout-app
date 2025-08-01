@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,13 +15,7 @@ import { CommonModule } from '@angular/common';
     styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(private authService: AuthService) { }
+  constructor() { }
   isMenuCollapsed: boolean = true;
 
-  isAuthed(): boolean {
-    return this.authService.isLoggedIn();
-  }
-  logout() {
-    this.authService.logout();
-  }
 }

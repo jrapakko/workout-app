@@ -63,6 +63,13 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": [
+              "localhost",
+              "workoutapp.localhost",
+              "workout.jrpko.com"
+            ]
+          },
           "configurations": {
             "production": {
               "buildTarget": "workout-app:build:production"

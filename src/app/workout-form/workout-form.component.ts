@@ -32,8 +32,8 @@ export class WorkoutFormComponent {
   newExercise(): FormGroup {
     return this.formBuilder.group({
       name: ['', Validators.required],
-      sets: 0,
-      reps: 0
+      sets: [0, Validators.min(1)],
+      reps: [0, Validators.min(1)]
     });
  }
 
