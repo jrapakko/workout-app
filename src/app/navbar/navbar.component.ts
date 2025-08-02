@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-navbar',
@@ -15,7 +16,11 @@ import { CommonModule } from '@angular/common';
     styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor() { }
+  userName: string = 'User';
   isMenuCollapsed: boolean = true;
-
+  constructor(private authService: AuthService) {
+    this.authService.getUserName().then((name: string | undefined) => {
+      this.userName = name || 'User';
+    });
+   }
 }
