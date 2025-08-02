@@ -22,9 +22,8 @@ export class RegimenComponent {
 
   regimen!: Regimen;
   workouts!: Workout[];
-  workoutService: WorkoutService = inject(WorkoutService);
 
-  constructor() {
+  constructor(private workoutService: WorkoutService) {
     this.workoutService.getRegimen().then((regimen: Regimen) => {
       this.regimen = regimen;
     });

@@ -24,9 +24,8 @@ export class WorkoutCardComponent {
   @Output() deleteWorkoutEvent = new EventEmitter<void>();
   @Output() saveWorkoutEvent = new EventEmitter<void>();
   @Output() deleteExerciseEvent = new EventEmitter<void>();
-  workoutService: WorkoutService = inject(WorkoutService);
 
-  constructor() {
+  constructor(private workoutService: WorkoutService) {
     this.edit = false;
     this.regimen = false;
   }

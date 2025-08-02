@@ -17,9 +17,8 @@ import { CommonModule } from '@angular/common';
 export class WorkoutsComponent {
 
   workouts!: Workout[];
-  workoutService: WorkoutService = inject(WorkoutService);
 
-  constructor() {
+  constructor(private workoutService: WorkoutService) {
     this.workoutService.getWorkouts().then((workouts: Workout[]) => {
       this.workouts = workouts;
     });
