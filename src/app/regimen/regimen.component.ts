@@ -5,6 +5,7 @@ import { Component, inject, Input } from '@angular/core';
 import { Regimen, Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-regimen',
@@ -24,13 +25,19 @@ export class RegimenComponent {
   regimen!: Regimen;
   workouts!: Workout[];
 
-  constructor(private workoutService: WorkoutService) {
+  constructor(private workoutService: WorkoutService, private router: Router) {
     this.user = this.workoutService.getUser();
     this.workoutService.getRegimen().then((regimen: Regimen) => {
       this.regimen = regimen;
+      if(!this.regimen.workouts) {
+        this.router.navigate(['/add-workout']); // short circuit if no workouts in regimen
+      }
     });
     this.workoutService.getWorkouts().then((workouts: Workout[]) => {
       this.workouts = workouts;
+      if (this.workouts.length < 1) {
+        this.router.navigate(['/add-workout']); // short circuit if no workouts found
+      }
     });
   }
 
