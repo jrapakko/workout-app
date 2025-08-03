@@ -29,7 +29,19 @@ export class DashboardComponent {
     this.workoutService.getNextWorkout().then((nextWorkout: Workout) => {
       this.nextWorkout = nextWorkout;
       if (!this.nextWorkout.exercises) {
-        this.router.navigate(['/add-workout']);
+        this.workoutService.getRegimen().then((regimen) => {
+          if (!regimen.workouts || regimen.workouts.length < 1) {
+            this.workoutService.getWorkouts().then((workouts: Workout[]) => {
+              if (!workouts || workouts.length < 1) {
+                this.router.navigate(['/add-workout']);
+                return; // No workouts found
+              } else {
+                this.router.navigate(['/routine']);
+                return; // Routine has no workouts, redirect to routine
+              }
+            });
+          }
+        });
         return; // No exercises in the next workout
       }
       for (var exercise of this.nextWorkout.exercises) {
