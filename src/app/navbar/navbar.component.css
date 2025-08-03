@@ -7,3 +7,7 @@ nav {
 .user-nav {
     margin-left: auto;
 }
+
+.user-link:hover {
+    cursor: pointer;
+}

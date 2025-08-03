@@ -23,7 +23,7 @@
             </ul>
             <ul class="navbar-nav user-nav ml-auto">
                 <li class="nav-item">
-					<a class="nav-link user-link" [routerLink]="'/'" (click)="isMenuCollapsed = true"> {{ userName }} </a>
+					<a class="nav-link user-link" (click)="isMenuCollapsed = true; logout()"> Logout </a>
                 </li>
 			</ul>
 		</div>

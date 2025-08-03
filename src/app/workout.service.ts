@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Regimen, Workout, Exercise } from './workout';
 import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
+import { User } from './workout';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class WorkoutService {
     return await data.json() ?? [];
   }
 
+  // TODO: ERROR HANDLING
   deleteWorkout(id: number) {
     fetch((environment.apiUrl + '/workout/delete/' + id), {
       method: "DELETE",
@@ -85,5 +87,18 @@ export class WorkoutService {
         headers: this.authService.getAuthHeader()
     });
     return await data.json() ?? [];
+  }
+
+  async createOrGetUser(): Promise<User> {
+    return await fetch(environment.apiUrl + '/user', {
+      method: "POST",
+      headers: this.authService.getAuthHeader()
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to create or get user');
+      }
+    });
   }
 }
