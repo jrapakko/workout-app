@@ -16,15 +16,11 @@ import { AuthService } from '../auth.service';
     styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  // userName: string = 'User';
+  userName: string = 'User';
   isMenuCollapsed: boolean = true;
   constructor(private authService: AuthService) {
-    // this.authService.getUserName().then((name: string | undefined) => {
-    //   this.userName = name || 'User';
-    // });
-   }
-
-   logout(): void {
-    this.authService.logout();
+    this.authService.getUserName().then((name: string | undefined) => {
+      this.userName = name || 'User';
+    });
    }
 }
