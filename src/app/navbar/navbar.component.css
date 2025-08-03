@@ -4,6 +4,10 @@ nav {
 
 
 /* move username, etc. to right edge on wider screens */
-.user-nav {
+.logout-nav {
     margin-left: auto;
+}
+
+.logout-link:hover {
+    cursor: pointer;
 }

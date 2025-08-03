@@ -21,9 +21,9 @@
 				</li>
                 <hr >
             </ul>
-            <ul class="navbar-nav user-nav ml-auto">
+            <ul class="navbar-nav logout-nav ml-auto">
                 <li class="nav-item">
-					<a class="nav-link user-link" [routerLink]="'/'" (click)="isMenuCollapsed = true"> {{ userName }} </a>
+					<a class="nav-link logout-link" (click)="isMenuCollapsed = true; logout()"> Logout </a>
                 </li>
 			</ul>
 		</div>

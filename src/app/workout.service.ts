@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Regimen, Workout, Exercise } from './workout';
+import { Regimen, Workout, Exercise, User } from './workout';
 import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
 
@@ -85,5 +85,21 @@ export class WorkoutService {
         headers: this.authService.getAuthHeader()
     });
     return await data.json() ?? [];
+  }
+
+  async getOrCreateUser(): Promise<User> {
+    return await fetch(environment.apiUrl + '/user', {
+      method: "POST",
+      headers: this.authService.getAuthHeader()
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to get or create user');
+      }
+    }).catch(error => {
+      console.error('Error fetching or creating user:', error);
+      throw error;
+    });
   }
 }

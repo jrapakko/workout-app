@@ -23,4 +23,8 @@ export class NavbarComponent {
       this.userName = name || 'User';
     });
    }
+
+   logout(): void {
+    this.authService.logout();
+   }
 }

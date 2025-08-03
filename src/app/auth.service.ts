@@ -41,4 +41,8 @@ private readonly keycloak = inject(Keycloak);
     });
   }
 
+  logout(): void {
+    this.keycloak.logout();
+  }
+
 }

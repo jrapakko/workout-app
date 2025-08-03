@@ -26,3 +26,7 @@ export interface Regimen {
     nextWorkoutIndex: number,
     workouts: Workout[]
 }
+
+export interface User {
+    userId: string,
+}
