@@ -34,6 +34,9 @@ export class WorkoutsComponent {
   removeWorkout(index: number) {
     this.workoutService.deleteWorkout(this.workouts[index].id);
     this.workouts.splice(index, 1);
+    if (this.workouts.length < 1) {
+      this.router.navigate(['/add-workout']); // No workouts left, redirect to add workout page
+    }
   }
 
   decrementExerciseNum(index: number) {
