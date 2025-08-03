@@ -8,7 +8,12 @@ import { AuthService } from './auth.service';
 })
 export class WorkoutService {
 
-  constructor(private authService: AuthService) { }
+  user!: User;
+  constructor(private authService: AuthService) { 
+    this.getOrCreateUser().then((user: User) => {
+      this.user = user;
+    });
+  }
 
   async getRegimen(): Promise<Regimen> {
     const data = await fetch(environment.apiUrl + '/regimen/get', {
@@ -26,10 +31,20 @@ export class WorkoutService {
   }
 
   async getNextWorkout(): Promise<Workout> {
-    const data = await fetch(environment.apiUrl + '/regimen/nextWorkout', {
+    return await fetch(environment.apiUrl + '/regimen/nextWorkout', {
         headers: this.authService.getAuthHeader() 
+    }).then(response =>
+    {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to fetch next workout');
+      }
+    }
+    ).catch(error => {
+      console.error('Error fetching next workout:', error);
+      throw error;
     });
-    return await data.json() ?? [];
   }
 
   deleteWorkout(id: number) {
@@ -101,5 +116,9 @@ export class WorkoutService {
       console.error('Error fetching or creating user:', error);
       throw error;
     });
+  }
+
+  getUser(): User {
+    return this.user;
   }
 }

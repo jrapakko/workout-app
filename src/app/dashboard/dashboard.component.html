@@ -1,4 +1,4 @@
-<ng-container *ngIf="nextWorkout">
+<ng-container *ngIf="nextWorkout && nextWorkout.exercises">
     <mat-card id="exercise-card-dash">
         <mat-card-header class="exercise-list-header">
             <h2>{{ nextWorkout.name }}</h2>

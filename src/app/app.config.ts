@@ -1,6 +1,6 @@
 import { provideKeycloak, withAutoRefreshToken, AutoRefreshTokenService, UserActivityService } from 'keycloak-angular';
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -30,6 +30,9 @@ export const appConfig: ApplicationConfig = {
          ]
     }),
     provideRouter(routes),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideZoneChangeDetection({
+      eventCoalescing: true
+    })
   ]
 };

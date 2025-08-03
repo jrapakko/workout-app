@@ -1,6 +1,7 @@
 export interface ExerciseSet {
     reps: number,
-    weight: number
+    weight: number,
+    user: User
 }
 
 export interface Exercise {
@@ -9,7 +10,8 @@ export interface Exercise {
     sets: number,
     reps: number,
     previousWeight: number,
-    cur_sets: ExerciseSet[]
+    cur_sets: ExerciseSet[],
+    user: User
 }
 
 export interface Workout {
@@ -17,6 +19,7 @@ export interface Workout {
     name: string,
     numberExercises: number,
     exercises: Exercise[]
+    user: User
 }
 
 export interface Regimen {
@@ -24,7 +27,8 @@ export interface Regimen {
     name: string,
     numberWorkouts: number,
     nextWorkoutIndex: number,
-    workouts: Workout[]
+    workouts: Workout[],
+    user: User
 }
 
 export interface User {

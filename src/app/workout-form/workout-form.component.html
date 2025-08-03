@@ -1,29 +1,36 @@
+<div class="workout-form-wrapper">
+    <h1><b>Add a Workout!</b></h1>
+    <br>
+    <br>
+    <br>
 
-<form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-    <h1>
-        <label for="workout-name">Workout Name: </label>
-        <input id="workout-name" type="text" class="form-control"
-            formControlName="name" name="workout-name">
-    </h1>
+    <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+        <h1>
+            <label for="workout-name">Workout Name: </label>
+            <input id="workout-name" type="text" class="form-control"
+                formControlName="name" name="workout-name">
+        </h1>
 
-    <div formArrayName="exercises">
-        <h2>Exercises</h2>
+        <div formArrayName="exercises">
+            <h2>Exercises</h2>
 
-        <h2><button type="button" (click)="addExercise()">Add Exercise</button></h2>
-
-        <div *ngFor="let exercise of exercises.controls; let i=index">
-            <div formGroupName="{{ i }}">
-                <label for="exercise-{{ i }}-name">Exercise Name: </label>
-                <input id="exercise-{{ i }}-name" type="text" formControlName="name">
-                <label for="exercise-{{ i }}-sets">Sets: </label>
-                <input id="exercise-{{ i }}-sets" type="number" formControlName="sets">
-                <label for="exercise-{{ i }}-reps">Reps: </label>
-                <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
-                <button type="button" (click)="removeExercise(i)">Remove</button>
+            <div *ngFor="let exercise of exercises.controls; let i=index">
+                <div formGroupName="{{ i }}">
+                    <label for="exercise-{{ i }}-name">Exercise Name: </label>
+                    <input id="exercise-{{ i }}-name" type="text" formControlName="name">
+                    <label for="exercise-{{ i }}-sets">Sets: </label>
+                    <input id="exercise-{{ i }}-sets" type="number" formControlName="sets">
+                    <label for="exercise-{{ i }}-reps">Reps: </label>
+                    <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
+                    <button type="button" (click)="removeExercise(i)">Remove</button>
+                </div>
             </div>
+
+            <h2><button type="button" (click)="addExercise()">Add Exercise</button></h2>
+            
         </div>
-    </div>
 
-    <h2><button type="submit" [disabled]="!workoutForm.valid">Submit</button></h2>
+        <h2><button type="submit" [disabled]="!workoutForm.valid">Submit</button></h2>
 
-</form>
+    </form>
+</div>

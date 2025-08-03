@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { Exercise, Regimen, Workout } from '../workout';
+import { Component, inject, Input } from '@angular/core';
+import { Exercise, Regimen, Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-workouts',
@@ -16,11 +17,17 @@ import { CommonModule } from '@angular/common';
 })
 export class WorkoutsComponent {
 
+  user!: User;
   workouts!: Workout[];
 
-  constructor(private workoutService: WorkoutService) {
+  constructor(private workoutService: WorkoutService, private router: Router) {
     this.workoutService.getWorkouts().then((workouts: Workout[]) => {
+      this.user = this.workoutService.getUser();
       this.workouts = workouts;
+      if (this.workouts.length < 1) {
+        this.router.navigate(['/add-workout']);
+        return; // No workouts found
+      }
     });
   }
 
