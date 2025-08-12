@@ -3,7 +3,7 @@
         <div class="regimen-wrapper">
             <h2>Routine</h2>
             <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-                @for (workout of regimen.workouts; track $index) {
+                @for (workout of regimen.workouts; track workout) {
                     <div class="workout-card-wrapper cdk-drag" cdkDrag >
                         <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
                     </div>
@@ -16,6 +16,7 @@
                             </mat-card-header>
             
                             <mat-card-content>
+                                <p class="light workout-card-placeholder-text">Drag and drop workouts here to create a regimen.</p>
                             </mat-card-content>
                         </mat-card>
                     </div>

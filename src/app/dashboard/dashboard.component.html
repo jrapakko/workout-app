@@ -15,7 +15,7 @@
                         <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
                         <div class="exercise-curr exercise-dash-sub-row row-sub-container">
                         <form (ngSubmit)="exerciseForm.resetForm();" #exerciseForm="ngForm">
-                            @for (set of exercise.cur_sets; track $index; let j = $index) {
+                            @for (set of exercise.cur_sets; track set; let j = $index) {
                                 <div class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
                                     <div class="row-item">
                                         <label for="weight-exercise-{{ i }}-set-{{ j }}">Weight: </label>

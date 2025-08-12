@@ -1,6 +1,4 @@
-<div *ngIf="edit; then workoutEdit else workoutDisp"></div>
-
-<ng-template #workoutEdit>
+@if (edit) {
     <mat-card>
         <mat-card-header class="exercise-list-header">
             <h2>{{workout.name}}</h2>
@@ -8,26 +6,28 @@
 
         <mat-card-content>
             <ul class="exercise-list">
-                <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises; let i=index">
-                    <div class="exercise-name row-item">
-                        <input id="exercise-name"
-                            type="text" class="form-control"
-                            [(ngModel)]="exercise.name" name="exercise-name">
-                    </div>
-                    <div class="exercise-sets-reps-sub-row row-sub-container">
-                        <div class="exercise-sets row-item">
-                            <label for="sets">Sets: </label>
-                            <input id="sets" type="number" class="form-control"
-                            [(ngModel)]="exercise.sets" name="sets">
+                @for (exercise of workout.exercises; track exercise; let i = $index) {
+                    <li class="exercise-card table-row">
+                        <div class="exercise-name row-item">
+                            <input id="exercise-name"
+                                type="text" class="form-control"
+                                [(ngModel)]="exercise.name" name="exercise-name">
                         </div>
-                        <div class="exercise-reps row-item">
-                            <label for="reps">Reps: </label>
-                            <input id="reps" type="number" class="form-control"
-                            [(ngModel)]="exercise.reps" name="reps">
+                        <div class="exercise-sets-reps-sub-row row-sub-container">
+                            <div class="exercise-sets row-item">
+                                <label for="sets">Sets: </label>
+                                <input id="sets" type="number" class="form-control"
+                                [(ngModel)]="exercise.sets" name="sets">
+                            </div>
+                            <div class="exercise-reps row-item">
+                                <label for="reps">Reps: </label>
+                                <input id="reps" type="number" class="form-control"
+                                [(ngModel)]="exercise.reps" name="reps">
+                            </div>
+                            <button (click)="removeExercise(i)">Remove Exercise</button>
                         </div>
-                        <button (click)="removeExercise(i)">Remove Exercise</button>
-                    </div>
-                </li>
+                    </li>
+                }
             </ul>
         </mat-card-content>
 
@@ -38,9 +38,9 @@
         </mat-card-actions>
 
     </mat-card>
-</ng-template>
+}
 
-<ng-template #workoutDisp>
+@else {
     <mat-card>
         <mat-card-header class="exercise-list-header">
             <h2>{{workout.name}}</h2>
@@ -48,17 +48,23 @@
 
         <mat-card-content>
             <ul class="exercise-list">
-                <li class="exercise-card table-row" *ngFor="let exercise of workout.exercises">
-                    <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
-                    <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
-                    <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
-                </li>
+                @for (exercise of workout.exercises; track exercise) {
+                    <li class="exercise-card table-row">
+                        <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
+                        <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+                        <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+                    </li>
+                }
             </ul>
         </mat-card-content>
 
         <mat-card-actions class="exercise-list-footer">
-            <div *ngIf="!(regimen)"><button (click)="toggleEdit()">Edit</button></div>
+
+            @if (!regimen){
+                <div ><button (click)="toggleEdit()">Edit</button></div>
+            }
+            
         </mat-card-actions>
 
     </mat-card>
-</ng-template>
+}

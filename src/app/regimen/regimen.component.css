@@ -18,3 +18,7 @@
     min-height: 400px;
     clear: both;
 }
+
+.light {
+    color: #ccc;
+}
