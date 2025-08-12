@@ -2,14 +2,12 @@ import { Component, inject, Input } from '@angular/core';
 import { Exercise, Regimen, Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-workouts',
     standalone: true,
     imports: [
-        CommonModule,
         WorkoutCardComponent
     ],
     templateUrl: './workouts.component.html',

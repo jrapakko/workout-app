@@ -1,8 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
-import { Component, inject, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Workout, ExerciseSet, User } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,7 +12,6 @@ import { Router } from '@angular/router';
     standalone: true,
     imports: [
         MatCardModule,
-        CommonModule,
         FormsModule
     ],
     templateUrl: './dashboard.component.html',

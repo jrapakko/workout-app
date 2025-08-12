@@ -1,6 +1,5 @@
 import { CdkDragDrop, CdkDragExit, DragDropModule, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card'
-import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { Regimen, Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
@@ -11,7 +10,6 @@ import { Router } from '@angular/router';
     selector: 'app-regimen',
     standalone: true,
     imports: [
-        CommonModule,
         DragDropModule,
         MatCardModule,
         WorkoutCardComponent

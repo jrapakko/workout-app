@@ -1,13 +1,15 @@
 <div id="all-workouts">
-    <ng-container *ngIf="workouts">
-    <div class="workout-card-wrapper" *ngFor="let workout of this.workouts; let i=index">
-        <app-workout-card
-            [workout]="workout"
-            [user]="user"
-            (deleteWorkoutEvent)="removeWorkout(i)"
-            (saveWorkoutEvent)="updateWorkout(i)"
-            (deleteExerciseEvent)="decrementExerciseNum(i)">
-        </app-workout-card>
-    </div>
-    </ng-container>
+    @if (workouts) {
+        @for (workout of this.workouts; track workout.id; let i = $index) {
+            <div class="workout-card-wrapper">
+                <app-workout-card
+                    [workout]="workout"
+                    [user]="user"
+                    (deleteWorkoutEvent)="removeWorkout(i)"
+                    (saveWorkoutEvent)="updateWorkout(i)"
+                    (deleteExerciseEvent)="decrementExerciseNum(i)">
+                </app-workout-card>
+            </div>
+        }
+    }
 </div>

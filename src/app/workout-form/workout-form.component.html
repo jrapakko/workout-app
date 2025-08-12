@@ -14,7 +14,7 @@
         <div formArrayName="exercises">
             <h2>Exercises</h2>
 
-            <div *ngFor="let exercise of exercises.controls; let i=index">
+            @for (exercise of exercises.controls; track $index; let i = $index) {
                 <div formGroupName="{{ i }}">
                     <label for="exercise-{{ i }}-name">Exercise Name: </label>
                     <input id="exercise-{{ i }}-name" type="text" formControlName="name">
@@ -24,7 +24,8 @@
                     <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
                     <button type="button" (click)="removeExercise(i)">Remove</button>
                 </div>
-            </div>
+            }
+            
 
             <h2 class="add-exercise-button-wrapper"><button type="button" (click)="addExercise()">Add Exercise</button></h2>
 

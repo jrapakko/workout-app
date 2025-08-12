@@ -1,34 +1,38 @@
 <div id="all-workouts" cdkDropListGroup>
-    <ng-container *ngIf="regimen">
-    <div class="regimen-wrapper">
-        <h2>Routine</h2>
-        <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-            <div class="workout-card-wrapper cdk-drag" cdkDrag *ngFor="let workout of regimen.workouts">
-                <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
+    @if (regimen) {
+        <div class="regimen-wrapper">
+            <h2>Routine</h2>
+            <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
+                @for (workout of regimen.workouts; track $index) {
+                    <div class="workout-card-wrapper cdk-drag" cdkDrag >
+                        <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
+                    </div>
+                }
+                @if (regimen.workouts.length === 0) {
+                    <div class="workout-card-placeholder" cdkDragPlaceholder>
+                        <mat-card>
+                            <mat-card-header class="exercise-list-header">
+                                <h2>Placeholder</h2>
+                            </mat-card-header>
+            
+                            <mat-card-content>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                }
             </div>
-            <ng-container *ngIf="!(regimen.workouts.length)">
-            <div class="workout-card-placeholder" cdkDragPlaceholder>
-                <mat-card>
-                    <mat-card-header class="exercise-list-header">
-                        <h2>Placeholder</h2>
-                    </mat-card-header>
-    
-                    <mat-card-content>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-            </ng-container>
         </div>
-    </div>
-    </ng-container>
-    <ng-container *ngIf="workouts">
+    }
+    @if (workouts) {
     <div class="regimen-wrapper">
         <h2>Workouts</h2>
         <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-            <div class="workout-card-wrapper cdk-drag" *ngFor="let workout of this.workouts" cdkDrag>
-                <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
-            </div>
+            @for (workout of this.workouts; track workout.id) {
+                <div class="workout-card-wrapper cdk-drag" cdkDrag>
+                    <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
+                </div>
+            }
         </div>
     </div>
-    </ng-container>
+    }
 </div>
