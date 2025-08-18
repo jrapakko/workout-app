@@ -6,10 +6,10 @@ import Keycloak from 'keycloak-js';
   providedIn: 'root'
 })
 export class AuthService {
-  private token: string | null = null;
-  private refreshToken: string | null = null;
+  private token: string | undefined = undefined;
+  private refreshToken: string | undefined = undefined;
 
-private readonly keycloak = inject(Keycloak);
+  private readonly keycloak = inject(Keycloak);
 
   constructor()  {}
 
@@ -19,8 +19,6 @@ private readonly keycloak = inject(Keycloak);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json; charset=UTF-8");
     myHeaders.append("Authorization", `Bearer ${this.keycloak.token}`);
-    // send user id in header for verification & backend use
-    // myHeaders.append("X-User-Id", this.keycloak.tokenParsed?.sub ?? "");
     return myHeaders;
   }
 
