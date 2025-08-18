@@ -2,14 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 
-
-class MockKeycloakService {
-  authenticated = true;
-  token = 'mock-token';
-  logout() {
-    return;
-  }
-}
+import { MockKeycloakService } from './mock/mock-key-cloak.service.spec';
 
 import Keycloak from 'keycloak-js';
 describe('AuthService', () => {
