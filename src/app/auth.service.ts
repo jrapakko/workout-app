@@ -13,8 +13,6 @@ export class AuthService {
 
   constructor()  {}
 
-
-  // TODO: header should be set in the interceptor
   getAuthHeader(): HeadersInit {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json; charset=UTF-8");
@@ -23,8 +21,6 @@ export class AuthService {
   }
 
   async getUserName(): Promise<string | undefined> {
-
-
     return await fetch(this.keycloak.authServerUrl + 'realms/' + this.keycloak.realm + '/protocol/openid-connect/userinfo', {
       headers: this.getAuthHeader()
     }).then(response => {

@@ -18,7 +18,8 @@ export interface Workout {
     id: number,
     name: string,
     numberExercises: number,
-    exercises: Exercise[]
+    exercises: Exercise[],
+    deleted: boolean,
     user: User
 }
 

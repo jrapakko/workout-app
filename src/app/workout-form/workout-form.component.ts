@@ -55,6 +55,7 @@ export class WorkoutFormComponent {
       name: this.workoutForm.getRawValue().name as string,
       exercises: this.workoutForm.getRawValue().exercises as Exercise[],
       numberExercises: this.workoutForm.getRawValue().exercises.length,
+      deleted: false,
       user: this.user
     };
     this.workoutService.saveWorkout(w);

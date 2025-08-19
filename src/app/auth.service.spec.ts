@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 
-import { MockKeycloakService } from './mock/mock-key-cloak.service.spec';
+import { MockKeycloakService } from './mock/mock-key-cloak.service.mock';
 
 import Keycloak from 'keycloak-js';
 describe('AuthService', () => {
