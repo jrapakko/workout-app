@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { WorkoutService } from './workout.service';
 import { AuthService } from './auth.service';
 import { MockAuthService } from './mock/mock-auth.service.mock';
+import { environment } from '../environments/environment';
 import { Regimen, User, Workout } from './workout';
 
 describe('WorkoutService', () => {
@@ -89,7 +90,7 @@ describe('WorkoutService', () => {
                 previousWeight: 100.0,
                 cur_sets: [],
                 user: {
-                  userId: 'mock-user-id'
+                  userId: 'mock-user-i () =d'
                 }
               },
               {
@@ -248,4 +249,85 @@ describe('WorkoutService', () => {
     const workout = await service.getNextWorkout();
     expect(workout).toEqual(mockWorkout);
   });
+
+  it('#deleteWorkout should return 200 OK', async () => {
+    const mockResponse = new Response(null, { status: 200 });
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    await service.deleteWorkout(1);
+    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout/delete/1`, {
+      method: 'DELETE',
+      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' })
+    });
+  });
+
+  it('#saveWorkout should return 200 OK', async () => {
+    const mockResponse = new Response(null, { status: 200 });
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    await service.saveWorkout({ id: 1, name: 'Test Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
+      method: 'POST',
+      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
+      body: JSON.stringify({ id: 1, name: 'Test Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } })
+    });
+  });
+
+  it('#saveRegimen should return 200 OK', async () => {
+    const mockResponse = new Response(null, { status: 200 });
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    await service.saveRegimen({"id":1,"name":"userId","numberWorkouts":0,"nextWorkoutIndex":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"workouts":[{"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":4,"name":"Cardio","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":3,"name":"mock Workout","deleted":false,"numberExercises":3,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[{"id":1,"name":"Mock Exercise","sets":5,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":2,"name":"Mock Exercise 2","sets":5,"reps":15,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":3,"name":"Mock Exercise 3","sets":5,"reps":5,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}}]},{"id":2,"name":"Mock Workout","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]}]});
+    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/regimen`, {
+      method: 'PUT',
+      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
+      body: JSON.stringify({"id":1,"name":"userId","numberWorkouts":0,"nextWorkoutIndex":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"workouts":[{"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":4,"name":"Cardio","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":3,"name":"mock Workout","deleted":false,"numberExercises":3,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[{"id":1,"name":"Mock Exercise","sets":5,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":2,"name":"Mock Exercise 2","sets":5,"reps":15,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":3,"name":"Mock Exercise 3","sets":5,"reps":5,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}}]},{"id":2,"name":"Mock Workout","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]}]})});
+  });
+
+  it('#saveExercise should return the new exercise', async () => {
+    const mockExercise = {"id":1,"name":"Test Exercise","sets":3,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}};
+    const mockResponse = new Response(JSON.stringify(mockExercise));
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    const exercise = await service.saveExercise(mockExercise);
+    expect(exercise).toEqual(mockExercise);
+  });
+
+  it('#updateWorkout should return 200 OK', async () => {
+    const mockResponse = new Response(null, { status: 200 });
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    await service.updateWorkout({ id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
+      method: 'PUT',
+      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
+      body: JSON.stringify({ id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } })
+    });
+  });
+
+  it('#saveExerciseSets should return 200 OK', async () => {
+    const mockResponse = new Response(null, { status: 200 });
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    await service.saveExerciseSets(1, 1, { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' }}], user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/exercise/sets/1/1`, {
+      method: 'POST',
+      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
+      body: JSON.stringify([{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' }}])
+    });
+  });
+
+  it('#incrementNextWorkout should return next workout', async () => {
+    const mockResponse = new Response(JSON.stringify({ id: 2, name: 'Next Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } }));
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+
+    const workout = await service.incrementNextWorkout(1);
+    expect(workout).toEqual({ id: 2, name: 'Next Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+  });
+
+  it('#getUser should return current user', () => {
+    const user = service.getUser(); // user is never set so should be undefined
+    expect(user).toBeUndefined();
+  });
+
 });

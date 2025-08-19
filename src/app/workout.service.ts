@@ -95,7 +95,7 @@ export class WorkoutService {
     }).then(response => console.log(response));
   }
 
-  async incrementNextWorkout(workoutId: number) {
+  async incrementNextWorkout(workoutId: number): Promise<Workout> {
     const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId, {
         headers: this.authService.getAuthHeader()
     });

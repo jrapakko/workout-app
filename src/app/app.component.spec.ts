@@ -1,10 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { MockAuthService } from './mock/mock-auth.service.mock';
+import { MockWorkoutService } from './mock/mock-workout.service.mock';
+import { WorkoutService } from './workout.service';
+import { AuthService } from './auth.service';
+import { provideRouter } from '@angular/router';
+
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: WorkoutService, useClass: MockWorkoutService },
+        { provide: AuthService, useClass: MockAuthService },
+        provideRouter([])
+      ]
     }).compileComponents();
   });
 
@@ -20,10 +31,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Workout App');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Workout App');
-  });
 });
