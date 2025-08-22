@@ -24,7 +24,7 @@
                                 <input id="reps" type="number" class="form-control"
                                 [(ngModel)]="exercise.reps" name="reps">
                             </div>
-                            <button (click)="removeExercise(i)">Remove Exercise</button>
+                            <button class="btn-remove" (click)="removeExercise(i)">Remove Exercise</button>
                         </div>
                     </li>
                 }
@@ -32,9 +32,9 @@
         </mat-card-content>
 
         <mat-card-actions class="exercise-list-footer">
-            <div><button (click)="addExercise()">Add Exercise</button></div>
-            <div><button (click)="saveWorkout()">Save Changes</button></div>
-            <div><button (click)="deleteWorkout()">Remove Workout</button></div>
+            <div><button class="btn-add" (click)="addExercise()">Add Exercise</button></div>
+            <div><button class="btn-save" (click)="saveWorkout()">Save Changes</button></div>
+            <div><button class="btn-delete" (click)="deleteWorkout()">Remove Workout</button></div>
         </mat-card-actions>
 
     </mat-card>
@@ -61,7 +61,7 @@
         <mat-card-actions class="exercise-list-footer">
 
             @if (!regimen){
-                <div ><button (click)="toggleEdit()">Edit</button></div>
+                <div ><button class="btn-edit" (click)="toggleEdit()">Edit</button></div>
             }
             
         </mat-card-actions>

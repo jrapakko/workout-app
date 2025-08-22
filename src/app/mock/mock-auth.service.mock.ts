@@ -4,7 +4,7 @@ export class MockAuthService {
   }
 
   async getUserName(): Promise<string | undefined> {
-    return 'user';
+    return Promise.resolve('user');
   }
 
   logout(): void {
