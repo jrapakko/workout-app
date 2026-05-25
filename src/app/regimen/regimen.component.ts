@@ -24,7 +24,7 @@ export class RegimenComponent {
   workouts!: Workout[];
 
   constructor(private workoutService: WorkoutService, private router: Router) {
-    this.user = this.workoutService.getUser();
+    this.workoutService.getUser().then((user: User) => this.user = user);
     this.workoutService.getRegimen().then((regimen: Regimen) => {
       this.regimen = regimen;
       if(!this.regimen.workouts) {

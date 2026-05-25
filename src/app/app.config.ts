@@ -1,10 +1,11 @@
 import { provideKeycloak, withAutoRefreshToken, AutoRefreshTokenService, UserActivityService } from 'keycloak-angular';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { environment } from '../environments/environment';
+import { WorkoutService } from './workout.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,6 +33,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideZoneChangeDetection({
       eventCoalescing: true
-    })
+    }),
+    // Create the user + regimen once, before the app renders, so no page races an
+    // undefined user. A transient failure doesn't block bootstrap — getUser()
+    // retries when a component next asks for it.
+    provideAppInitializer(() => inject(WorkoutService).getUser().catch(() => undefined))
   ]
 };

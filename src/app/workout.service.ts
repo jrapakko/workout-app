@@ -8,12 +8,13 @@ import { AuthService } from './auth.service';
 })
 export class WorkoutService {
 
-  user!: User;
-  constructor(private authService: AuthService) { 
-    this.getOrCreateUser().then((user: User) => {
-      this.user = user;
-    });
-  }
+  // Cached "get or create user" request, shared via getUser() so callers await a
+  // real user instead of racing the constructor and reading an undefined field.
+  // The fetch is triggered once at startup by provideAppInitializer (app.config.ts);
+  // the constructor deliberately does no work.
+  private userPromise?: Promise<User>;
+
+  constructor(private authService: AuthService) {}
 
   async getRegimen(): Promise<Regimen> {
     const data = await fetch(environment.apiUrl + '/regimen/get', {
@@ -126,7 +127,18 @@ export class WorkoutService {
     });
   }
 
-  getUser(): User {
-    return this.user;
+  /**
+   * Resolves to the backing user record, fetching/creating it once and caching the
+   * promise. On failure the cache is cleared so the next call retries instead of
+   * being stuck with a permanently rejected promise.
+   */
+  getUser(): Promise<User> {
+    if (!this.userPromise) {
+      this.userPromise = this.getOrCreateUser().catch((err) => {
+        this.userPromise = undefined;
+        throw err;
+      });
+    }
+    return this.userPromise;
   }
 }

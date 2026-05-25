@@ -189,9 +189,22 @@ describe('WorkoutService', () => {
     expect(workout).toEqual(mockWorkout);
   });
 
-  it('#getUser should return current user', () => {
-    const user = service.getUser(); // user is never set so should be undefined
-    expect(user).toBeUndefined();
+  it('#getUser should resolve to the backing user', async () => {
+    const userResponse = new Response(JSON.stringify({ userId: 'mock-user-id' }));
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve(userResponse));
+
+    const user = await service.getUser();
+    expect(user).toBeDefined();
+    expect(user.userId).toBe('mock-user-id');
+  });
+
+  it('#getUser should cache the user and fetch only once', async () => {
+    const userResponse = new Response(JSON.stringify({ userId: 'mock-user-id' }));
+    const fetchSpy = spyOn(window, 'fetch').and.returnValue(Promise.resolve(userResponse));
+
+    await service.getUser();
+    await service.getUser();
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
 });

@@ -19,8 +19,8 @@ export class WorkoutsComponent {
   workouts!: Workout[];
 
   constructor(private workoutService: WorkoutService, private router: Router) {
+    this.workoutService.getUser().then((user: User) => this.user = user);
     this.workoutService.getWorkouts().then((workouts: Workout[]) => {
-      this.user = this.workoutService.getUser();
       this.workouts = workouts;
       if (this.workouts.length < 1) {
         this.router.navigate(['/add-workout']);

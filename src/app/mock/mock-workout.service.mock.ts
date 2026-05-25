@@ -462,7 +462,7 @@ export class MockWorkoutService {
         return Promise.resolve(this.user);
     }
 
-    getUser(): User {
-        return this.user;
+    getUser(): Promise<User> {
+        return Promise.resolve(this.user);
     }
 }
