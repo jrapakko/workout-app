@@ -9,15 +9,7 @@ import { environment } from '../environments/environment';
 })
 export class WorkoutService {
 
-  private _http?: HttpClient;
-  private get http(): HttpClient {
-    if (!this._http) {
-      this._http = this.injector.get(HttpClient);
-    }
-    return this._http;
-  }
-
-  constructor(private readonly injector: Injector) {}
+  constructor(private readonly http: HttpClient) {}
 
   // Cached "get or create user" request, shared via getUser(). Auth is handled by
   // the bearer-token interceptor (see app.config.ts), so no method builds headers.
