@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-navbar',
     standalone: true,
     imports: [
-        CommonModule,
-        NgbCollapse,
-        RouterLink
-    ],
+    NgbCollapse,
+    RouterLink
+],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.css'
 })
