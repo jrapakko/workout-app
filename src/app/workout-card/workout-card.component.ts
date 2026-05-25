@@ -1,6 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
-import { Component, Input, inject, Output, booleanAttribute, EventEmitter } from '@angular/core';
-import { Regimen, Workout, Exercise, ExerciseSet, User } from '../workout';
+import { Component, Input, Output, booleanAttribute, EventEmitter } from '@angular/core';
+import { Workout, Exercise, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule } from '@angular/forms';
 
@@ -34,7 +34,7 @@ export class WorkoutCardComponent {
   }
 
   addExercise() {
-    const e: Exercise = {id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: [], user: this.user};
+    const e: Exercise = {id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: []};
     this.workoutService.saveExercise(e).then((exercise: Exercise) => {
       this.workout.numberExercises = this.workout.exercises.push(exercise);
     });

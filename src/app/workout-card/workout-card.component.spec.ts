@@ -29,7 +29,6 @@ describe('WorkoutCardComponent', () => {
       name: 'Test Workout',
       numberExercises: 0,
       exercises: [],
-      deleted: false,
       user: {userId: 'mock-user-id'}
     };
     component.edit = false;
@@ -191,7 +190,6 @@ describe('WorkoutCardComponentWithExercise', () => {
           user: { userId: 'mock-user-id' }
         }
       ],
-      deleted: false,
       user: {userId: 'mock-user-id'}
     };
     component.edit = false;

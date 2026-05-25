@@ -65,7 +65,6 @@ export class MockWorkoutService {
                             user: this.user
                         }
                     ],
-                    deleted: false,
                     user: this.user
                 },
                 {
@@ -73,7 +72,6 @@ export class MockWorkoutService {
                     name: 'Mock Cardio',
                     numberExercises: 0,
                     exercises: [],
-                    deleted: false,
                     user: this.user
                 },
                 {
@@ -127,7 +125,6 @@ export class MockWorkoutService {
                             user: this.user
                         }
                     ],
-                    deleted: false,
                     user: this.user
                 },
                 {
@@ -135,7 +132,6 @@ export class MockWorkoutService {
                     name: 'Mock Cardio 2',
                     numberExercises: 0,
                     exercises: [],
-                    deleted: false,
                     user: this.user
                 },
                 {
@@ -162,7 +158,6 @@ export class MockWorkoutService {
                             user: this.user
                         }
                     ],
-                    deleted: false,
                     user: this.user
                 }
             ]
@@ -222,7 +217,6 @@ export class MockWorkoutService {
                         user: this.user
                     }
                 ],
-                deleted: false,
                 user: this.user
             },
             {
@@ -230,7 +224,6 @@ export class MockWorkoutService {
                 name: 'Mock Cardio',
                 numberExercises: 0,
                 exercises: [],
-                deleted: false,
                 user: this.user
             },
             {
@@ -284,7 +277,6 @@ export class MockWorkoutService {
                         user: this.user
                     }
                 ],
-                deleted: false,
                 user: this.user
             },
             {
@@ -292,7 +284,6 @@ export class MockWorkoutService {
                 name: 'Mock Cardio 2',
                 numberExercises: 0,
                 exercises: [],
-                deleted: false,
                 user: this.user
             },
             {
@@ -319,7 +310,6 @@ export class MockWorkoutService {
                         user: this.user
                     }
                 ],
-                deleted: false,
                 user: this.user
             }
         ]);
@@ -378,7 +368,6 @@ export class MockWorkoutService {
                         user: this.user
                     }
                 ],
-                deleted: false,
                 user: this.user
             }
         );
@@ -464,7 +453,6 @@ export class MockWorkoutService {
                         user: this.user
                     }
                 ],
-                deleted: false,
                 user: this.user
             }
         );

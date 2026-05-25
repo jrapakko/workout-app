@@ -1,5 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
-import { Workout, Exercise, ExerciseSet, User } from '../workout';
+import { Component, inject } from '@angular/core';
+import { Workout, Exercise } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WorkoutService } from '../workout.service';
@@ -16,12 +16,9 @@ import { WorkoutService } from '../workout.service';
 })
 export class WorkoutFormComponent {
 
-  user!: User;
-
   workoutService: WorkoutService = inject(WorkoutService);
 
   constructor(private formBuilder: FormBuilder) {
-    this.user = this.workoutService.getUser();
   }
 
   workoutForm = this.formBuilder.group({
@@ -54,9 +51,7 @@ export class WorkoutFormComponent {
       id: 0,
       name: this.workoutForm.getRawValue().name as string,
       exercises: this.workoutForm.getRawValue().exercises as Exercise[],
-      numberExercises: this.workoutForm.getRawValue().exercises.length,
-      deleted: false,
-      user: this.user
+      numberExercises: this.workoutForm.getRawValue().exercises.length
     };
     this.workoutService.saveWorkout(w);
     this.workoutForm.reset();

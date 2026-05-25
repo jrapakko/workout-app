@@ -63,9 +63,17 @@ export class WorkoutService {
   }
 
   saveRegimen(r: Regimen) {
+    // The API takes membership + order as workout ids (UpdateRegimenRequest);
+    // the server resolves each id and owns numberWorkouts/user.
+    const body = {
+      id: r.id,
+      name: r.name,
+      nextWorkoutIndex: r.nextWorkoutIndex,
+      workoutIds: r.workouts.map(w => w.id)
+    };
     fetch((environment.apiUrl + '/regimen'), {
       method: "PUT",
-      body: JSON.stringify(r),
+      body: JSON.stringify(body),
       headers: this.authService.getAuthHeader()
     }).then(response => console.log(response));
   }

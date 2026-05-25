@@ -4,14 +4,14 @@ import { WorkoutService } from './workout.service';
 import { AuthService } from './auth.service';
 import { MockAuthService } from './mock/mock-auth.service.mock';
 import { environment } from '../environments/environment';
-import { Regimen, User, Workout } from './workout';
+import { Exercise, Regimen, Workout } from './workout';
 
 describe('WorkoutService', () => {
   let service: WorkoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ 
+      providers: [
         { provide: AuthService, useClass: MockAuthService }
       ]
     });
@@ -31,194 +31,21 @@ describe('WorkoutService', () => {
   });
 
   it('#getRegimen should return a regimen', async () => {
-    const regimenResponse = new Response(
-      JSON.stringify({
-        id: 1,
-        name: 'Mock Regimen',
-        user: {
-          userId: 'mock-user-id',
-        },
-        numberWorkouts: 5,
-        nextWorkoutIndex: 1,
-        workouts: [
-          {
-            id: 1,
-            name: 'Mock Workout 1',
-            numberOfExercises: 5,
-            user: {
-              userId: 'mock-user-id',
-            },
-            exercises: [
-              {
-                id: 1,
-                name: 'Mock Exercise 1',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 2,
-                name: 'Mock Exercise 2',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 3,
-                name: 'Mock Exercise 3',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 4,
-                name: 'Mock Exercise 4',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-i () =d'
-                }
-              },
-              {
-                id: 5,
-                name: 'Mock Exercise 5',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Mock Cardio',
-            numberExercises: 0,
-            exercises: [],
-            user: {
-              userId: 'mock-user-id',
-            }
-          },
-          {
-            id: 3,
-            name: 'Mock Workout 2',
-            numberExercises: 5,
-            exercises: [
-              {
-                id: 1,
-                name: 'Mock Exercise 1',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 2,
-                name: 'Mock Exercise 2',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 3,
-                name: 'Mock Exercise 3',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 4,
-                name: 'Mock Exercise 4',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 5,
-                name: 'Mock Exercise 5',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              }
-            ]
-          },
-          {
-            id: 4,
-            name: 'Mock Cardio 2',
-            numberExercises: 0,
-            exercises: [],
-            user: {
-              userId: 'mock-user-id',
-            }
-          },
-          {
-            id: 5,
-            name: 'Mock Workout 3',
-            numberExercises: 2,
-            exercises: [
-              {
-                id: 6,
-                name: 'Mock Exercise 6',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              },
-              {
-                id: 7,
-                name: 'Mock Exercise 7',
-                sets: 3,
-                reps: 3,
-                previousWeight: 100.0,
-                cur_sets: [],
-                user: {
-                  userId: 'mock-user-id',
-                }
-              }
-            ]
-          }
-        ]
-      })
-    );
-
+    // The API no longer echoes `user` back; the regimen carries its workouts.
+    const mockRegimen = {
+      id: 1,
+      name: 'Mock Regimen',
+      numberWorkouts: 5,
+      nextWorkoutIndex: 1,
+      workouts: [
+        { id: 1, name: 'Mock Workout 1', numberExercises: 0, exercises: [] },
+        { id: 2, name: 'Mock Cardio', numberExercises: 0, exercises: [] },
+        { id: 3, name: 'Mock Workout 2', numberExercises: 0, exercises: [] },
+        { id: 4, name: 'Mock Cardio 2', numberExercises: 0, exercises: [] },
+        { id: 5, name: 'Mock Workout 3', numberExercises: 0, exercises: [] }
+      ]
+    };
+    const regimenResponse = new Response(JSON.stringify(mockRegimen));
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(regimenResponse));
 
     const regimen = await service.getRegimen();
@@ -226,15 +53,25 @@ describe('WorkoutService', () => {
     expect(regimen).toBeInstanceOf(Object);
     expect(regimen.id).toBe(1);
     expect(regimen.name).toBe('Mock Regimen');
-    expect(regimen.user.userId).toBe('mock-user-id');
     expect(regimen.workouts.length).toBe(5);
     expect(regimen.numberWorkouts).toBe(5);
     expect(regimen.nextWorkoutIndex).toBe(1);
   });
 
   it('#getWorkouts should return all workouts', async () => {
-    const mockWorkouts : Workout[] = [{"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":2,"name":"Mock Workout","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":3,"name":"mock Workout","deleted":false,"numberExercises":3,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[{"id":1,"name":"Mock Exercise","sets":5,"reps":10,"previousWeight":0.0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"cur_sets":[]},{"id":2,"name":"Mock Exercise 2","sets":5,"reps":15,"previousWeight":0.0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"cur_sets":[]},{"id":3,"name":"Mock Exercise 3","sets":5,"reps":5,"previousWeight":0.0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"cur_sets":[]}]},{"id":4,"name":"Cardio","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]}];
-    const mockWorkoutResponse = new Response (JSON.stringify(mockWorkouts));
+    const mockWorkouts: Workout[] = [
+      { id: 1, name: 'Test', numberExercises: 0, exercises: [] },
+      { id: 2, name: 'Mock Workout', numberExercises: 0, exercises: [] },
+      {
+        id: 3, name: 'mock Workout', numberExercises: 3, exercises: [
+          { id: 1, name: 'Mock Exercise', sets: 5, reps: 10, previousWeight: 0.0 },
+          { id: 2, name: 'Mock Exercise 2', sets: 5, reps: 15, previousWeight: 0.0 },
+          { id: 3, name: 'Mock Exercise 3', sets: 5, reps: 5, previousWeight: 0.0 }
+        ]
+      },
+      { id: 4, name: 'Cardio', numberExercises: 0, exercises: [] }
+    ];
+    const mockWorkoutResponse = new Response(JSON.stringify(mockWorkouts));
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockWorkoutResponse));
 
     const workouts = await service.getWorkouts();
@@ -242,7 +79,7 @@ describe('WorkoutService', () => {
   });
 
   it('#getNextWorkout should return a workout', async () => {
-    const mockWorkout = {"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]};
+    const mockWorkout: Workout = { id: 1, name: 'Test', numberExercises: 0, exercises: [] };
     const mockResponse = new Response(JSON.stringify(mockWorkout));
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
@@ -265,27 +102,44 @@ describe('WorkoutService', () => {
     const mockResponse = new Response(null, { status: 200 });
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
-    await service.saveWorkout({ id: 1, name: 'Test Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    const w: Workout = { id: 1, name: 'Test Workout', numberExercises: 0, exercises: [] };
+    await service.saveWorkout(w);
     expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
       method: 'POST',
       headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify({ id: 1, name: 'Test Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } })
+      body: JSON.stringify(w)
     });
   });
 
-  it('#saveRegimen should return 200 OK', async () => {
+  it('#saveRegimen should send membership + order as workout ids', async () => {
     const mockResponse = new Response(null, { status: 200 });
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
-    await service.saveRegimen({"id":1,"name":"userId","numberWorkouts":0,"nextWorkoutIndex":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"workouts":[{"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":4,"name":"Cardio","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":3,"name":"mock Workout","deleted":false,"numberExercises":3,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[{"id":1,"name":"Mock Exercise","sets":5,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":2,"name":"Mock Exercise 2","sets":5,"reps":15,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":3,"name":"Mock Exercise 3","sets":5,"reps":5,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}}]},{"id":2,"name":"Mock Workout","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]}]});
+    const regimen: Regimen = {
+      id: 1, name: 'userId', numberWorkouts: 4, nextWorkoutIndex: 0,
+      workouts: [
+        { id: 1, name: 'Test', numberExercises: 0, exercises: [] },
+        { id: 4, name: 'Cardio', numberExercises: 0, exercises: [] },
+        { id: 3, name: 'mock Workout', numberExercises: 0, exercises: [] },
+        { id: 2, name: 'Mock Workout', numberExercises: 0, exercises: [] }
+      ]
+    };
+    await service.saveRegimen(regimen);
     expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/regimen`, {
       method: 'PUT',
       headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify({"id":1,"name":"userId","numberWorkouts":0,"nextWorkoutIndex":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"workouts":[{"id":1,"name":"Test","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":4,"name":"Cardio","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]},{"id":3,"name":"mock Workout","deleted":false,"numberExercises":3,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[{"id":1,"name":"Mock Exercise","sets":5,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":2,"name":"Mock Exercise 2","sets":5,"reps":15,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}},{"id":3,"name":"Mock Exercise 3","sets":5,"reps":5,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}}]},{"id":2,"name":"Mock Workout","deleted":false,"numberExercises":0,"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"},"exercises":[]}]})});
+      // saveRegimen sends UpdateRegimenRequest: id, name, nextWorkoutIndex, workoutIds
+      body: JSON.stringify({
+        id: regimen.id,
+        name: regimen.name,
+        nextWorkoutIndex: regimen.nextWorkoutIndex,
+        workoutIds: regimen.workouts.map(w => w.id)
+      })
+    });
   });
 
   it('#saveExercise should return the new exercise', async () => {
-    const mockExercise = {"id":1,"name":"Test Exercise","sets":3,"reps":10,"previousWeight":0.0,"cur_sets":[],"user":{"userId":"f8d48965-d5f6-49f2-b393-d35b05987459"}};
+    const mockExercise: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [] };
     const mockResponse = new Response(JSON.stringify(mockExercise));
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
@@ -297,11 +151,12 @@ describe('WorkoutService', () => {
     const mockResponse = new Response(null, { status: 200 });
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
-    await service.updateWorkout({ id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    const w: Workout = { id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [] };
+    await service.updateWorkout(w);
     expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
       method: 'PUT',
       headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify({ id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } })
+      body: JSON.stringify(w)
     });
   });
 
@@ -309,20 +164,29 @@ describe('WorkoutService', () => {
     const mockResponse = new Response(null, { status: 200 });
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
-    await service.saveExerciseSets(1, 1, { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' }}], user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    const exercise: Exercise = {
+      id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0,
+      cur_sets: [
+        { weight: 100.0, reps: 10 },
+        { weight: 100.0, reps: 10 },
+        { weight: 100.0, reps: 10 }
+      ]
+    };
+    await service.saveExerciseSets(1, 1, exercise);
     expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/exercise/sets/1/1`, {
       method: 'POST',
       headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify([{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } },{weight: 100.0, reps: 10, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' }}])
+      body: JSON.stringify(exercise.cur_sets)
     });
   });
 
   it('#incrementNextWorkout should return next workout', async () => {
-    const mockResponse = new Response(JSON.stringify({ id: 2, name: 'Next Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } }));
+    const mockWorkout: Workout = { id: 2, name: 'Next Workout', numberExercises: 0, exercises: [] };
+    const mockResponse = new Response(JSON.stringify(mockWorkout));
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
 
     const workout = await service.incrementNextWorkout(1);
-    expect(workout).toEqual({ id: 2, name: 'Next Workout', numberExercises: 0, exercises: [], deleted: false, user: { userId: 'f8d48965-d5f6-49f2-b393-d35b05987459' } });
+    expect(workout).toEqual(mockWorkout);
   });
 
   it('#getUser should return current user', () => {

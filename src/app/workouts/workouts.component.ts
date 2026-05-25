@@ -1,5 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
-import { Exercise, Regimen, Workout, User } from '../workout';
+import { Component } from '@angular/core';
+import { Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { Router } from '@angular/router';

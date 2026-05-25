@@ -1,6 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { Component } from '@angular/core';
-import { Workout, ExerciseSet, User } from '../workout';
+import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,11 +19,12 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent {
 
-  user!: User;
   nextWorkout!: Workout;
 
   constructor(private workoutService: WorkoutService, private router: Router) {
-    this.user = this.workoutService.getUser();
+  }
+
+  ngOnInit() {
     this.workoutService.getNextWorkout().then((nextWorkout: Workout) => {
       this.nextWorkout = nextWorkout;
       if (!this.nextWorkout.exercises) {
@@ -50,16 +51,15 @@ export class DashboardComponent {
       if (this.nextWorkout.exercises.length < 1) {
         return; // No exercises in the next workout
       } 
-      if (this.nextWorkout.exercises[0].cur_sets.length < 1 ) {
+      if ((this.nextWorkout.exercises[0].cur_sets?.length ?? 0) < 1 ) {
         for (var exercise of this.nextWorkout.exercises) {
           for(var i = 0; i < exercise.sets; i++) {
-            exercise.cur_sets.push(<ExerciseSet>{reps: 0, weight: 0, user: this.user});
+            exercise.cur_sets?.push(<ExerciseSet>{reps: 0, weight: 0});
           }
         }
       }
     });
   }
-
 
   saveSets(index: number, exerciseForm: NgForm) {
     this.workoutService.saveExerciseSets(this.nextWorkout.id, this.nextWorkout.exercises[index].id, this.nextWorkout.exercises[index]);
@@ -76,10 +76,10 @@ export class DashboardComponent {
       if (this.nextWorkout.exercises.length < 1) {
         return; // No exercises in the next workout
       } 
-      if (this.nextWorkout.exercises[0].cur_sets.length < 1 ) {
+      if ((this.nextWorkout.exercises[0].cur_sets?.length ?? 0) < 1 ) {
         for (var exercise of this.nextWorkout.exercises) {
           for(var i = 0; i < exercise.sets; i++) {
-            exercise.cur_sets.push(<ExerciseSet>{reps: 0, weight: 0, user: this.user});
+            exercise.cur_sets?.push(<ExerciseSet>{reps: 0, weight: 0});
           }
         }
       }
