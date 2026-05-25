@@ -8,11 +8,13 @@ import {
   createInterceptorCondition,
   type IncludeBearerTokenCondition
 } from 'keycloak-angular';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideEnvironmentInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { WorkoutService } from './workout.service';
+import { LoadingService } from './loading.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -53,6 +55,13 @@ export const appConfig: ApplicationConfig = {
           urlPattern: /^https:\/\/api\.jrpko\.dev(\/.*)?$/i
         })
       ]
-    }
+    },
+    // Eagerly instantiate core services synchronously during environment initialization
+    // (valid active injection context) before Keycloak's async initialization or any route
+    // guards execute, ensuring HttpClient and its dependencies are cached.
+    provideEnvironmentInitializer(() => {
+      inject(WorkoutService);
+      inject(LoadingService);
+    })
   ]
 };

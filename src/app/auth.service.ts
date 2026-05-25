@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import Keycloak from 'keycloak-js';
 
@@ -9,9 +9,7 @@ export class AuthService {
   private token: string | undefined = undefined;
   private refreshToken: string | undefined = undefined;
 
-  private readonly keycloak = inject(Keycloak);
-
-  constructor()  {}
+  constructor(private readonly keycloak: Keycloak)  {}
 
   getAuthHeader(): HeadersInit {
     const myHeaders = new Headers();

@@ -2,3 +2,13 @@
 
 <router-outlet />
 <!-- CONTENT IN ROUTER -->
+
+@if (loadingService.isLoading()) {
+  <div class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <h2 class="loading-title">Setting Up Your Workspace</h2>
+      <p class="loading-subtitle">We are preparing your personalized regimen. Please hang tight...</p>
+    </div>
+  </div>
+}

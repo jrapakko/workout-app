@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Workout, Exercise } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,9 +16,10 @@ import { WorkoutService } from '../workout.service';
 })
 export class WorkoutFormComponent {
 
-  workoutService: WorkoutService = inject(WorkoutService);
-
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private workoutService: WorkoutService
+  ) {
   }
 
   workoutForm = this.formBuilder.group({
