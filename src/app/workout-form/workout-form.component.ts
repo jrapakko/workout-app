@@ -53,7 +53,8 @@ export class WorkoutFormComponent {
       exercises: this.workoutForm.getRawValue().exercises as Exercise[],
       numberExercises: this.workoutForm.getRawValue().exercises.length
     };
-    this.workoutService.saveWorkout(w);
+    this.workoutService.saveWorkout(w)
+      .subscribe({ error: (e) => console.error('Failed to save workout', e) });
     this.workoutForm.reset();
     this.exercises.clear();
   }

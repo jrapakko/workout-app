@@ -1,69 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, shareReplay, throwError } from 'rxjs';
 import { Regimen, Workout, Exercise, User } from './workout';
 import { environment } from '../environments/environment';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutService {
 
-  // Cached "get or create user" request, shared via getUser() so callers await a
-  // real user instead of racing the constructor and reading an undefined field.
-  // The fetch is triggered once at startup by provideAppInitializer (app.config.ts);
-  // the constructor deliberately does no work.
-  private userPromise?: Promise<User>;
+  private readonly http = inject(HttpClient);
 
-  constructor(private authService: AuthService) {}
+  // Cached "get or create user" request, shared via getUser(). Auth is handled by
+  // the bearer-token interceptor (see app.config.ts), so no method builds headers.
+  private user$?: Observable<User>;
 
-  async getRegimen(): Promise<Regimen> {
-    const data = await fetch(environment.apiUrl + '/regimen/get', {
-        headers: this.authService.getAuthHeader()
-    });
-    return await data.json() ?? [];
+  getRegimen(): Observable<Regimen> {
+    return this.http.get<Regimen>(environment.apiUrl + '/regimen/get');
   }
 
-  async getWorkouts(): Promise<Workout[]> {
-    const headers = this.authService.getAuthHeader();
-    const data = await fetch(environment.apiUrl + '/workout/all', {
-        headers: this.authService.getAuthHeader()
-    });
-    return await data.json() ?? [];
+  getWorkouts(): Observable<Workout[]> {
+    return this.http.get<Workout[]>(environment.apiUrl + '/workout/all');
   }
 
-  async getNextWorkout(): Promise<Workout> {
-    return await fetch(environment.apiUrl + '/regimen/nextWorkout', {
-        headers: this.authService.getAuthHeader() 
-    }).then(response =>
-    {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to fetch next workout');
-      }
-    }
-    ).catch(error => {
-      console.error('Error fetching next workout:', error);
-      throw error;
-    });
+  getNextWorkout(): Observable<Workout> {
+    return this.http.get<Workout>(environment.apiUrl + '/regimen/nextWorkout');
   }
 
-  deleteWorkout(id: number) {
-    fetch((environment.apiUrl + '/workout/delete/' + id), {
-      method: "DELETE",
-      headers: this.authService.getAuthHeader()
-    }).then(response => console.log(response));
+  deleteWorkout(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(environment.apiUrl + '/workout/delete/' + id);
   }
 
-  saveWorkout(w: Workout) {
-    fetch((environment.apiUrl + '/workout'), {
-      method: "POST",
-      body: JSON.stringify(w),
-      headers: this.authService.getAuthHeader()
-    }).then(response => response.json()).then(json => console.log(json));
+  saveWorkout(w: Workout): Observable<Workout> {
+    return this.http.post<Workout>(environment.apiUrl + '/workout', w);
   }
 
-  saveRegimen(r: Regimen) {
+  saveRegimen(r: Regimen): Observable<Regimen> {
     // The API takes membership + order as workout ids (UpdateRegimenRequest);
     // the server resolves each id and owns numberWorkouts/user.
     const body = {
@@ -72,73 +44,47 @@ export class WorkoutService {
       nextWorkoutIndex: r.nextWorkoutIndex,
       workoutIds: r.workouts.map(w => w.id)
     };
-    fetch((environment.apiUrl + '/regimen'), {
-      method: "PUT",
-      body: JSON.stringify(body),
-      headers: this.authService.getAuthHeader()
-    }).then(response => console.log(response));
+    return this.http.put<Regimen>(environment.apiUrl + '/regimen', body);
   }
 
-  async saveExercise(e: Exercise): Promise<Exercise> {
-    const data = await fetch((environment.apiUrl + '/exercise'), {
-      method: "POST",
-      body: JSON.stringify(e),
-      headers: this.authService.getAuthHeader()
-    });
-    return await data.json() ?? [];
+  saveExercise(e: Exercise): Observable<Exercise> {
+    return this.http.post<Exercise>(environment.apiUrl + '/exercise', e);
   }
 
-  updateWorkout(w: Workout) {
-    fetch((environment.apiUrl + '/workout'), {
-      method: "PUT",
-      body: JSON.stringify(w),
-      headers: this.authService.getAuthHeader()
-    }).then(response => response.json()).then(json => console.log(json));
+  updateWorkout(w: Workout): Observable<Workout> {
+    return this.http.put<Workout>(environment.apiUrl + '/workout', w);
   }
 
-  saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise) {
-    fetch((environment.apiUrl + '/exercise/sets/' + workoutId + '/' + exerciseId), {
-      method: "POST",
-      body: JSON.stringify(exercise.cur_sets),
-      headers: this.authService.getAuthHeader()
-    }).then(response => console.log(response));
+  saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise): Observable<void> {
+    return this.http.post<void>(
+      environment.apiUrl + '/exercise/sets/' + workoutId + '/' + exerciseId,
+      exercise.cur_sets
+    );
   }
 
-  async incrementNextWorkout(workoutId: number): Promise<Workout> {
-    const data = await fetch((environment.apiUrl) + '/regimen/nextWorkout/' + workoutId, {
-        headers: this.authService.getAuthHeader()
-    });
-    return await data.json() ?? [];
+  incrementNextWorkout(workoutId: number): Observable<Workout> {
+    return this.http.get<Workout>(environment.apiUrl + '/regimen/nextWorkout/' + workoutId);
   }
 
-  async getOrCreateUser(): Promise<User> {
-    return await fetch(environment.apiUrl + '/user', {
-      method: "POST",
-      headers: this.authService.getAuthHeader()
-    }).then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to get or create user');
-      }
-    }).catch(error => {
-      console.error('Error fetching or creating user:', error);
-      throw error;
-    });
+  getOrCreateUser(): Observable<User> {
+    return this.http.post<User>(environment.apiUrl + '/user', null);
   }
 
   /**
-   * Resolves to the backing user record, fetching/creating it once and caching the
-   * promise. On failure the cache is cleared so the next call retries instead of
-   * being stuck with a permanently rejected promise.
+   * Resolves to the backing user record, fetching/creating it once and replaying the
+   * result to later subscribers (shareReplay). On error the cache is cleared so the
+   * next call retries instead of replaying a stuck failure.
    */
-  getUser(): Promise<User> {
-    if (!this.userPromise) {
-      this.userPromise = this.getOrCreateUser().catch((err) => {
-        this.userPromise = undefined;
-        throw err;
-      });
+  getUser(): Observable<User> {
+    if (!this.user$) {
+      this.user$ = this.getOrCreateUser().pipe(
+        catchError((err) => {
+          this.user$ = undefined;
+          return throwError(() => err);
+        }),
+        shareReplay(1)
+      );
     }
-    return this.userPromise;
+    return this.user$;
   }
 }

@@ -1,11 +1,11 @@
 <div id="all-workouts" cdkDropListGroup>
-    @if (regimen) {
+    @if (regimen(); as regimen) {
         <div class="regimen-wrapper">
             <h2>Routine</h2>
             <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
                 @for (workout of regimen.workouts; track workout) {
                     <div class="workout-card-wrapper cdk-drag" cdkDrag >
-                        <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
+                        <app-workout-card [workout]="workout" [regimen]="true" [user]="user()"></app-workout-card>
                     </div>
                 }
                 @if (regimen.workouts.length === 0) {
@@ -24,13 +24,13 @@
             </div>
         </div>
     }
-    @if (workouts) {
+    @if (workouts(); as workouts) {
     <div class="regimen-wrapper">
         <h2>Workouts</h2>
         <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-            @for (workout of this.workouts; track workout.id) {
+            @for (workout of workouts; track workout.id) {
                 <div class="workout-card-wrapper cdk-drag" cdkDrag>
-                    <app-workout-card [workout]="workout" [regimen]="true" [user]="user"></app-workout-card>
+                    <app-workout-card [workout]="workout" [regimen]="true" [user]="user()"></app-workout-card>
                 </div>
             }
         </div>

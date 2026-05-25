@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { Exercise, ExerciseSet, Regimen, User, Workout } from '../workout';
 export class MockWorkoutService {
 
@@ -6,8 +7,8 @@ export class MockWorkoutService {
         this.user = { userId: 'mock-user-id' };
     }
 
-    async getRegimen(): Promise<Regimen> {
-        return Promise.resolve({
+    getRegimen(): Observable<Regimen> {
+        return of({
             id: 1,
             name: 'Mock Regimen',
             user: this.user,
@@ -164,8 +165,8 @@ export class MockWorkoutService {
         });
     }
 
-    async getWorkouts(): Promise<Workout[]> {
-        return Promise.resolve([
+    getWorkouts(): Observable<Workout[]> {
+        return of([
             {
                 id: 1,
                 name: 'Mock Workout 1',
@@ -315,8 +316,8 @@ export class MockWorkoutService {
         ]);
     }
 
-    async getNextWorkout(): Promise<Workout> {
-        return Promise.resolve(
+    getNextWorkout(): Observable<Workout> {
+        return of(
             {
                 id: 3,
                 name: 'Mock Workout 2',
@@ -373,35 +374,35 @@ export class MockWorkoutService {
         );
     }
 
-    deleteWorkout(id: number) {
-        return; // Mock implementation
+    deleteWorkout(id: number): Observable<boolean> {
+        return of(true); // Mock implementation
     }
 
-    saveWorkout(w: Workout) {
-        return; // Mock implementation (we still type check)
+    saveWorkout(w: Workout): Observable<Workout> {
+        return of(w); // Mock implementation (we still type check)
     }
 
-    saveRegimen(r: Regimen) {
-        return; // Mock implementation (we still type check)
+    saveRegimen(r: Regimen): Observable<Regimen> {
+        return of(r); // Mock implementation (we still type check)
     }
 
-    async saveExercise(e: Exercise): Promise<Exercise> {
+    saveExercise(e: Exercise): Observable<Exercise> {
         e.id = 1;
         e.user = this.user;
-        return Promise.resolve(e);
+        return of(e);
     }
 
-    updateWorkout(w: Workout) {
-        return; // Mock implementation for type checking
+    updateWorkout(w: Workout): Observable<Workout> {
+        return of(w); // Mock implementation for type checking
     }
 
-    saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise) {
-        return; // Mock implementation (we still type check)
+    saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise): Observable<void> {
+        return of(undefined); // Mock implementation (we still type check)
     }
 
-    async incrementNextWorkout(workoutId: number) {
+    incrementNextWorkout(workoutId: number): Observable<Workout> {
         // all incrementing logic happens on the backend so we just return id: 1 for testing
-        return Promise.resolve(
+        return of(
             {
                 id: 1,
                 name: 'Mock Workout 1',
@@ -458,11 +459,11 @@ export class MockWorkoutService {
         );
     }
 
-    async getOrCreateUser(): Promise<User> {
-        return Promise.resolve(this.user);
+    getOrCreateUser(): Observable<User> {
+        return of(this.user);
     }
 
-    getUser(): Promise<User> {
-        return Promise.resolve(this.user);
+    getUser(): Observable<User> {
+        return of(this.user);
     }
 }

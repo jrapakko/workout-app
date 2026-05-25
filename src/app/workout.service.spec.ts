@@ -1,120 +1,106 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { WorkoutService } from './workout.service';
-import { AuthService } from './auth.service';
-import { MockAuthService } from './mock/mock-auth.service.mock';
 import { environment } from '../environments/environment';
 import { Exercise, Regimen, Workout } from './workout';
 
 describe('WorkoutService', () => {
   let service: WorkoutService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      // The real bearer-token interceptor is production-only (app.config.ts); the
+      // service under test just issues HttpClient requests.
       providers: [
-        { provide: AuthService, useClass: MockAuthService }
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     });
     service = TestBed.inject(WorkoutService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify(); // no unexpected/outstanding requests
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getOrCreateUser should return a user', async () => {
-    const userResponse = new Response(JSON.stringify({ userId: 'mock-user-id' }));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(userResponse));
-    const user = await service.getOrCreateUser();
-    expect(user).toBeDefined();
-    expect(user.userId).toBe('mock-user-id');
+  it('#getOrCreateUser should POST and return the user', () => {
+    service.getOrCreateUser().subscribe(user => {
+      expect(user.userId).toBe('mock-user-id');
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/user`);
+    expect(req.request.method).toBe('POST');
+    req.flush({ userId: 'mock-user-id' });
   });
 
-  it('#getRegimen should return a regimen', async () => {
-    // The API no longer echoes `user` back; the regimen carries its workouts.
-    const mockRegimen = {
+  it('#getRegimen should return a regimen', () => {
+    const mockRegimen: Regimen = {
       id: 1,
       name: 'Mock Regimen',
       numberWorkouts: 5,
       nextWorkoutIndex: 1,
       workouts: [
         { id: 1, name: 'Mock Workout 1', numberExercises: 0, exercises: [] },
-        { id: 2, name: 'Mock Cardio', numberExercises: 0, exercises: [] },
-        { id: 3, name: 'Mock Workout 2', numberExercises: 0, exercises: [] },
-        { id: 4, name: 'Mock Cardio 2', numberExercises: 0, exercises: [] },
-        { id: 5, name: 'Mock Workout 3', numberExercises: 0, exercises: [] }
+        { id: 2, name: 'Mock Cardio', numberExercises: 0, exercises: [] }
       ]
     };
-    const regimenResponse = new Response(JSON.stringify(mockRegimen));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(regimenResponse));
-
-    const regimen = await service.getRegimen();
-    expect(regimen).toBeDefined();
-    expect(regimen).toBeInstanceOf(Object);
-    expect(regimen.id).toBe(1);
-    expect(regimen.name).toBe('Mock Regimen');
-    expect(regimen.workouts.length).toBe(5);
-    expect(regimen.numberWorkouts).toBe(5);
-    expect(regimen.nextWorkoutIndex).toBe(1);
+    service.getRegimen().subscribe(regimen => {
+      expect(regimen).toEqual(mockRegimen);
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/regimen/get`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockRegimen);
   });
 
-  it('#getWorkouts should return all workouts', async () => {
+  it('#getWorkouts should return all workouts', () => {
     const mockWorkouts: Workout[] = [
       { id: 1, name: 'Test', numberExercises: 0, exercises: [] },
-      { id: 2, name: 'Mock Workout', numberExercises: 0, exercises: [] },
-      {
-        id: 3, name: 'mock Workout', numberExercises: 3, exercises: [
-          { id: 1, name: 'Mock Exercise', sets: 5, reps: 10, previousWeight: 0.0 },
-          { id: 2, name: 'Mock Exercise 2', sets: 5, reps: 15, previousWeight: 0.0 },
-          { id: 3, name: 'Mock Exercise 3', sets: 5, reps: 5, previousWeight: 0.0 }
-        ]
-      },
-      { id: 4, name: 'Cardio', numberExercises: 0, exercises: [] }
+      { id: 2, name: 'Mock Workout', numberExercises: 0, exercises: [] }
     ];
-    const mockWorkoutResponse = new Response(JSON.stringify(mockWorkouts));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockWorkoutResponse));
-
-    const workouts = await service.getWorkouts();
-    expect(workouts).toEqual(mockWorkouts);
+    service.getWorkouts().subscribe(workouts => {
+      expect(workouts).toEqual(mockWorkouts);
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/workout/all`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockWorkouts);
   });
 
-  it('#getNextWorkout should return a workout', async () => {
+  it('#getNextWorkout should return a workout', () => {
     const mockWorkout: Workout = { id: 1, name: 'Test', numberExercises: 0, exercises: [] };
-    const mockResponse = new Response(JSON.stringify(mockWorkout));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
-    const workout = await service.getNextWorkout();
-    expect(workout).toEqual(mockWorkout);
-  });
-
-  it('#deleteWorkout should return 200 OK', async () => {
-    const mockResponse = new Response(null, { status: 200 });
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
-    await service.deleteWorkout(1);
-    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout/delete/1`, {
-      method: 'DELETE',
-      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' })
+    service.getNextWorkout().subscribe(workout => {
+      expect(workout).toEqual(mockWorkout);
     });
+    const req = httpMock.expectOne(`${environment.apiUrl}/regimen/nextWorkout`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockWorkout);
   });
 
-  it('#saveWorkout should return 200 OK', async () => {
-    const mockResponse = new Response(null, { status: 200 });
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+  it('#deleteWorkout should DELETE the workout by id', () => {
+    service.deleteWorkout(1).subscribe(result => {
+      expect(result).toBeTrue();
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/workout/delete/1`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(true);
+  });
 
+  it('#saveWorkout should POST the workout', () => {
     const w: Workout = { id: 1, name: 'Test Workout', numberExercises: 0, exercises: [] };
-    await service.saveWorkout(w);
-    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
-      method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify(w)
-    });
+    service.saveWorkout(w).subscribe();
+    const req = httpMock.expectOne(`${environment.apiUrl}/workout`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(w);
+    req.flush(w);
   });
 
-  it('#saveRegimen should send membership + order as workout ids', async () => {
-    const mockResponse = new Response(null, { status: 200 });
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
+  it('#saveRegimen should PUT membership + order as workout ids', () => {
     const regimen: Regimen = {
       id: 1, name: 'userId', numberWorkouts: 4, nextWorkoutIndex: 0,
       workouts: [
@@ -124,46 +110,39 @@ describe('WorkoutService', () => {
         { id: 2, name: 'Mock Workout', numberExercises: 0, exercises: [] }
       ]
     };
-    await service.saveRegimen(regimen);
-    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/regimen`, {
-      method: 'PUT',
-      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      // saveRegimen sends UpdateRegimenRequest: id, name, nextWorkoutIndex, workoutIds
-      body: JSON.stringify({
-        id: regimen.id,
-        name: regimen.name,
-        nextWorkoutIndex: regimen.nextWorkoutIndex,
-        workoutIds: regimen.workouts.map(w => w.id)
-      })
+    service.saveRegimen(regimen).subscribe();
+    const req = httpMock.expectOne(`${environment.apiUrl}/regimen`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual({
+      id: regimen.id,
+      name: regimen.name,
+      nextWorkoutIndex: regimen.nextWorkoutIndex,
+      workoutIds: regimen.workouts.map(w => w.id)
     });
+    req.flush(regimen);
   });
 
-  it('#saveExercise should return the new exercise', async () => {
+  it('#saveExercise should POST and return the new exercise', () => {
     const mockExercise: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [] };
-    const mockResponse = new Response(JSON.stringify(mockExercise));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
-    const exercise = await service.saveExercise(mockExercise);
-    expect(exercise).toEqual(mockExercise);
-  });
-
-  it('#updateWorkout should return 200 OK', async () => {
-    const mockResponse = new Response(null, { status: 200 });
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
-    const w: Workout = { id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [] };
-    await service.updateWorkout(w);
-    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/workout`, {
-      method: 'PUT',
-      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify(w)
+    service.saveExercise(mockExercise).subscribe(exercise => {
+      expect(exercise).toEqual(mockExercise);
     });
+    const req = httpMock.expectOne(`${environment.apiUrl}/exercise`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(mockExercise);
+    req.flush(mockExercise);
   });
 
-  it('#saveExerciseSets should return 200 OK', async () => {
-    const mockResponse = new Response(null, { status: 200 });
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+  it('#updateWorkout should PUT the workout', () => {
+    const w: Workout = { id: 1, name: 'Updated Workout', numberExercises: 0, exercises: [] };
+    service.updateWorkout(w).subscribe();
+    const req = httpMock.expectOne(`${environment.apiUrl}/workout`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(w);
+    req.flush(w);
+  });
 
+  it('#saveExerciseSets should POST the cur_sets', () => {
     const exercise: Exercise = {
       id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0,
       cur_sets: [
@@ -172,39 +151,33 @@ describe('WorkoutService', () => {
         { weight: 100.0, reps: 10 }
       ]
     };
-    await service.saveExerciseSets(1, 1, exercise);
-    expect(window.fetch).toHaveBeenCalledWith(`${environment.apiUrl}/exercise/sets/1/1`, {
-      method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' }),
-      body: JSON.stringify(exercise.cur_sets)
-    });
+    service.saveExerciseSets(1, 1, exercise).subscribe();
+    const req = httpMock.expectOne(`${environment.apiUrl}/exercise/sets/1/1`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(exercise.cur_sets);
+    req.flush(null);
   });
 
-  it('#incrementNextWorkout should return next workout', async () => {
+  it('#incrementNextWorkout should GET the next workout', () => {
     const mockWorkout: Workout = { id: 2, name: 'Next Workout', numberExercises: 0, exercises: [] };
-    const mockResponse = new Response(JSON.stringify(mockWorkout));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
-
-    const workout = await service.incrementNextWorkout(1);
-    expect(workout).toEqual(mockWorkout);
+    service.incrementNextWorkout(1).subscribe(workout => {
+      expect(workout).toEqual(mockWorkout);
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/regimen/nextWorkout/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockWorkout);
   });
 
-  it('#getUser should resolve to the backing user', async () => {
-    const userResponse = new Response(JSON.stringify({ userId: 'mock-user-id' }));
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(userResponse));
+  it('#getUser should cache the user and fetch only once', () => {
+    let received: string | undefined;
+    service.getUser().subscribe(u => received = u.userId);
+    const req = httpMock.expectOne(`${environment.apiUrl}/user`);
+    req.flush({ userId: 'mock-user-id' });
+    expect(received).toBe('mock-user-id');
 
-    const user = await service.getUser();
-    expect(user).toBeDefined();
-    expect(user.userId).toBe('mock-user-id');
-  });
-
-  it('#getUser should cache the user and fetch only once', async () => {
-    const userResponse = new Response(JSON.stringify({ userId: 'mock-user-id' }));
-    const fetchSpy = spyOn(window, 'fetch').and.returnValue(Promise.resolve(userResponse));
-
-    await service.getUser();
-    await service.getUser();
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    // Second call replays the cached value with no new request.
+    service.getUser().subscribe(u => expect(u.userId).toBe('mock-user-id'));
+    httpMock.expectNone(`${environment.apiUrl}/user`);
   });
 
 });

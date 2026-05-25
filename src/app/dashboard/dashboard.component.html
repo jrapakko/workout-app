@@ -1,4 +1,5 @@
-@if (nextWorkout && nextWorkout.exercises) {
+@if (nextWorkout(); as nextWorkout) {
+  @if (nextWorkout.exercises) {
     <mat-card id="exercise-card-dash">
         <mat-card-header class="exercise-list-header">
             <h2>{{ nextWorkout.name }}</h2>
@@ -46,4 +47,5 @@
         </mat-card-actions>
 
     </mat-card>
+  }
 }
