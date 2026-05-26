@@ -19,7 +19,13 @@ export class AuthService {
   }
 
   async getUserName(): Promise<string | undefined> {
-    return await fetch(this.keycloak.authServerUrl + 'realms/' + this.keycloak.realm + '/protocol/openid-connect/userinfo', {
+    const baseUrl = (this.keycloak as any).url || (this.keycloak as any).authServerUrl;
+    if (!baseUrl) {
+      console.warn('Keycloak URL is not configured or available.');
+      return undefined;
+    }
+    const normalizedUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    return await fetch(normalizedUrl + 'realms/' + this.keycloak.realm + '/protocol/openid-connect/userinfo', {
       headers: this.getAuthHeader()
     }).then(response => {
       if (response.ok) {
@@ -30,6 +36,9 @@ export class AuthService {
         console.error('Failed to fetch user info:', response.statusText);
         return undefined;
       }
+    }).catch(err => {
+      console.error('Network error fetching user info from Keycloak:', err);
+      return undefined;
     });
   }
 

@@ -18,15 +18,16 @@ import { LoadingService } from './loading.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // initOptions present so keycloak-angular runs its built-in app initializer,
+    // which also configures registered features (e.g. withAutoRefreshToken).
     provideKeycloak({
          config: {
            url: 'https://keycloak.jrpko.dev/',
-           realm: "workout-app",
+           realm: 'workout-app',
            clientId: 'angular-client'
          },
          initOptions: {
-           onLoad: 'login-required',
-          //  silentCheckSsoRedirectUri: 'http://keycloak.localhost/realms/workout-app/protocol/openid-connect/login-status-iframe.html'
+           onLoad: 'login-required'
          },
          features: [
           withAutoRefreshToken({

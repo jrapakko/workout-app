@@ -18,9 +18,14 @@ export class NavbarComponent {
   userName: string = 'User';
   isMenuCollapsed: boolean = true;
   constructor(private authService: AuthService) {
-    this.authService.getUserName().then((name: string | undefined) => {
-      this.userName = name || 'User';
-    });
+    this.authService.getUserName()
+      .then((name: string | undefined) => {
+        this.userName = name || 'User';
+      })
+      .catch((err) => {
+        console.error('Failed to resolve username from auth service:', err);
+        this.userName = 'User';
+      });
    }
 
    logout(): void {
