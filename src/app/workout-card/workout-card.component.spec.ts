@@ -28,8 +28,7 @@ describe('WorkoutCardComponent', () => {
       id: 1,
       name: 'Test Workout',
       numberExercises: 0,
-      exercises: [],
-      user: {userId: 'mock-user-id'}
+      exercises: []
     };
     component.edit = false;
     component.regimen = false;
@@ -180,17 +179,14 @@ describe('WorkoutCardComponentWithExercise', () => {
         {
           id: 1, name: 'Test Exercise 1', sets: 3, reps: 10,
           previousWeight: 0,
-          cur_sets: [],
-          user: { userId: 'mock-user-id' }
+          cur_sets: []
         },
         {
           id: 2, name: 'Test Exercise 2', sets: 3, reps: 12,
           previousWeight: 0,
-          cur_sets: [],
-          user: { userId: 'mock-user-id' }
+          cur_sets: []
         }
-      ],
-      user: {userId: 'mock-user-id'}
+      ]
     };
     component.edit = false;
     component.regimen = false;

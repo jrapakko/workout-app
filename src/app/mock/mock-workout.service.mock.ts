@@ -11,7 +11,6 @@ export class MockWorkoutService {
         return of({
             id: 1,
             name: 'Mock Regimen',
-            user: this.user,
             numberWorkouts: 5,
             nextWorkoutIndex: 1,
             workouts: [
@@ -27,7 +26,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 2,
@@ -36,7 +34,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 3,
@@ -45,7 +42,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 4,
@@ -54,7 +50,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 5,
@@ -63,17 +58,14 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         }
                     ],
-                    user: this.user
                 },
                 {
                     id: 2,
                     name: 'Mock Cardio',
                     numberExercises: 0,
                     exercises: [],
-                    user: this.user
                 },
                 {
                     id: 3,
@@ -87,7 +79,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 2,
@@ -96,7 +87,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 3,
@@ -105,7 +95,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 4,
@@ -114,7 +103,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 5,
@@ -123,17 +111,14 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         }
                     ],
-                    user: this.user
                 },
                 {
                     id: 4,
                     name: 'Mock Cardio 2',
                     numberExercises: 0,
                     exercises: [],
-                    user: this.user
                 },
                 {
                     id: 5,
@@ -147,7 +132,6 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         },
                         {
                             id: 7,
@@ -156,10 +140,8 @@ export class MockWorkoutService {
                             reps: 3,
                             previousWeight: 100.0,
                             cur_sets: [],
-                            user: this.user
                         }
                     ],
-                    user: this.user
                 }
             ]
         });
@@ -179,7 +161,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 2,
@@ -188,7 +169,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 3,
@@ -197,7 +177,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 4,
@@ -206,7 +185,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 5,
@@ -215,17 +193,14 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     }
                 ],
-                user: this.user
             },
             {
                 id: 2,
                 name: 'Mock Cardio',
                 numberExercises: 0,
                 exercises: [],
-                user: this.user
             },
             {
                 id: 3,
@@ -239,7 +214,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 2,
@@ -248,7 +222,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 3,
@@ -257,7 +230,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 4,
@@ -266,7 +238,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 5,
@@ -275,17 +246,14 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     }
                 ],
-                user: this.user
             },
             {
                 id: 4,
                 name: 'Mock Cardio 2',
                 numberExercises: 0,
                 exercises: [],
-                user: this.user
             },
             {
                 id: 5,
@@ -299,7 +267,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 7,
@@ -308,10 +275,8 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     }
                 ],
-                user: this.user
             }
         ]);
     }
@@ -330,7 +295,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 2,
@@ -339,7 +303,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 3,
@@ -348,7 +311,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 4,
@@ -357,7 +319,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 5,
@@ -366,10 +327,8 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     }
                 ],
-                user: this.user
             }
         );
     }
@@ -388,7 +347,6 @@ export class MockWorkoutService {
 
     saveExercise(e: Exercise): Observable<Exercise> {
         e.id = 1;
-        e.user = this.user;
         return of(e);
     }
 
@@ -415,7 +373,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 2,
@@ -424,7 +381,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 3,
@@ -433,7 +389,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 4,
@@ -442,7 +397,6 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     },
                     {
                         id: 5,
@@ -451,10 +405,8 @@ export class MockWorkoutService {
                         reps: 3,
                         previousWeight: 100.0,
                         cur_sets: [],
-                        user: this.user
                     }
                 ],
-                user: this.user
             }
         );
     }

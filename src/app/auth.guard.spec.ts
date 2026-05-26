@@ -3,6 +3,7 @@ import { CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Url
 import { authGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service';
+import { WorkoutService } from './workout.service';
 import { Observable, of } from 'rxjs';
 import { MockKeycloakService } from './mock/mock-key-cloak.service.mock';
 import Keycloak from 'keycloak-js';
@@ -11,6 +12,7 @@ describe('authGuard', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let workoutServiceSpy: jasmine.SpyObj<WorkoutService>;
   let keycloakMock: MockKeycloakService;
 
   const executeGuard: CanActivateFn = (...guardParameters) =>
@@ -20,12 +22,15 @@ describe('authGuard', () => {
     const authSpy = jasmine.createSpyObj('AuthService', ['getUserName']);
     const loadingSpy = jasmine.createSpyObj('LoadingService', ['show', 'hide']);
     const rSpy = jasmine.createSpyObj('Router', ['parseUrl']);
+    const workoutSpy = jasmine.createSpyObj('WorkoutService', ['getUser']);
+    workoutSpy.getUser.and.returnValue(of({ userId: 'test-user' }));
 
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useValue: authSpy },
         { provide: LoadingService, useValue: loadingSpy },
         { provide: Router, useValue: rSpy },
+        { provide: WorkoutService, useValue: workoutSpy },
         { provide: Keycloak, useClass: MockKeycloakService }
       ]
     });
@@ -33,6 +38,7 @@ describe('authGuard', () => {
     authServiceSpy = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     loadingServiceSpy = TestBed.inject(LoadingService) as jasmine.SpyObj<LoadingService>;
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    workoutServiceSpy = TestBed.inject(WorkoutService) as jasmine.SpyObj<WorkoutService>;
     keycloakMock = TestBed.inject(Keycloak) as unknown as MockKeycloakService;
   });
 
@@ -91,5 +97,6 @@ describe('authGuard', () => {
     expect(routerSpy.parseUrl).toHaveBeenCalledWith('/service-unavailable');
     expect(loadingServiceSpy.show).not.toHaveBeenCalled();
     expect(authServiceSpy.getUserName).not.toHaveBeenCalled();
+    expect(workoutServiceSpy.getUser).not.toHaveBeenCalled();
   });
 });

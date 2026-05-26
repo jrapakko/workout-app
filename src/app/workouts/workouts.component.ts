@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { Workout, User } from '../workout';
+import { Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { Router } from '@angular/router';
@@ -15,13 +15,11 @@ import { Router } from '@angular/router';
 })
 export class WorkoutsComponent implements OnInit {
 
-  readonly user = signal<User | undefined>(undefined);
   readonly workouts = signal<Workout[]>([]);
 
   constructor(private workoutService: WorkoutService, private router: Router) {}
 
   ngOnInit(): void {
-    this.workoutService.getUser().subscribe((user: User) => this.user.set(user));
     this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => {
       this.workouts.set(workouts);
       if (workouts.length < 1) {

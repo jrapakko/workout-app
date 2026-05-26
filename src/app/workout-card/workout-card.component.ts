@@ -1,6 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { Component, Input, Output, booleanAttribute, EventEmitter } from '@angular/core';
-import { Workout, Exercise, User } from '../workout';
+import { Workout, Exercise } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule } from '@angular/forms';
 
@@ -16,10 +16,6 @@ import { FormsModule } from '@angular/forms';
     styleUrl: './workout-card.component.css'
 })
 export class WorkoutCardComponent {
-  // Optional: the card never reads `user` (the backend derives identity from the
-  // JWT), and parents now pass a possibly-undefined signal value. Vestigial — a
-  // candidate for removal along with the parent bindings.
-  @Input() user?: User;
   @Input({ required: true }) workout!: Workout;
   @Input({ transform: booleanAttribute }) edit: boolean;
   @Input({ transform: booleanAttribute }) regimen: boolean;

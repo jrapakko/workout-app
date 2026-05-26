@@ -2,6 +2,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service';
+import { WorkoutService } from './workout.service';
 import { map } from 'rxjs';
 import Keycloak from 'keycloak-js';
 
@@ -16,8 +17,12 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const authService = inject(AuthService);
   const loadingService = inject(LoadingService);
+  const workoutService = inject(WorkoutService);
 
   loadingService.show();
+  // Prime the backend "get or create user" once per session (shareReplay
+  // caches the result); fire-and-forget so we don't block navigation on it.
+  workoutService.getUser().subscribe();
 
   return authService.getUserName().pipe(
     map((userName) => {

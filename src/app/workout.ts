@@ -1,12 +1,9 @@
-// NOTE: these mirror the API response DTOs. Fields the API does NOT return are
-// marked optional and exist only for client-side use:
-//   - user      -> the client already knows who it is (AuthService); never echoed back
-//   - cur_sets  -> the in-progress set log the dashboard builds when logging a session
+// NOTE: cur_sets is the in-progress set log the dashboard builds when logging
+// a session — it lives only on the client and is not echoed back by the API.
 
 export interface ExerciseSet {
     reps: number,
-    weight: number,
-    user?: User
+    weight: number
 }
 
 export interface Exercise {
@@ -15,16 +12,14 @@ export interface Exercise {
     sets: number,
     reps: number,
     previousWeight: number,
-    cur_sets?: ExerciseSet[],
-    user?: User
+    cur_sets?: ExerciseSet[]
 }
 
 export interface Workout {
     id: number,
     name: string,
     numberExercises: number,
-    exercises: Exercise[],
-    user?: User
+    exercises: Exercise[]
 }
 
 export interface Regimen {
@@ -32,8 +27,7 @@ export interface Regimen {
     name: string,
     numberWorkouts: number,
     nextWorkoutIndex: number,
-    workouts: Workout[],
-    user?: User
+    workouts: Workout[]
 }
 
 export interface User {
