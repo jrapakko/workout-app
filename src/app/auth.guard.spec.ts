@@ -4,7 +4,7 @@ import { authGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service';
 import { WorkoutService } from './workout.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { MockKeycloakService } from './mock/mock-key-cloak.service.mock';
 import Keycloak from 'keycloak-js';
 
@@ -24,6 +24,7 @@ describe('authGuard', () => {
     const rSpy = jasmine.createSpyObj('Router', ['parseUrl']);
     const workoutSpy = jasmine.createSpyObj('WorkoutService', ['getUser']);
     workoutSpy.getUser.and.returnValue(of({ userId: 'test-user' }));
+    authSpy.getUserName.and.returnValue(of('test-user'));
 
     TestBed.configureTestingModule({
       providers: [
@@ -46,9 +47,7 @@ describe('authGuard', () => {
     expect(executeGuard).toBeTruthy();
   });
 
-  it('should allow navigation when getUserName emits a name, toggling the loader', (done) => {
-    authServiceSpy.getUserName.and.returnValue(of('test-user'));
-
+  it('should allow navigation when both getUserName and getUser succeed, toggling the loader', (done) => {
     const route = {} as ActivatedRouteSnapshot;
     const state = { url: '/dashboard' } as RouterStateSnapshot;
 
@@ -58,6 +57,8 @@ describe('authGuard', () => {
 
     result.subscribe((res) => {
       expect(res).toBeTrue();
+      expect(authServiceSpy.getUserName).toHaveBeenCalled();
+      expect(workoutServiceSpy.getUser).toHaveBeenCalled();
       expect(loadingServiceSpy.hide).toHaveBeenCalled();
       done();
     });
@@ -65,6 +66,26 @@ describe('authGuard', () => {
 
   it('should redirect to service-unavailable when getUserName emits undefined', (done) => {
     authServiceSpy.getUserName.and.returnValue(of(undefined));
+    const mockUrlTree = {} as UrlTree;
+    routerSpy.parseUrl.and.returnValue(mockUrlTree);
+
+    const route = {} as ActivatedRouteSnapshot;
+    const state = { url: '/dashboard' } as RouterStateSnapshot;
+
+    const result = executeGuard(route, state) as Observable<boolean | UrlTree>;
+
+    expect(loadingServiceSpy.show).toHaveBeenCalled();
+
+    result.subscribe((res) => {
+      expect(res).toBe(mockUrlTree);
+      expect(routerSpy.parseUrl).toHaveBeenCalledWith('/service-unavailable');
+      expect(loadingServiceSpy.hide).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should redirect to service-unavailable when getUser errors', (done) => {
+    workoutServiceSpy.getUser.and.returnValue(throwError(() => new Error('Backend down')));
     const mockUrlTree = {} as UrlTree;
     routerSpy.parseUrl.and.returnValue(mockUrlTree);
 
