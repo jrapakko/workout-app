@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
     templateUrl: './workouts.component.html',
     styleUrl: './workouts.component.css'
 })
-export class WorkoutsComponent {
+export class WorkoutsComponent implements OnInit {
 
   readonly user = signal<User | undefined>(undefined);
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService, private router: Router) {
+  constructor(private workoutService: WorkoutService, private router: Router) {}
+
+  ngOnInit(): void {
     this.workoutService.getUser().subscribe((user: User) => this.user.set(user));
     this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => {
       this.workouts.set(workouts);

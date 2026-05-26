@@ -1,6 +1,6 @@
 import { CdkDragDrop, DragDropModule, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card'
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Regimen, Workout, User } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
@@ -17,13 +17,15 @@ import { Router } from '@angular/router';
     templateUrl: './regimen.component.html',
     styleUrl: './regimen.component.css'
 })
-export class RegimenComponent {
+export class RegimenComponent implements OnInit {
 
   readonly user = signal<User | undefined>(undefined);
   readonly regimen = signal<Regimen | undefined>(undefined);
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService, private router: Router) {
+  constructor(private workoutService: WorkoutService, private router: Router) {}
+
+  ngOnInit(): void {
     this.workoutService.getUser().subscribe((user: User) => this.user.set(user));
     this.workoutService.getRegimen().subscribe((regimen: Regimen) => {
       this.regimen.set(regimen);

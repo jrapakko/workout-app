@@ -1,5 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -17,14 +17,14 @@ import { Router } from '@angular/router';
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   readonly nextWorkout = signal<Workout | undefined>(undefined);
 
   constructor(private workoutService: WorkoutService, private router: Router) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.workoutService.getNextWorkout().subscribe((nextWorkout: Workout) => {
       if (!nextWorkout.exercises) {
         // No exercises => no usable next workout: send the user to their routine if
