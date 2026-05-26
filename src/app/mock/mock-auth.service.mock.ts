@@ -1,10 +1,8 @@
-export class MockAuthService {
-  getAuthHeader(): HeadersInit {
-    return new Headers({ 'Content-Type': 'application/json; charset=UTF-8', Authorization: 'Bearer mock-token' });
-  }
+import { Observable, of } from 'rxjs';
 
-  async getUserName(): Promise<string | undefined> {
-    return Promise.resolve('user');
+export class MockAuthService {
+  getUserName(): Observable<string | undefined> {
+    return of('user');
   }
 
   logout(): void {

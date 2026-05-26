@@ -3,7 +3,7 @@ import { CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Url
 import { authGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MockKeycloakService } from './mock/mock-key-cloak.service.mock';
 import Keycloak from 'keycloak-js';
 
@@ -40,8 +40,8 @@ describe('authGuard', () => {
     expect(executeGuard).toBeTruthy();
   });
 
-  it('should allow navigation when getUserName resolves with a name, toggling the loader', (done) => {
-    authServiceSpy.getUserName.and.returnValue(Promise.resolve('test-user'));
+  it('should allow navigation when getUserName emits a name, toggling the loader', (done) => {
+    authServiceSpy.getUserName.and.returnValue(of('test-user'));
 
     const route = {} as ActivatedRouteSnapshot;
     const state = { url: '/dashboard' } as RouterStateSnapshot;
@@ -57,28 +57,8 @@ describe('authGuard', () => {
     });
   });
 
-  it('should redirect to service-unavailable when getUserName resolves undefined', (done) => {
-    authServiceSpy.getUserName.and.returnValue(Promise.resolve(undefined));
-    const mockUrlTree = {} as UrlTree;
-    routerSpy.parseUrl.and.returnValue(mockUrlTree);
-
-    const route = {} as ActivatedRouteSnapshot;
-    const state = { url: '/dashboard' } as RouterStateSnapshot;
-
-    const result = executeGuard(route, state) as Observable<boolean | UrlTree>;
-
-    expect(loadingServiceSpy.show).toHaveBeenCalled();
-
-    result.subscribe((res) => {
-      expect(res).toBe(mockUrlTree);
-      expect(routerSpy.parseUrl).toHaveBeenCalledWith('/service-unavailable');
-      expect(loadingServiceSpy.hide).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should redirect to service-unavailable when getUserName rejects', (done) => {
-    authServiceSpy.getUserName.and.returnValue(Promise.reject(new Error('Network error')));
+  it('should redirect to service-unavailable when getUserName emits undefined', (done) => {
+    authServiceSpy.getUserName.and.returnValue(of(undefined));
     const mockUrlTree = {} as UrlTree;
     routerSpy.parseUrl.and.returnValue(mockUrlTree);
 

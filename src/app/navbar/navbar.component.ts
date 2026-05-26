@@ -1,34 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from '../auth.service';
 
 @Component({
-    selector: 'app-navbar',
-    standalone: true,
-    imports: [
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [
     NgbCollapse,
     RouterLink
-],
-    templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.css'
+  ],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   userName: string = 'User';
   isMenuCollapsed: boolean = true;
-  constructor(private authService: AuthService) {
-    this.authService.getUserName()
-      .then((name: string | undefined) => {
-        this.userName = name || 'User';
-      })
-      .catch((err) => {
-        console.error('Failed to resolve username from auth service:', err);
-        this.userName = 'User';
-      });
-   }
 
-   logout(): void {
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getUserName().subscribe(name => {
+      this.userName = name || 'User';
+    });
+  }
+
+  logout(): void {
     this.authService.logout();
-   }
+  }
 }

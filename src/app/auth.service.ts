@@ -1,49 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, of } from 'rxjs';
 
 import Keycloak from 'keycloak-js';
+
+interface UserInfoResponse {
+  preferred_username?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private token: string | undefined = undefined;
-  private refreshToken: string | undefined = undefined;
+  constructor(
+    private readonly keycloak: Keycloak,
+    private readonly http: HttpClient
+  ) {}
 
-  constructor(private readonly keycloak: Keycloak)  {}
-
-  getAuthHeader(): HeadersInit {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json; charset=UTF-8");
-    myHeaders.append("Authorization", `Bearer ${this.keycloak.token}`);
-    return myHeaders;
-  }
-
-  async getUserName(): Promise<string | undefined> {
-    const baseUrl = (this.keycloak as any).url || (this.keycloak as any).authServerUrl;
-    if (!baseUrl) {
+  getUserName(): Observable<string | undefined> {
+    if (!this.keycloak.authServerUrl) {
       console.warn('Keycloak URL is not configured or available.');
-      return undefined;
+      return of(undefined);
     }
-    const normalizedUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    return await fetch(normalizedUrl + 'realms/' + this.keycloak.realm + '/protocol/openid-connect/userinfo', {
-      headers: this.getAuthHeader()
-    }).then(response => {
-      if (response.ok) {
-        return response.json().then(data => {
-          return data.preferred_username;
-      });
-      } else {
-        console.error('Failed to fetch user info:', response.statusText);
-        return undefined;
-      }
-    }).catch(err => {
-      console.error('Network error fetching user info from Keycloak:', err);
-      return undefined;
-    });
+    const base = this.keycloak.authServerUrl.endsWith('/')
+      ? this.keycloak.authServerUrl
+      : `${this.keycloak.authServerUrl}/`;
+    const userinfoUrl = new URL(
+      `realms/${this.keycloak.realm}/protocol/openid-connect/userinfo`,
+      base
+    ).toString();
+
+    return this.http.get<UserInfoResponse>(userinfoUrl).pipe(
+      map(data => data.preferred_username),
+      catchError(err => {
+        console.error('Failed to fetch user info from Keycloak:', err);
+        return of(undefined);
+      })
+    );
   }
 
   logout(): void {
     this.keycloak.logout();
   }
-
 }

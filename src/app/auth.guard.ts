@@ -2,7 +2,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service';
-import { catchError, from, map, of } from 'rxjs';
+import { map } from 'rxjs';
 import Keycloak from 'keycloak-js';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -19,7 +19,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   loadingService.show();
 
-  return from(authService.getUserName()).pipe(
+  return authService.getUserName().pipe(
     map((userName) => {
       loadingService.hide();
       if (!userName) {
@@ -27,11 +27,6 @@ export const authGuard: CanActivateFn = (route, state) => {
         return router.parseUrl('/service-unavailable');
       }
       return true;
-    }),
-    catchError((err) => {
-      console.error('User initialization failed, redirecting to offline screen', err);
-      loadingService.hide();
-      return of(router.parseUrl('/service-unavailable'));
     })
   );
 };

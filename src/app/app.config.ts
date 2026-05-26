@@ -51,9 +51,13 @@ export const appConfig: ApplicationConfig = {
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [
-        // Matches environment.apiUrl's origin (https://api.jrpko.dev/...).
+        // environment.apiUrl's origin (https://api.jrpko.dev/...).
         createInterceptorCondition<IncludeBearerTokenCondition>({
           urlPattern: /^https:\/\/api\.jrpko\.dev(\/.*)?$/i
+        }),
+        // Keycloak's own endpoints (e.g. userinfo) so AuthService can use HttpClient.
+        createInterceptorCondition<IncludeBearerTokenCondition>({
+          urlPattern: /^https:\/\/keycloak\.jrpko\.dev(\/.*)?$/i
         })
       ]
     },
