@@ -1,0 +1,54 @@
+#exercise-card-dash {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto !important;
+}
+
+.exercise-dash-sub-row {
+  flex: 1 1 100%;
+  margin-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group mat-form-field {
+  flex: 1;
+  min-width: 140px;
+}
+
+.exercise-dash-sub-row button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.exercise-list-footer button {
+  width: 100%;
+  padding: 0.85rem !important;
+  font-size: 1.05rem !important;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
+}
+
+.exercise-card {
+  align-items: flex-start !important;
+}
+
+.exercise-name-dash {
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #b8b8d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: 100%;
+  justify-content: center !important;
+  margin-bottom: 0.5rem;
+}

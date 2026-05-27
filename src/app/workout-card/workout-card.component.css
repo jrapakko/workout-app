@@ -1,4 +1,34 @@
-.mat-mdc-card {
-    background-color: white;
-    width: 400px;
+.mat-mdc-card, mat-card {
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.exercise-sets-reps-sub-row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.exercise-sets-reps-sub-row mat-form-field {
+  flex: 1;
+  min-width: 80px;
+}
+
+.exercise-sets-reps-sub-row button {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.btn-add, .btn-save, .btn-delete, .btn-edit {
+  width: 100%;
+}
+
+.exercise-list-footer {
+  flex-direction: column;
+  gap: 0.75rem !important;
 }

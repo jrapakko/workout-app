@@ -1,24 +1,99 @@
 #all-workouts {
-    display: grid;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
 }
 
 .regimen-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    height: auto;
-    min-height: 400px;
-    overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 28px;
+  padding: 2rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-height: 380px;
+}
+
+.regimen-wrapper h2 {
+  font-size: 1.6rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #b8b8d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.75rem;
 }
 
 .workouts, .regimen {
-    display: flex;
-    height: 100%;
-    min-height: 400px;
-    clear: both;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  gap: 1.25rem;
+  min-height: 250px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.light {
-    color: #ccc;
+.workout-card-wrapper {
+  flex: 0 0 auto;
+  cursor: grab !important;
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.workout-card-wrapper:active {
+  cursor: grabbing !important;
+}
+
+/* Drag and Drop Placeholder */
+.workout-card-placeholder {
+  max-width: 400px;
+  width: 100%;
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-sizing: border-box;
+  animation: pulse-border 2s infinite ease-in-out;
+}
+
+.workout-card-placeholder-text {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-size: 0.95rem;
+  padding: 2rem 1rem !important;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Angular CDK Drag and Drop Animation Classes */
+.cdk-drag-preview {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+  transform: scale(1.05);
+  opacity: 0.9;
+  border: 1px solid rgba(98, 0, 238, 0.4) !important;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.workouts.cdk-drop-list-dragging .workout-card-wrapper:not(.cdk-drag-placeholder),
+.regimen.cdk-drop-list-dragging .workout-card-wrapper:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  50% {
+    border-color: rgba(98, 0, 238, 0.4);
+  }
 }

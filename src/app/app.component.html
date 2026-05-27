@@ -1,7 +1,8 @@
 <app-navbar />
 
-<router-outlet />
-<!-- CONTENT IN ROUTER -->
+<main class="app-main-container">
+  <router-outlet />
+</main>
 
 @if (loadingService.isLoading()) {
   <div class="loading-overlay">

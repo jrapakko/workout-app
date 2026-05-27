@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Finlandica:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     /* Bootstrap loader: visible from initial HTML parse until Angular renders
@@ -22,18 +23,26 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #fff;
-      font-family: Roboto, sans-serif;
-      color: #333;
+      background: radial-gradient(circle at center, #1b1b22 0%, #0d0d12 100%);
+      font-family: 'Outfit', 'Finlandica', sans-serif;
+      color: #ffffff;
     }
     .boot-spinner {
       width: 48px;
       height: 48px;
-      border: 4px solid #e0e0e0;
-      border-top-color: #673ab7;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #6200ee;
+      border-right-color: #03dac6;
       border-radius: 50%;
       animation: boot-spin 1s linear infinite;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .boot-loader p {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.7);
     }
     @keyframes boot-spin {
       to { transform: rotate(360deg); }
@@ -44,7 +53,7 @@
   <app-root>
     <div class="boot-loader">
       <div class="boot-spinner"></div>
-      <p>Loading…</p>
+      <p>LOADING</p>
     </div>
   </app-root>
 </body>
