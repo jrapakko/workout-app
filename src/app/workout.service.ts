@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, shareReplay, throwError } from 'rxjs';
-import { Regimen, Workout, Exercise, User } from './workout';
+import { Regimen, Workout, Exercise, User, CreateExerciseRequest, CreateWorkoutRequest } from './workout';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class WorkoutService {
     return this.http.delete<boolean>(`${environment.apiUrl}/workout/delete/${id}`);
   }
 
-  saveWorkout(w: Workout): Observable<Workout> {
+  saveWorkout(w: CreateWorkoutRequest): Observable<Workout> {
     return this.http.post<Workout>(`${environment.apiUrl}/workout`, w);
   }
 
@@ -47,7 +47,7 @@ export class WorkoutService {
     return this.http.put<Regimen>(`${environment.apiUrl}/regimen`, body);
   }
 
-  saveExercise(e: Exercise): Observable<Exercise> {
+  saveExercise(e: CreateExerciseRequest): Observable<Exercise> {
     return this.http.post<Exercise>(`${environment.apiUrl}/exercise`, e);
   }
 

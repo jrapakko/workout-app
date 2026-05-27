@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 
 import { WorkoutService } from './workout.service';
 import { environment } from '../environments/environment';
-import { Exercise, Regimen, Workout } from './workout';
+import { CreateExerciseRequest, CreateWorkoutRequest, Exercise, Regimen, Workout } from './workout';
 
 describe('WorkoutService', () => {
   let service: WorkoutService;
@@ -91,13 +91,14 @@ describe('WorkoutService', () => {
     req.flush(true);
   });
 
-  it('#saveWorkout should POST the workout', () => {
-    const w: Workout = { id: 1, name: 'Test Workout', numberExercises: 0, exercises: [] };
-    service.saveWorkout(w).subscribe();
-    const req = httpMock.expectOne(`${environment.apiUrl}/workout`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(w);
-    req.flush(w);
+  it('#saveWorkout should POST the create-workout request', () => {
+    const req: CreateWorkoutRequest = { id: 0, name: 'Test Workout', exercises: [], numberExercises: 0 };
+    const created: Workout = { id: 1, name: 'Test Workout', numberExercises: 0, exercises: [] };
+    service.saveWorkout(req).subscribe();
+    const httpReq = httpMock.expectOne(`${environment.apiUrl}/workout`);
+    expect(httpReq.request.method).toBe('POST');
+    expect(httpReq.request.body).toEqual(req);
+    httpReq.flush(created);
   });
 
   it('#saveRegimen should PUT membership + order as workout ids', () => {
@@ -122,15 +123,16 @@ describe('WorkoutService', () => {
     req.flush(regimen);
   });
 
-  it('#saveExercise should POST and return the new exercise', () => {
-    const mockExercise: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [] };
-    service.saveExercise(mockExercise).subscribe(exercise => {
-      expect(exercise).toEqual(mockExercise);
+  it('#saveExercise should POST the create-exercise request and return the exercise', () => {
+    const req: CreateExerciseRequest = { name: 'Test Exercise', sets: 3, reps: 10 };
+    const created: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [] };
+    service.saveExercise(req).subscribe(exercise => {
+      expect(exercise).toEqual(created);
     });
-    const req = httpMock.expectOne(`${environment.apiUrl}/exercise`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(mockExercise);
-    req.flush(mockExercise);
+    const httpReq = httpMock.expectOne(`${environment.apiUrl}/exercise`);
+    expect(httpReq.request.method).toBe('POST');
+    expect(httpReq.request.body).toEqual(req);
+    httpReq.flush(created);
   });
 
   it('#updateWorkout should PUT the workout', () => {

@@ -116,8 +116,8 @@ h1, h2, h3, h4, h5, h6 {
 .row-item {
   display: flex;
   flex: 1;
-  min-width: 120px;
   font-size: 0.95rem;
+  min-width: 60px;
   padding: 4px 0;
   justify-content: center;
   align-items: center;

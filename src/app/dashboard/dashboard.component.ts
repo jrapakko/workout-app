@@ -58,15 +58,9 @@ export class DashboardComponent implements OnInit {
       return;
     }
     for (const exercise of workout.exercises) {
-      if (!exercise.cur_sets) {
-        exercise.cur_sets = [];
-      }
-    }
-    if (workout.exercises.length >= 1 && (workout.exercises[0].cur_sets?.length ?? 0) < 1) {
-      for (const exercise of workout.exercises) {
-        for (let i = 0; i < exercise.sets; i++) {
-          exercise.cur_sets?.push({ reps: 0, weight: 0 } as ExerciseSet);
-        }
+      exercise.cur_sets ??= [];
+      while (exercise.cur_sets.length < exercise.sets) {
+        exercise.cur_sets.push({ reps: 0, weight: 0 } as ExerciseSet);
       }
     }
   }

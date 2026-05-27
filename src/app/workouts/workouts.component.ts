@@ -31,10 +31,6 @@ export class WorkoutsComponent implements OnInit {
     this.workouts.update(ws => ws.filter((_, i) => i !== index));
   }
 
-  decrementExerciseNum(index: number) {
-    this.workouts()[index].numberExercises--;
-  }
-
   updateWorkout(index: number) {
     this.workoutService.updateWorkout(this.workouts()[index]).subscribe();
   }

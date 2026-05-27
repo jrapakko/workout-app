@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Workout, Exercise } from '../workout';
+import { CreateExerciseRequest, CreateWorkoutRequest } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,10 +36,13 @@ export class WorkoutFormComponent {
   }
 
   newExercise(): FormGroup {
+    // Validators.required is paired with Validators.min(1) because min() returns
+    // null (no error) for empty/null values — without required, a cleared field
+    // would let the form pass validation and ship null to the server.
     return this.formBuilder.group({
       name: ['', Validators.required],
-      sets: [0, Validators.min(1)],
-      reps: [0, Validators.min(1)]
+      sets: [1, [Validators.required, Validators.min(1)]],
+      reps: [1, [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -52,14 +55,22 @@ export class WorkoutFormComponent {
   }
 
   onSubmit() {
-    const raw = this.workoutForm.getRawValue();
-    const w: Workout = {
-      id: 0,
-      name: raw.name as string,
-      exercises: raw.exercises as Exercise[],
-      numberExercises: raw.exercises.length
+    const raw = this.workoutForm.getRawValue() as {
+      name: string | null;
+      exercises: Array<{ name: string | null; sets: number | null; reps: number | null }>;
     };
-    this.workoutService.saveWorkout(w).subscribe();
+    const exercises: CreateExerciseRequest[] = raw.exercises.map(e => ({
+      name: e.name!,
+      sets: e.sets!,
+      reps: e.reps!
+    }));
+    const req: CreateWorkoutRequest = {
+      id: 0,
+      name: raw.name!,
+      exercises,
+      numberExercises: exercises.length
+    };
+    this.workoutService.saveWorkout(req).subscribe();
     this.workoutForm.reset();
     this.exercises.clear();
   }
