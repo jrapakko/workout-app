@@ -27,8 +27,17 @@ export class WorkoutsComponent implements OnInit {
   }
 
   removeWorkout(index: number) {
-    this.workoutService.deleteWorkout(this.workouts()[index].id).subscribe();
+    // Optimistic: drop the workout from the UI first; if the server rejects
+    // the delete, resync from /workout/all so the list reflects server truth.
+    // Refetching (rather than reinserting locally) is robust against
+    // concurrent-delete ordering — if multiple deletes are in flight, an
+    // in-place revert could put items at the wrong index. errorInterceptor
+    // already surfaces the failure to the user via a snackbar.
+    const removed = this.workouts()[index];
     this.workouts.update(ws => ws.filter((_, i) => i !== index));
+    this.workoutService.deleteWorkout(removed.id).subscribe({
+      error: () => this.workoutService.getWorkouts().subscribe(ws => this.workouts.set(ws))
+    });
   }
 
   updateWorkout(index: number) {
