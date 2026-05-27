@@ -9,12 +9,14 @@ import {
   type IncludeBearerTokenCondition
 } from 'keycloak-angular';
 import { ApplicationConfig, inject, provideEnvironmentInitializer, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { WorkoutService } from './workout.service';
 import { LoadingService } from './loading.service';
+import { errorInterceptor } from './error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,13 +43,15 @@ export const appConfig: ApplicationConfig = {
          ]
     }),
     provideRouter(routes),
+    provideAnimationsAsync(),
     provideZoneChangeDetection({
       eventCoalescing: true
     }),
-    // HttpClient + keycloak's built-in bearer-token interceptor. The interceptor
-    // attaches the access token to requests whose URL matches a configured
-    // condition, so individual services no longer hand-build Authorization headers.
-    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    // HttpClient interceptors: errorInterceptor is outermost so it sees errors
+    // from both the bearer-token interceptor and the network. The bearer
+    // interceptor attaches the access token for URLs matching the conditions
+    // in INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG.
+    provideHttpClient(withInterceptors([errorInterceptor, includeBearerTokenInterceptor])),
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [

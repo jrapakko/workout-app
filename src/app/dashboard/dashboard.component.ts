@@ -3,8 +3,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -12,7 +11,8 @@ import { Router } from '@angular/router';
     standalone: true,
     imports: [
         MatCardModule,
-        FormsModule
+        FormsModule,
+        RouterLink
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
@@ -21,23 +21,10 @@ export class DashboardComponent implements OnInit {
 
   readonly nextWorkout = signal<Workout | undefined>(undefined);
 
-  constructor(private workoutService: WorkoutService, private router: Router) {
-  }
+  constructor(private workoutService: WorkoutService) {}
 
   ngOnInit(): void {
     this.workoutService.getNextWorkout().subscribe((nextWorkout: Workout) => {
-      if (!nextWorkout.exercises) {
-        // No exercises => no usable next workout: send the user to their routine if
-        // they have workouts to arrange, otherwise to create one.
-        this.workoutService.getRegimen().subscribe((regimen) => {
-          if (!regimen.workouts || regimen.workouts.length < 1) {
-            this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => {
-              this.router.navigate([workouts && workouts.length >= 1 ? '/routine' : '/add-workout']);
-            });
-          }
-        });
-        return;
-      }
       this.primeSets(nextWorkout);
       this.nextWorkout.set(nextWorkout);
     });
@@ -46,8 +33,7 @@ export class DashboardComponent implements OnInit {
   saveSets(index: number, exerciseForm: NgForm) {
     const w = this.nextWorkout();
     if (!w) return;
-    this.workoutService.saveExerciseSets(w.id, w.exercises[index].id, w.exercises[index])
-      .subscribe({ error: (e) => console.error('Failed to save sets', e) });
+    this.workoutService.saveExerciseSets(w.id, w.exercises[index].id, w.exercises[index]).subscribe();
   }
 
   incrementNextWorkout() {

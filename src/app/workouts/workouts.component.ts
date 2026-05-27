@@ -2,13 +2,14 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-workouts',
     standalone: true,
     imports: [
-        WorkoutCardComponent
+        WorkoutCardComponent,
+        RouterLink
     ],
     templateUrl: './workouts.component.html',
     styleUrl: './workouts.component.css'
@@ -17,24 +18,15 @@ export class WorkoutsComponent implements OnInit {
 
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService, private router: Router) {}
+  constructor(private workoutService: WorkoutService) {}
 
   ngOnInit(): void {
-    this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => {
-      this.workouts.set(workouts);
-      if (workouts.length < 1) {
-        this.router.navigate(['/add-workout']); // No workouts found
-      }
-    });
+    this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => this.workouts.set(workouts));
   }
 
   removeWorkout(index: number) {
-    this.workoutService.deleteWorkout(this.workouts()[index].id)
-      .subscribe({ error: (e) => console.error('Failed to delete workout', e) });
+    this.workoutService.deleteWorkout(this.workouts()[index].id).subscribe();
     this.workouts.update(ws => ws.filter((_, i) => i !== index));
-    if (this.workouts().length < 1) {
-      this.router.navigate(['/add-workout']); // No workouts left, redirect to add workout page
-    }
   }
 
   decrementExerciseNum(index: number) {
@@ -42,7 +34,6 @@ export class WorkoutsComponent implements OnInit {
   }
 
   updateWorkout(index: number) {
-    this.workoutService.updateWorkout(this.workouts()[index])
-      .subscribe({ error: (e) => console.error('Failed to update workout', e) });
+    this.workoutService.updateWorkout(this.workouts()[index]).subscribe();
   }
 }

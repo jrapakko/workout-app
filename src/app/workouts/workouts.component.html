@@ -1,14 +1,22 @@
 <div id="all-workouts">
     @if (workouts(); as workouts) {
-        @for (workout of workouts; track workout.id; let i = $index) {
-            <div class="workout-card-wrapper">
-                <app-workout-card
-                    [workout]="workout"
-                    (deleteWorkoutEvent)="removeWorkout(i)"
-                    (saveWorkoutEvent)="updateWorkout(i)"
-                    (deleteExerciseEvent)="decrementExerciseNum(i)">
-                </app-workout-card>
+        @if (workouts.length === 0) {
+            <div class="empty-state">
+                <h2>You have no workouts yet</h2>
+                <p>Create your first workout to get started.</p>
+                <button type="button" class="btn btn-primary" routerLink="/add-workout">Create workout</button>
             </div>
+        } @else {
+            @for (workout of workouts; track workout.id; let i = $index) {
+                <div class="workout-card-wrapper">
+                    <app-workout-card
+                        [workout]="workout"
+                        (deleteWorkoutEvent)="removeWorkout(i)"
+                        (saveWorkoutEvent)="updateWorkout(i)"
+                        (deleteExerciseEvent)="decrementExerciseNum(i)">
+                    </app-workout-card>
+                </div>
+            }
         }
     }
 </div>

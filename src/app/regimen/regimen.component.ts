@@ -4,7 +4,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-regimen',
@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
     imports: [
         DragDropModule,
         MatCardModule,
-        WorkoutCardComponent
+        WorkoutCardComponent,
+        RouterLink
     ],
     templateUrl: './regimen.component.html',
     styleUrl: './regimen.component.css'
@@ -22,21 +23,11 @@ export class RegimenComponent implements OnInit {
   readonly regimen = signal<Regimen | undefined>(undefined);
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService, private router: Router) {}
+  constructor(private workoutService: WorkoutService) {}
 
   ngOnInit(): void {
-    this.workoutService.getRegimen().subscribe((regimen: Regimen) => {
-      this.regimen.set(regimen);
-      if (!regimen.workouts) {
-        this.router.navigate(['/add-workout']); // short circuit if no workouts in regimen
-      }
-    });
-    this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => {
-      this.workouts.set(workouts);
-      if (workouts.length < 1) {
-        this.router.navigate(['/add-workout']); // short circuit if no workouts found
-      }
-    });
+    this.workoutService.getRegimen().subscribe((regimen: Regimen) => this.regimen.set(regimen));
+    this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => this.workouts.set(workouts));
   }
 
   drop(event: CdkDragDrop<Workout[]>) {
@@ -69,7 +60,6 @@ export class RegimenComponent implements OnInit {
   }
 
   private persistRegimen(regimen: Regimen) {
-    this.workoutService.saveRegimen(regimen)
-      .subscribe({ error: (e) => console.error('Failed to save regimen', e) });
+    this.workoutService.saveRegimen(regimen).subscribe();
   }
 }

@@ -11,8 +11,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Finlandica:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Bootstrap loader: visible from initial HTML parse until Angular renders
+       <app-root>'s template, which overwrites this content. Also covers the
+       brief window before keycloak-js navigates to the login page. */
+    .boot-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      font-family: Roboto, sans-serif;
+      color: #333;
+    }
+    .boot-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e0e0e0;
+      border-top-color: #673ab7;
+      border-radius: 50%;
+      animation: boot-spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes boot-spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body class="mat-typography">
-  <app-root></app-root>
+  <app-root>
+    <div class="boot-loader">
+      <div class="boot-spinner"></div>
+      <p>Loading…</p>
+    </div>
+  </app-root>
 </body>
 </html>

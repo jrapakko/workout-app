@@ -34,11 +34,8 @@ export class WorkoutCardComponent {
 
   addExercise() {
     const e: Exercise = {id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: []};
-    this.workoutService.saveExercise(e).subscribe({
-      next: (exercise: Exercise) => {
-        this.workout.numberExercises = this.workout.exercises.push(exercise);
-      },
-      error: (err) => console.error('Failed to add exercise', err)
+    this.workoutService.saveExercise(e).subscribe((exercise: Exercise) => {
+      this.workout.numberExercises = this.workout.exercises.push(exercise);
     });
   }
 

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { WorkoutsComponent } from './workouts.component';
 import { MockAuthService } from '../mock/mock-auth.service.mock';
@@ -16,7 +17,8 @@ describe('WorkoutsComponent', () => {
       imports: [WorkoutsComponent],
       providers: [
         { provide: WorkoutService, useClass: MockWorkoutService },
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
+        provideRouter([])
       ]
     })
     .compileComponents();

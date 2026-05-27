@@ -20,14 +20,9 @@ export class ServiceUnavailableComponent {
   retry() {
     this.isRetrying.set(true);
     this.loadingService.show();
-    
-    // Briefly delay to give a native retry animation feel, then navigate
-    // back to dashboard which will re-trigger the initialization check.
-    setTimeout(() => {
-      this.router.navigate(['/dashboard']).then(() => {
-        this.isRetrying.set(false);
-        this.loadingService.hide();
-      });
-    }, 1200);
+    this.router.navigate(['/dashboard']).then(() => {
+      this.isRetrying.set(false);
+      this.loadingService.hide();
+    });
   }
 }

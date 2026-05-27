@@ -14,7 +14,7 @@
                             <mat-card-header class="exercise-list-header">
                                 <h2>Placeholder</h2>
                             </mat-card-header>
-            
+
                             <mat-card-content>
                                 <p class="light workout-card-placeholder-text">Drag and drop workouts here to create a regimen.</p>
                             </mat-card-content>
@@ -27,13 +27,27 @@
     @if (workouts(); as workouts) {
     <div class="regimen-wrapper">
         <h2>Workouts</h2>
-        <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-            @for (workout of workouts; track workout.id) {
-                <div class="workout-card-wrapper cdk-drag" cdkDrag>
-                    <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
-                </div>
-            }
-        </div>
+        @if (workouts.length === 0) {
+            <mat-card>
+                <mat-card-header class="exercise-list-header">
+                    <h2>You have no workouts yet</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Create your first workout to start building a routine.</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button type="button" class="btn btn-primary" routerLink="/add-workout">Create workout</button>
+                </mat-card-actions>
+            </mat-card>
+        } @else {
+            <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
+                @for (workout of workouts; track workout.id) {
+                    <div class="workout-card-wrapper cdk-drag" cdkDrag>
+                        <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
+                    </div>
+                }
+            </div>
+        }
     </div>
     }
 </div>

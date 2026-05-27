@@ -1,5 +1,5 @@
 @if (nextWorkout(); as nextWorkout) {
-  @if (nextWorkout.exercises) {
+  @if (nextWorkout.exercises && nextWorkout.exercises.length > 0) {
     <mat-card id="exercise-card-dash">
         <mat-card-header class="exercise-list-header">
             <h2>{{ nextWorkout.name }}</h2>
@@ -46,6 +46,19 @@
             <button type="button" class="btn btn-primary btn-lg row-item" (click)="incrementNextWorkout()">Next Workout</button>
         </mat-card-actions>
 
+    </mat-card>
+  } @else {
+    <mat-card id="exercise-card-dash">
+        <mat-card-header class="exercise-list-header">
+            <h2>No upcoming workout</h2>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Set up a routine from your workouts, or create a new workout to get started.</p>
+        </mat-card-content>
+        <mat-card-actions class="exercise-list-footer">
+            <button type="button" class="btn btn-primary" routerLink="/routine">Set up routine</button>
+            <button type="button" class="btn btn-secondary" routerLink="/add-workout">Create workout</button>
+        </mat-card-actions>
     </mat-card>
   }
 }
