@@ -6,7 +6,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -17,8 +16,7 @@ import { RouterLink } from '@angular/router';
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
-        FormsModule,
-        RouterLink
+        FormsModule
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
@@ -53,6 +51,12 @@ export class DashboardComponent implements OnInit {
 
   /** Ensure every exercise has a cur_sets array pre-filled with one blank set per set. */
   private primeSets(workout: Workout) {
+    // API contract says exercises is Exercise[], but the placeholder
+    // "No Workouts Found" response can come back with a null exercises list.
+    if (!workout.exercises) {
+      workout.exercises = [];
+      return;
+    }
     for (const exercise of workout.exercises) {
       if (!exercise.cur_sets) {
         exercise.cur_sets = [];

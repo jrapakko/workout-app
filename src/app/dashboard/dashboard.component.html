@@ -1,64 +1,48 @@
 @if (nextWorkout(); as nextWorkout) {
-  @if (nextWorkout.exercises && nextWorkout.exercises.length > 0) {
-    <mat-card id="exercise-card-dash">
-        <mat-card-header class="exercise-list-header">
-            <h2>{{ nextWorkout.name }}</h2>
-        </mat-card-header>
+  <mat-card id="exercise-card-dash">
+    <mat-card-header class="exercise-list-header">
+      <h2>{{ nextWorkout.name }}</h2>
+    </mat-card-header>
 
-        <mat-card-content>
+    @if (nextWorkout.exercises && nextWorkout.exercises.length > 0) {
+      <mat-card-content>
+        <ul class="exercise-list">
+          @for (exercise of nextWorkout.exercises; track exercise.id; let i = $index) {
+            <li class="exercise-card table-row">
+              <div class="exercise-name exercise-name-dash row-item"><b>{{exercise.name}}</b></div>
+              <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
+              <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
+              <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
+              <div class="exercise-curr exercise-dash-sub-row row-sub-container">
+                <form (ngSubmit)="exerciseForm.resetForm();" #exerciseForm="ngForm">
+                  @for (set of exercise.cur_sets ?? []; track set; let j = $index) {
+                    <div class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
+                      <mat-form-field appearance="outline" class="row-item">
+                        <mat-label>Weight</mat-label>
+                        <input matInput type="number"
+                                [(ngModel)]="set.weight" name="weight-exercise-{{ i }}-set-{{ j }}"
+                                required>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="row-item">
+                        <mat-label>Reps</mat-label>
+                        <input matInput type="number"
+                                [(ngModel)]="set.reps" name="reps-exercise-{{ i }}-set-{{ j }}"
+                                required>
+                      </mat-form-field>
+                    </div>
+                  }
+                  <button mat-flat-button color="primary" type="submit" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i, exerciseForm);">Save Sets</button>
+                </form>
+              </div>
+            </li>
+          }
+        </ul>
+        <hr>
+      </mat-card-content>
+    }
 
-            <ul class="exercise-list">
-                @for (exercise of nextWorkout.exercises; track exercise.id; let i = $index) {
-                    <li class="exercise-card table-row">
-                        <div class="exercise-name exercise-name-dash row-item"><b>{{exercise.name}}</b></div>
-                        <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
-                        <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
-                        <div class="exercise-prev-reps row-item">Previous Weight: {{exercise.previousWeight}}</div>
-                        <div class="exercise-curr exercise-dash-sub-row row-sub-container">
-                        <form (ngSubmit)="exerciseForm.resetForm();" #exerciseForm="ngForm">
-                            @for (set of exercise.cur_sets ?? []; track set; let j = $index) {
-                                <div class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
-                                    <mat-form-field appearance="outline" class="row-item">
-                                        <mat-label>Weight</mat-label>
-                                        <input matInput type="number"
-                                                [(ngModel)]="set.weight" name="weight-exercise-{{ i }}-set-{{ j }}"
-                                                required>
-                                    </mat-form-field>
-                                    <mat-form-field appearance="outline" class="row-item">
-                                        <mat-label>Reps</mat-label>
-                                        <input matInput type="number"
-                                                [(ngModel)]="set.reps" name="reps-exercise-{{ i }}-set-{{ j }}"
-                                                required>
-                                    </mat-form-field>
-                                </div>
-                            }
-                            <button mat-flat-button color="primary" type="submit" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i, exerciseForm);">Save Sets</button>
-                        </form>
-                        </div>
-                    </li>
-                }
-            </ul>
-            <hr>
-
-        </mat-card-content>
-
-        <mat-card-actions class="exercise-list-footer">
-            <button mat-flat-button color="primary" type="button" (click)="incrementNextWorkout()">Next Workout</button>
-        </mat-card-actions>
-
-    </mat-card>
-  } @else {
-    <mat-card id="exercise-card-dash">
-        <mat-card-header class="exercise-list-header">
-            <h2>No upcoming workout</h2>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Set up a routine from your workouts, or create a new workout to get started.</p>
-        </mat-card-content>
-        <mat-card-actions class="exercise-list-footer">
-            <button mat-flat-button color="primary" type="button" routerLink="/routine">Set up routine</button>
-            <button mat-stroked-button type="button" routerLink="/add-workout">Create workout</button>
-        </mat-card-actions>
-    </mat-card>
-  }
+    <mat-card-actions class="exercise-list-footer">
+      <button mat-flat-button color="primary" type="button" (click)="incrementNextWorkout()">Next Workout</button>
+    </mat-card-actions>
+  </mat-card>
 }
