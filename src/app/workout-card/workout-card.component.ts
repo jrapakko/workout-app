@@ -23,16 +23,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class WorkoutCardComponent {
   @Input({ required: true }) workout!: Workout;
-  @Input({ transform: booleanAttribute }) edit: boolean;
-  @Input({ transform: booleanAttribute }) regimen: boolean;
+  @Input({ transform: booleanAttribute }) edit = false;
+  @Input({ transform: booleanAttribute }) regimen = false;
   @Output() deleteWorkoutEvent = new EventEmitter<void>();
   @Output() saveWorkoutEvent = new EventEmitter<void>();
   @Output() deleteExerciseEvent = new EventEmitter<void>();
 
-  constructor(private workoutService: WorkoutService) {
-    this.edit = false;
-    this.regimen = false;
-  }
+  constructor(private readonly workoutService: WorkoutService) {}
 
   toggleEdit() {
     this.edit = !this.edit;

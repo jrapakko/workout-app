@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, OnInit, signal } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
 
   readonly nextWorkout = signal<Workout | undefined>(undefined);
 
-  constructor(private workoutService: WorkoutService) {}
+  constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
     this.workoutService.getNextWorkout().subscribe((nextWorkout: Workout) => {
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  saveSets(index: number, exerciseForm: NgForm) {
+  saveSets(index: number) {
     const w = this.nextWorkout();
     if (!w) return;
     this.workoutService.saveExerciseSets(w.id, w.exercises[index].id, w.exercises[index]).subscribe();
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
     if (workout.exercises.length >= 1 && (workout.exercises[0].cur_sets?.length ?? 0) < 1) {
       for (const exercise of workout.exercises) {
         for (let i = 0; i < exercise.sets; i++) {
-          exercise.cur_sets?.push(<ExerciseSet>{ reps: 0, weight: 0 });
+          exercise.cur_sets?.push({ reps: 0, weight: 0 } as ExerciseSet);
         }
       }
     }

@@ -1,6 +1,15 @@
-/* Push the logout button to the right edge of the toolbar. */
+/* Push the user menu to the right edge of the toolbar. */
 .spacer {
     flex: 1 1 auto;
+}
+
+.user-menu-trigger {
+    font-weight: 500;
+}
+
+.mobile-menu-user {
+    font-weight: 600;
+    opacity: 1 !important;
 }
 
 .navbar-brand {

@@ -22,10 +22,9 @@ import { WorkoutService } from '../workout.service';
 export class WorkoutFormComponent {
 
   constructor(
-    private formBuilder: FormBuilder,
-    private workoutService: WorkoutService
-  ) {
-  }
+    private readonly formBuilder: FormBuilder,
+    private readonly workoutService: WorkoutService
+  ) {}
 
   workoutForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -42,7 +41,7 @@ export class WorkoutFormComponent {
       sets: [0, Validators.min(1)],
       reps: [0, Validators.min(1)]
     });
- }
+  }
 
   addExercise() {
     this.exercises.push(this.newExercise());
@@ -53,11 +52,12 @@ export class WorkoutFormComponent {
   }
 
   onSubmit() {
+    const raw = this.workoutForm.getRawValue();
     const w: Workout = {
       id: 0,
-      name: this.workoutForm.getRawValue().name as string,
-      exercises: this.workoutForm.getRawValue().exercises as Exercise[],
-      numberExercises: this.workoutForm.getRawValue().exercises.length
+      name: raw.name as string,
+      exercises: raw.exercises as Exercise[],
+      numberExercises: raw.exercises.length
     };
     this.workoutService.saveWorkout(w).subscribe();
     this.workoutForm.reset();

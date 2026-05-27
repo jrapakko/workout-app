@@ -24,7 +24,7 @@ import { AuthService } from '../auth.service';
 export class NavbarComponent implements OnInit {
   userName: string = 'User';
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getUserName().subscribe(name => {

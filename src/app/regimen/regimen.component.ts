@@ -25,7 +25,7 @@ export class RegimenComponent implements OnInit {
   readonly regimen = signal<Regimen | undefined>(undefined);
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService) {}
+  constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
     this.workoutService.getRegimen().subscribe((regimen: Regimen) => this.regimen.set(regimen));

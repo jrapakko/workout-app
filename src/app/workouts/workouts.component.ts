@@ -20,7 +20,7 @@ export class WorkoutsComponent implements OnInit {
 
   readonly workouts = signal<Workout[]>([]);
 
-  constructor(private workoutService: WorkoutService) {}
+  constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
     this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => this.workouts.set(workouts));

@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, shareReplay, throwError } from 'rxjs';
 import { Regimen, Workout, Exercise, User } from './workout';
@@ -16,23 +16,23 @@ export class WorkoutService {
   private user$?: Observable<User>;
 
   getRegimen(): Observable<Regimen> {
-    return this.http.get<Regimen>(environment.apiUrl + '/regimen/get');
+    return this.http.get<Regimen>(`${environment.apiUrl}/regimen/get`);
   }
 
   getWorkouts(): Observable<Workout[]> {
-    return this.http.get<Workout[]>(environment.apiUrl + '/workout/all');
+    return this.http.get<Workout[]>(`${environment.apiUrl}/workout/all`);
   }
 
   getNextWorkout(): Observable<Workout> {
-    return this.http.get<Workout>(environment.apiUrl + '/regimen/nextWorkout');
+    return this.http.get<Workout>(`${environment.apiUrl}/regimen/nextWorkout`);
   }
 
   deleteWorkout(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(environment.apiUrl + '/workout/delete/' + id);
+    return this.http.delete<boolean>(`${environment.apiUrl}/workout/delete/${id}`);
   }
 
   saveWorkout(w: Workout): Observable<Workout> {
-    return this.http.post<Workout>(environment.apiUrl + '/workout', w);
+    return this.http.post<Workout>(`${environment.apiUrl}/workout`, w);
   }
 
   saveRegimen(r: Regimen): Observable<Regimen> {
@@ -44,30 +44,30 @@ export class WorkoutService {
       nextWorkoutIndex: r.nextWorkoutIndex,
       workoutIds: r.workouts.map(w => w.id)
     };
-    return this.http.put<Regimen>(environment.apiUrl + '/regimen', body);
+    return this.http.put<Regimen>(`${environment.apiUrl}/regimen`, body);
   }
 
   saveExercise(e: Exercise): Observable<Exercise> {
-    return this.http.post<Exercise>(environment.apiUrl + '/exercise', e);
+    return this.http.post<Exercise>(`${environment.apiUrl}/exercise`, e);
   }
 
   updateWorkout(w: Workout): Observable<Workout> {
-    return this.http.put<Workout>(environment.apiUrl + '/workout', w);
+    return this.http.put<Workout>(`${environment.apiUrl}/workout`, w);
   }
 
   saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise): Observable<void> {
     return this.http.post<void>(
-      environment.apiUrl + '/exercise/sets/' + workoutId + '/' + exerciseId,
+      `${environment.apiUrl}/exercise/sets/${workoutId}/${exerciseId}`,
       exercise.cur_sets
     );
   }
 
   incrementNextWorkout(workoutId: number): Observable<Workout> {
-    return this.http.get<Workout>(environment.apiUrl + '/regimen/nextWorkout/' + workoutId);
+    return this.http.get<Workout>(`${environment.apiUrl}/regimen/nextWorkout/${workoutId}`);
   }
 
   getOrCreateUser(): Observable<User> {
-    return this.http.post<User>(environment.apiUrl + '/user', null);
+    return this.http.post<User>(`${environment.apiUrl}/user`, null);
   }
 
   /**
