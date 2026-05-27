@@ -17,17 +17,19 @@ import { routes } from './app.routes';
 import { WorkoutService } from './workout.service';
 import { LoadingService } from './loading.service';
 import { errorInterceptor } from './error.interceptor';
+import { environment } from '../environments/environment';
+
+// Builds `^<origin>(/.*)?$` (case-insensitive) from a URL's origin so the
+// bearer interceptor only attaches the token to requests whose host matches.
+const originPattern = (url: string): RegExp =>
+  new RegExp(`^${new URL(url).origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(/.*)?$`, 'i');
 
 export const appConfig: ApplicationConfig = {
   providers: [
     // initOptions present so keycloak-angular runs its built-in app initializer,
     // which also configures registered features (e.g. withAutoRefreshToken).
     provideKeycloak({
-         config: {
-           url: 'https://keycloak.jrpko.dev/',
-           realm: 'workout-app',
-           clientId: 'angular-client'
-         },
+         config: environment.keycloak,
          initOptions: {
            onLoad: 'login-required'
          },
@@ -55,13 +57,13 @@ export const appConfig: ApplicationConfig = {
     {
       provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
       useValue: [
-        // environment.apiUrl's origin (https://api.jrpko.dev/...).
+        // Backend API origin (from environment.apiUrl).
         createInterceptorCondition<IncludeBearerTokenCondition>({
-          urlPattern: /^https:\/\/api\.jrpko\.dev(\/.*)?$/i
+          urlPattern: originPattern(environment.apiUrl)
         }),
         // Keycloak's own endpoints (e.g. userinfo) so AuthService can use HttpClient.
         createInterceptorCondition<IncludeBearerTokenCondition>({
-          urlPattern: /^https:\/\/keycloak\.jrpko\.dev(\/.*)?$/i
+          urlPattern: originPattern(environment.keycloak.url)
         })
       ]
     },
