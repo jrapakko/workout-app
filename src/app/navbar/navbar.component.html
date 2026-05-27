@@ -1,31 +1,9 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-body-dark mb-3">
-	<div class="container-fluid">
-		<a class="navbar-brand" [routerLink]="'.'">Workout App</a>
-
-		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
-
-		<div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-			<ul class="navbar-nav">
-				<li class="nav-item active">
-					<a class="nav-link" [routerLink]="'dashboard'" (click)="isMenuCollapsed = true">Next Workout</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'workouts'" (click)="isMenuCollapsed = true">Edit Workouts</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'routine'" (click)="isMenuCollapsed = true">Edit Routine</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'add-workout'" (click)="isMenuCollapsed = true">Add Workout</a>
-				</li>
-                <hr >
-            </ul>
-            <ul class="navbar-nav logout-nav ml-auto">
-                <li class="nav-item">
-					<a class="nav-link logout-link" (click)="isMenuCollapsed = true; logout()"> Logout </a>
-                </li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<mat-toolbar color="primary">
+  <a mat-button [routerLink]="'.'" class="navbar-brand">Workout App</a>
+  <a mat-button routerLink="dashboard">Next Workout</a>
+  <a mat-button routerLink="workouts">Edit Workouts</a>
+  <a mat-button routerLink="routine">Edit Routine</a>
+  <a mat-button routerLink="add-workout">Add Workout</a>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>

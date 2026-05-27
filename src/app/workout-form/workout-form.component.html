@@ -1,36 +1,42 @@
 <div class="workout-form-wrapper">
     <h1><b>Add a Workout!</b></h1>
-    <br>
-    <br>
-    <br>
 
     <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
-        <h1>
-            <label for="workout-name">Workout Name: </label>
-            <input id="workout-name" type="text" class="form-control"
-                formControlName="name" name="workout-name">
-        </h1>
+        <mat-form-field appearance="outline" class="workout-name-field">
+            <mat-label>Workout name</mat-label>
+            <input matInput type="text" formControlName="name">
+        </mat-form-field>
 
         <div formArrayName="exercises">
             <h2>Exercises</h2>
 
             @for (exercise of exercises.controls; track exercise; let i = $index) {
-                <div formGroupName="{{ i }}">
-                    <label for="exercise-{{ i }}-name">Exercise Name: </label>
-                    <input id="exercise-{{ i }}-name" type="text" formControlName="name">
-                    <label for="exercise-{{ i }}-sets">Sets: </label>
-                    <input id="exercise-{{ i }}-sets" type="number" formControlName="sets">
-                    <label for="exercise-{{ i }}-reps">Reps: </label>
-                    <input id="exercise-{{ i }}-reps" type="number" formControlName="reps">
-                    <button type="button" (click)="removeExercise(i)">Remove</button>
+                <div formGroupName="{{ i }}" class="exercise-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Exercise name</mat-label>
+                        <input matInput type="text" formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sets</mat-label>
+                        <input matInput type="number" formControlName="sets">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Reps</mat-label>
+                        <input matInput type="number" formControlName="reps">
+                    </mat-form-field>
+                    <button mat-stroked-button color="warn" type="button" (click)="removeExercise(i)">Remove</button>
                 </div>
             }
 
-            <h2 class="add-exercise-button-wrapper"><button type="button" (click)="addExercise()">Add Exercise</button></h2>
+            <div class="add-exercise-button-wrapper">
+                <button mat-stroked-button type="button" (click)="addExercise()">Add Exercise</button>
+            </div>
 
         </div>
 
-        <h2><button type="submit" [disabled]="!workoutForm.valid">Submit</button></h2>
+        <div class="submit-wrapper">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!workoutForm.valid">Submit</button>
+        </div>
 
     </form>
 </div>

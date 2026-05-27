@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../auth.service';
 
@@ -8,7 +9,8 @@ import { AuthService } from '../auth.service';
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    NgbCollapse,
+    MatToolbarModule,
+    MatButtonModule,
     RouterLink
   ],
   templateUrl: './navbar.component.html',
@@ -16,7 +18,6 @@ import { AuthService } from '../auth.service';
 })
 export class NavbarComponent implements OnInit {
   userName: string = 'User';
-  isMenuCollapsed: boolean = true;
 
   constructor(private authService: AuthService) {}
 

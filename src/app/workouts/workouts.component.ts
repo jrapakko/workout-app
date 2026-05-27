@@ -3,13 +3,15 @@ import { Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-workouts',
     standalone: true,
     imports: [
         WorkoutCardComponent,
-        RouterLink
+        RouterLink,
+        MatButtonModule
     ],
     templateUrl: './workouts.component.html',
     styleUrl: './workouts.component.css'

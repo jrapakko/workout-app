@@ -4,7 +4,7 @@
             <div class="empty-state">
                 <h2>You have no workouts yet</h2>
                 <p>Create your first workout to get started.</p>
-                <button type="button" class="btn btn-primary" routerLink="/add-workout">Create workout</button>
+                <button mat-flat-button color="primary" type="button" routerLink="/add-workout">Create workout</button>
             </div>
         } @else {
             @for (workout of workouts; track workout.id; let i = $index) {

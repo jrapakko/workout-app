@@ -1,5 +1,6 @@
 import { CdkDragDrop, DragDropModule, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button';
 import { Component, OnInit, signal } from '@angular/core';
 import { Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
@@ -12,6 +13,7 @@ import { RouterLink } from '@angular/router';
     imports: [
         DragDropModule,
         MatCardModule,
+        MatButtonModule,
         WorkoutCardComponent,
         RouterLink
     ],

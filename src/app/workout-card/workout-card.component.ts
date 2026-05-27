@@ -1,4 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Component, Input, Output, booleanAttribute, EventEmitter } from '@angular/core';
 import { Workout, Exercise } from '../workout';
 import { WorkoutService } from '../workout.service';
@@ -10,6 +13,9 @@ import { FormsModule } from '@angular/forms';
     standalone: true,
     imports: [
         MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
         FormsModule
     ],
     templateUrl: './workout-card.component.html',

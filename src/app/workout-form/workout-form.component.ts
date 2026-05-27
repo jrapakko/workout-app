@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Workout, Exercise } from '../workout';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { WorkoutService } from '../workout.service';
 
@@ -8,8 +11,11 @@ import { WorkoutService } from '../workout.service';
     selector: 'app-workout-form',
     standalone: true,
     imports: [
-    ReactiveFormsModule
-],
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
     templateUrl: './workout-form.component.html',
     styleUrl: './workout-form.component.css'
 })

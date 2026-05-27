@@ -1,4 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Component, OnInit, signal } from '@angular/core';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
@@ -11,6 +14,9 @@ import { RouterLink } from '@angular/router';
     standalone: true,
     imports: [
         MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
         FormsModule,
         RouterLink
     ],

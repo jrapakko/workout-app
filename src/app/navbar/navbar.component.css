@@ -1,13 +1,9 @@
-nav {
-    background-color: #551a8b;
+/* Push the logout button to the right edge of the toolbar. */
+.spacer {
+    flex: 1 1 auto;
 }
 
-
-/* move username, etc. to right edge on wider screens */
-.logout-nav {
-    margin-left: auto;
-}
-
-.logout-link:hover {
-    cursor: pointer;
+.navbar-brand {
+    font-weight: 600;
+    margin-right: 1rem;
 }

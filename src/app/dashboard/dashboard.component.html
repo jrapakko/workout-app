@@ -18,32 +18,32 @@
                         <form (ngSubmit)="exerciseForm.resetForm();" #exerciseForm="ngForm">
                             @for (set of exercise.cur_sets ?? []; track set; let j = $index) {
                                 <div class="form-group form-exercise-{{ exercise.id }}-set-{{ j }}">
-                                    <div class="row-item">
-                                        <label for="weight-exercise-{{ i }}-set-{{ j }}">Weight: </label>
-                                        <input id="weight-exercise-{{ i }}-set-{{ j }}" type="number" class="form-control"
+                                    <mat-form-field appearance="outline" class="row-item">
+                                        <mat-label>Weight</mat-label>
+                                        <input matInput type="number"
                                                 [(ngModel)]="set.weight" name="weight-exercise-{{ i }}-set-{{ j }}"
                                                 required>
-                                    </div>
-                                    <div class="row-item">
-                                        <label for="reps-exercise-{{ i }}-set-{{ j }}">Reps: </label>
-                                        <input id="reps-exercise-{{ i }}-set-{{ j }}" type="number" class="form-control"
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row-item">
+                                        <mat-label>Reps</mat-label>
+                                        <input matInput type="number"
                                                 [(ngModel)]="set.reps" name="reps-exercise-{{ i }}-set-{{ j }}"
                                                 required>
-                                    </div>
+                                    </mat-form-field>
                                 </div>
                             }
-                            <button type="submit" class="btn btn-primary btn-lg" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i, exerciseForm);">Save Sets</button>
+                            <button mat-flat-button color="primary" type="submit" [disabled]="!exerciseForm.form.valid" (click)="saveSets(i, exerciseForm);">Save Sets</button>
                         </form>
                         </div>
                     </li>
                 }
             </ul>
-            <hr >
+            <hr>
 
         </mat-card-content>
 
         <mat-card-actions class="exercise-list-footer">
-            <button type="button" class="btn btn-primary btn-lg row-item" (click)="incrementNextWorkout()">Next Workout</button>
+            <button mat-flat-button color="primary" type="button" (click)="incrementNextWorkout()">Next Workout</button>
         </mat-card-actions>
 
     </mat-card>
@@ -56,8 +56,8 @@
             <p>Set up a routine from your workouts, or create a new workout to get started.</p>
         </mat-card-content>
         <mat-card-actions class="exercise-list-footer">
-            <button type="button" class="btn btn-primary" routerLink="/routine">Set up routine</button>
-            <button type="button" class="btn btn-secondary" routerLink="/add-workout">Create workout</button>
+            <button mat-flat-button color="primary" type="button" routerLink="/routine">Set up routine</button>
+            <button mat-stroked-button type="button" routerLink="/add-workout">Create workout</button>
         </mat-card-actions>
     </mat-card>
   }
