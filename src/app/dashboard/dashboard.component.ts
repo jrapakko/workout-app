@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /** Ensure every exercise has a cur_sets array pre-filled with one blank set per set. */
+  /** Ensure every exercise has a curSets array pre-filled with one blank set per set. */
   private primeSets(workout: Workout) {
     // API contract says exercises is Exercise[], but the placeholder
     // "No Workouts Found" response can come back with a null exercises list.
@@ -58,9 +58,9 @@ export class DashboardComponent implements OnInit {
       return;
     }
     for (const exercise of workout.exercises) {
-      exercise.cur_sets ??= [];
-      while (exercise.cur_sets.length < exercise.sets) {
-        exercise.cur_sets.push({ reps: 0, weight: 0 } as ExerciseSet);
+      exercise.curSets ??= [];
+      while (exercise.curSets.length < exercise.sets) {
+        exercise.curSets.push({ reps: 0, weight: 0 } as ExerciseSet);
       }
     }
   }

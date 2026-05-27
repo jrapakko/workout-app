@@ -1,4 +1,4 @@
-// NOTE: cur_sets is the in-progress set log the dashboard builds when logging
+// NOTE: curSets is the in-progress set log the dashboard builds when logging
 // a session — it lives only on the client and is not echoed back by the API.
 
 export interface ExerciseSet {
@@ -12,7 +12,7 @@ export interface Exercise {
     sets: number,
     reps: number,
     previousWeight: number,
-    cur_sets?: ExerciseSet[]
+    curSets?: ExerciseSet[]
 }
 
 export interface Workout {
@@ -35,7 +35,7 @@ export interface User {
 }
 
 // Wire shape for POST /exercise — server's CreateExerciseRequest enforces @Min(1)
-// on sets/reps. previousWeight and cur_sets are server-managed / client-only.
+// on sets/reps. previousWeight and curSets are server-managed / client-only.
 export interface CreateExerciseRequest {
     name: string,
     sets: number,

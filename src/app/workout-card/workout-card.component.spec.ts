@@ -114,7 +114,7 @@ describe('WorkoutCardComponent', () => {
       expect(component.workout.exercises.length).toBe(1);
       expect(component.workout.numberExercises).toBe(1);
       // can't check calling through workoutService
-      // expect(component.workoutService.saveExercise).toHaveBeenCalledWith({id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, cur_sets: [], user: component.user});
+      // expect(component.workoutService.saveExercise).toHaveBeenCalledWith({id: 0, name: "New Exercise", sets: 0, reps: 0, previousWeight: 0, curSets: [], user: component.user});
     });
   }));
 
@@ -179,12 +179,12 @@ describe('WorkoutCardComponentWithExercise', () => {
         {
           id: 1, name: 'Test Exercise 1', sets: 3, reps: 10,
           previousWeight: 0,
-          cur_sets: []
+          curSets: []
         },
         {
           id: 2, name: 'Test Exercise 2', sets: 3, reps: 12,
           previousWeight: 0,
-          cur_sets: []
+          curSets: []
         }
       ]
     };

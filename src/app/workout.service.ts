@@ -58,7 +58,7 @@ export class WorkoutService {
   saveExerciseSets(workoutId: number, exerciseId: number, exercise: Exercise): Observable<void> {
     return this.http.post<void>(
       `${environment.apiUrl}/exercise/sets/${workoutId}/${exerciseId}`,
-      exercise.cur_sets
+      exercise.curSets
     );
   }
 

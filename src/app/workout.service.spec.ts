@@ -125,7 +125,7 @@ describe('WorkoutService', () => {
 
   it('#saveExercise should POST the create-exercise request and return the exercise', () => {
     const req: CreateExerciseRequest = { name: 'Test Exercise', sets: 3, reps: 10 };
-    const created: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, cur_sets: [] };
+    const created: Exercise = { id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0, curSets: [] };
     service.saveExercise(req).subscribe(exercise => {
       expect(exercise).toEqual(created);
     });
@@ -144,10 +144,10 @@ describe('WorkoutService', () => {
     req.flush(w);
   });
 
-  it('#saveExerciseSets should POST the cur_sets', () => {
+  it('#saveExerciseSets should POST the curSets', () => {
     const exercise: Exercise = {
       id: 1, name: 'Test Exercise', sets: 3, reps: 10, previousWeight: 0.0,
-      cur_sets: [
+      curSets: [
         { weight: 100.0, reps: 10 },
         { weight: 100.0, reps: 10 },
         { weight: 100.0, reps: 10 }
@@ -156,7 +156,7 @@ describe('WorkoutService', () => {
     service.saveExerciseSets(1, 1, exercise).subscribe();
     const req = httpMock.expectOne(`${environment.apiUrl}/exercise/sets/1/1`);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(exercise.cur_sets);
+    expect(req.request.body).toEqual(exercise.curSets);
     req.flush(null);
   });
 

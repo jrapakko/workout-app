@@ -7,7 +7,7 @@ const exercise = (id: number): Exercise => ({
     sets: 3,
     reps: 3,
     previousWeight: 100.0,
-    cur_sets: [],
+    curSets: [],
 });
 
 const exercises = (count: number, startId = 1): Exercise[] =>
@@ -61,7 +61,7 @@ export class MockWorkoutService {
             numberExercises: w.exercises.length,
             exercises: w.exercises.map((e, i) => ({
                 id: i + 1, name: e.name, sets: e.sets, reps: e.reps,
-                previousWeight: 0, cur_sets: []
+                previousWeight: 0, curSets: []
             }))
         });
     }
@@ -71,7 +71,7 @@ export class MockWorkoutService {
     }
 
     saveExercise(e: CreateExerciseRequest): Observable<Exercise> {
-        return of({ id: 1, name: e.name, sets: e.sets, reps: e.reps, previousWeight: 0, cur_sets: [] });
+        return of({ id: 1, name: e.name, sets: e.sets, reps: e.reps, previousWeight: 0, curSets: [] });
     }
 
     updateWorkout(w: Workout): Observable<Workout> {
