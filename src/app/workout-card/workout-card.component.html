@@ -1,13 +1,13 @@
-@if (edit) {
-    <mat-card>
-        <mat-card-header class="exercise-list-header">
-            <h2>{{workout.name}}</h2>
-        </mat-card-header>
+<mat-card>
+    <mat-card-header class="exercise-list-header">
+        <h2>{{workout.name}}</h2>
+    </mat-card-header>
 
-        <mat-card-content>
-            <ul class="exercise-list">
-                @for (exercise of workout.exercises; track exercise; let i = $index) {
-                    <li class="exercise-card table-row">
+    <mat-card-content>
+        <ul class="exercise-list">
+            @for (exercise of workout.exercises; track exercise; let i = $index) {
+                <li class="exercise-card table-row">
+                    @if (edit) {
                         <mat-form-field appearance="outline" class="exercise-name row-item">
                             <mat-label>Exercise name</mat-label>
                             <input matInput type="text" [(ngModel)]="exercise.name" name="exercise-name-{{ i }}">
@@ -23,45 +23,23 @@
                             </mat-form-field>
                             <button mat-stroked-button color="warn" class="btn-remove" (click)="removeExercise(i)">Remove Exercise</button>
                         </div>
-                    </li>
-                }
-            </ul>
-        </mat-card-content>
-
-        <mat-card-actions class="exercise-list-footer">
-            <button mat-flat-button color="primary" class="btn-add" (click)="addExercise()">Add Exercise</button>
-            <button mat-flat-button color="primary" class="btn-save" (click)="saveWorkout()">Save Changes</button>
-            <button mat-stroked-button color="warn" class="btn-delete" (click)="deleteWorkout()">Remove Workout</button>
-        </mat-card-actions>
-
-    </mat-card>
-}
-
-@else {
-    <mat-card>
-        <mat-card-header class="exercise-list-header">
-            <h2>{{workout.name}}</h2>
-        </mat-card-header>
-
-        <mat-card-content>
-            <ul class="exercise-list">
-                @for (exercise of workout.exercises; track exercise) {
-                    <li class="exercise-card table-row">
+                    } @else {
                         <div class="exercise-name row-item"><b>{{exercise.name}}</b></div>
                         <div class="exercise-sets row-item">Sets: {{exercise.sets}}</div>
                         <div class="exercise-reps row-item">Reps: {{exercise.reps}}</div>
-                    </li>
-                }
-            </ul>
-        </mat-card-content>
-
-        <mat-card-actions class="exercise-list-footer">
-
-            @if (!regimen){
-                <button mat-flat-button color="primary" class="btn-edit" (click)="toggleEdit()">Edit</button>
+                    }
+                </li>
             }
+        </ul>
+    </mat-card-content>
 
-        </mat-card-actions>
-
-    </mat-card>
-}
+    <mat-card-actions class="exercise-list-footer">
+        @if (edit) {
+            <button mat-flat-button color="primary" class="btn-add" (click)="addExercise()">Add Exercise</button>
+            <button mat-flat-button color="primary" class="btn-save" (click)="saveWorkout()">Save Changes</button>
+            <button mat-stroked-button color="warn" class="btn-delete" (click)="deleteWorkout()">Remove Workout</button>
+        } @else if (!regimen) {
+            <button mat-flat-button color="primary" class="btn-edit" (click)="toggleEdit()">Edit</button>
+        }
+    </mat-card-actions>
+</mat-card>
