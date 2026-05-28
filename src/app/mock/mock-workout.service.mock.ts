@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { CreateExerciseRequest, CreateWorkoutRequest, Exercise, Regimen, User, Workout } from '../workout';
+import { CreateExerciseRequest, CreateWorkoutRequest, Exercise, Regimen, RegimenEdit, User, Workout } from '../workout';
 
 const exercise = (id: number): Exercise => ({
     id,
@@ -38,6 +38,19 @@ export class MockWorkoutService {
             name: 'Mock Regimen',
             numberWorkouts: 5,
             nextWorkoutIndex: 1,
+            workouts: allWorkouts(),
+        });
+    }
+
+    getRegimenEdit(): Observable<RegimenEdit> {
+        return of({
+            regimen: {
+                id: 1,
+                name: 'Mock Regimen',
+                numberWorkouts: 5,
+                nextWorkoutIndex: 1,
+                workouts: allWorkouts(),
+            },
             workouts: allWorkouts(),
         });
     }

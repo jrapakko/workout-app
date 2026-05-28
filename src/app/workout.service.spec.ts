@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 
 import { WorkoutService } from './workout.service';
 import { environment } from '../environments/environment';
-import { CreateExerciseRequest, CreateWorkoutRequest, Exercise, Regimen, Workout } from './workout';
+import { CreateExerciseRequest, CreateWorkoutRequest, Exercise, Regimen, RegimenEdit, Workout } from './workout';
 
 describe('WorkoutService', () => {
   let service: WorkoutService;
@@ -38,6 +38,28 @@ describe('WorkoutService', () => {
     const req = httpMock.expectOne(`${environment.apiUrl}/user`);
     expect(req.request.method).toBe('POST');
     req.flush({ userId: 'mock-user-id' });
+  });
+
+  it('#getRegimenEdit should return regimen and workouts in one payload', () => {
+    const mockRegimenEdit: RegimenEdit = {
+      regimen: {
+        id: 1,
+        name: 'Mock Regimen',
+        numberWorkouts: 2,
+        nextWorkoutIndex: 0,
+        workouts: []
+      },
+      workouts: [
+        { id: 1, name: 'Push', numberExercises: 0, exercises: [] },
+        { id: 2, name: 'Pull', numberExercises: 0, exercises: [] }
+      ]
+    };
+    service.getRegimenEdit().subscribe(re => {
+      expect(re).toEqual(mockRegimenEdit);
+    });
+    const req = httpMock.expectOne(`${environment.apiUrl}/regimen/edit`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockRegimenEdit);
   });
 
   it('#getRegimen should return a regimen', () => {

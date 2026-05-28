@@ -2,7 +2,7 @@ import { CdkDragDrop, DragDropModule, copyArrayItem, moveItemInArray } from '@an
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button';
 import { Component, OnInit, signal } from '@angular/core';
-import { Regimen, Workout } from '../workout';
+import { RegimenEdit, Regimen, Workout } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { WorkoutCardComponent } from '../workout-card/workout-card.component';
 import { RouterLink } from '@angular/router';
@@ -28,8 +28,10 @@ export class RegimenComponent implements OnInit {
   constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
-    this.workoutService.getRegimen().subscribe((regimen: Regimen) => this.regimen.set(regimen));
-    this.workoutService.getWorkouts().subscribe((workouts: Workout[]) => this.workouts.set(workouts));
+    this.workoutService.getRegimenEdit().subscribe((regimenEdit: RegimenEdit) => {
+        this.regimen.set(regimenEdit.regimen);
+        this.workouts.set(regimenEdit.workouts);
+    });
   }
 
   drop(event: CdkDragDrop<Workout[]>) {

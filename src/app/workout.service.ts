@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, shareReplay, throwError } from 'rxjs';
-import { Regimen, Workout, Exercise, User, CreateExerciseRequest, CreateWorkoutRequest } from './workout';
+import { Regimen, RegimenEdit, Workout, Exercise, User, CreateExerciseRequest, CreateWorkoutRequest } from './workout';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -14,6 +14,11 @@ export class WorkoutService {
   // Cached "get or create user" request, shared via getUser(). Auth is handled by
   // the bearer-token interceptor (see app.config.ts), so no method builds headers.
   private user$?: Observable<User>;
+
+  // Used for reducing requests on the wire (1 JSON with regimen and workout list
+  getRegimenEdit(): Observable<RegimenEdit> {
+    return this.http.get<RegimenEdit>(`${environment.apiUrl}/regimen/edit`);
+  }
 
   getRegimen(): Observable<Regimen> {
     return this.http.get<Regimen>(`${environment.apiUrl}/regimen/get`);

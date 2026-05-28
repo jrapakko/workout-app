@@ -30,6 +30,11 @@ export interface Regimen {
     workouts: Workout[]
 }
 
+export interface RegimenEdit {
+    regimen: Regimen,
+    workouts: Workout[]
+}
+
 export interface User {
     userId: string,
 }
