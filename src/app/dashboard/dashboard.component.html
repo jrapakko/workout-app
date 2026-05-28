@@ -1,4 +1,15 @@
-@if (nextWorkout(); as nextWorkout) {
+@if (noWorkouts()) {
+  <mat-card id="exercise-card-dash" class="empty-state">
+    <mat-card-content>
+      <h2>No workouts in your routine yet</h2>
+      <p>Add a workout, then drop it into your routine.</p>
+      <div class="empty-state-actions">
+        <button mat-flat-button color="primary" type="button" routerLink="/add-workout">Add Workout</button>
+        <button mat-stroked-button type="button" routerLink="/routine">Edit Routine</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+} @else if (nextWorkout(); as nextWorkout) {
   <mat-card id="exercise-card-dash">
     <mat-card-header class="exercise-list-header">
       <h2>{{ nextWorkout.name }}</h2>

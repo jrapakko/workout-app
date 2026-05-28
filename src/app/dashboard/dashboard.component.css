@@ -52,3 +52,24 @@ hr {
   justify-content: center !important;
   margin-bottom: 0.5rem;
 }
+
+.empty-state mat-card-content {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.empty-state h2 {
+  margin: 0 0 0.5rem;
+}
+
+.empty-state p {
+  margin: 0 0 1.25rem;
+  opacity: 0.8;
+}
+
+.empty-state-actions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}

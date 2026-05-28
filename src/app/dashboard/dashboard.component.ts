@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Workout, ExerciseSet } from '../workout';
 import { WorkoutService } from '../workout.service';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +18,8 @@ import { FormsModule } from '@angular/forms';
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
-        FormsModule
+        FormsModule,
+        RouterLink
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
@@ -24,13 +27,21 @@ import { FormsModule } from '@angular/forms';
 export class DashboardComponent implements OnInit {
 
   readonly nextWorkout = signal<Workout | undefined>(undefined);
+  readonly noWorkouts = signal(false);
 
   constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
-    this.workoutService.getNextWorkout().subscribe((nextWorkout: Workout) => {
-      this.primeSets(nextWorkout);
-      this.nextWorkout.set(nextWorkout);
+    this.workoutService.getNextWorkout().subscribe({
+      next: (nextWorkout: Workout) => {
+        this.primeSets(nextWorkout);
+        this.nextWorkout.set(nextWorkout);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.noWorkouts.set(true);
+        }
+      }
     });
   }
 
@@ -51,12 +62,6 @@ export class DashboardComponent implements OnInit {
 
   /** Ensure every exercise has a curSets array pre-filled with one blank set per set. */
   private primeSets(workout: Workout) {
-    // API contract says exercises is Exercise[], but the placeholder
-    // "No Workouts Found" response can come back with a null exercises list.
-    if (!workout.exercises) {
-      workout.exercises = [];
-      return;
-    }
     for (const exercise of workout.exercises) {
       exercise.curSets ??= [];
       while (exercise.curSets.length < exercise.sets) {

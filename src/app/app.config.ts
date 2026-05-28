@@ -31,7 +31,14 @@ export const appConfig: ApplicationConfig = {
     provideKeycloak({
          config: environment.keycloak,
          initOptions: {
-           onLoad: 'login-required'
+           onLoad: 'login-required',
+           // keycloak-js's iframe session check fires callbacks outside any
+           // injection context; when it errors (e.g. third-party-cookie blocks
+           // or CSP), Angular's INTERNAL_APPLICATION_ERROR_HANDLER factory
+           // tries to inject(EnvironmentInjector) and crashes with NG0203.
+           // We already use withAutoRefreshToken for session lifetime, so
+           // disabling the iframe loses nothing.
+           checkLoginIframe: false
          },
          features: [
           withAutoRefreshToken({
