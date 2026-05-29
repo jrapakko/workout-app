@@ -34,13 +34,15 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.workoutService.getNextWorkout().subscribe({
       next: (nextWorkout: Workout) => {
-        this.primeSets(nextWorkout);
-        this.nextWorkout.set(nextWorkout);
+        if (nextWorkout.name === null) {
+            this.noWorkouts.set(true);
+        } else {
+            this.primeSets(nextWorkout);
+            this.nextWorkout.set(nextWorkout);
+        }
       },
       error: (err: HttpErrorResponse) => {
-        if (err.status === 404) {
-          this.noWorkouts.set(true);
-        }
+        // error handled by interceptor
       }
     });
   }
