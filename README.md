@@ -7,7 +7,9 @@ Frontend for a Workout Tracking App
 ### UI
 
 Routine creation array logic and UI seem to clash on larger workout sizes. TODO: refactor either vertically with drag & drop or use an ordered list.
+
 Manually resending routine creation packet does work if you replay the packet in dev tools and edit the ordered array of workout ids.
+
 
 Clunky save sets flow -- needs to be scrolled too far, paddings should be adjusted and tested for UX
 
