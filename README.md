@@ -1,6 +1,25 @@
 # WorkoutApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+Frontend for a Workout Tracking App
+
+## Known Issues
+
+### UI
+
+Routine creation array logic and UI seem to clash on larger workout sizes. TODO: refactor either vertically with drag & drop or use an ordered list.
+
+
+
+
+
+
+
+
+
+
+## Angular Specific Readme
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6. Uses angular 21 now
 
 ## Development server
 
