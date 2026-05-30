@@ -13,6 +13,8 @@ Manually resending routine creation packet does work if you replay the packet in
 
 Clunky save sets flow -- needs to be scrolled too far, paddings should be adjusted and tested for UX
 
+Save sets validation seems to not be present -- TODO: check if packets are accepted by the backend AND implement validation
+
 
 ## Angular Specific Readme
 
