@@ -1,8 +1,49 @@
+<div class="regimen-tutorial">
+    <span class="tutorial-icon">💡</span>
+    <p>
+        Build your routine by dragging workouts from the
+        <b>Workouts</b> list on the left into your <b>Routine</b> on the right.
+        Reorder either list by dragging cards up and down. Your routine sets the
+        order your workouts appear on the dashboard.
+        <b>To remove a workout from your routine</b>, drag and drop it anywhere on
+        the page that is not the workouts box or routine box.
+    </p>
+</div>
+
 <div id="all-workouts" cdkDropListGroup>
+    @if (workouts(); as workouts) {
+    <div class="regimen-wrapper">
+        <h2>Workouts</h2>
+        @if (workouts.length === 0) {
+            <mat-card>
+                <mat-card-header class="exercise-list-header">
+                    <h2>You have no workouts yet</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Create your first workout to start building a routine.</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-flat-button color="primary" type="button" routerLink="/add-workout">Create workout</button>
+                </mat-card-actions>
+            </mat-card>
+        } @else {
+            <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)" >
+                @for (workout of workouts; track workout.id) {
+                    <div class="workout-card-wrapper cdk-drag" cdkDrag>
+                        <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    }
+    @if (regimen() && workouts()) {
+        <hr class="section-divider">
+    }
     @if (regimen(); as regimen) {
         <div class="regimen-wrapper">
             <h2>Routine</h2>
-            <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
+            <div id="regimen" class="regimen" cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)" >
                 @for (workout of regimen.workouts; track workout) {
                     <div class="workout-card-wrapper cdk-drag" cdkDrag >
                         <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
@@ -23,31 +64,5 @@
                 }
             </div>
         </div>
-    }
-    @if (workouts(); as workouts) {
-    <div class="regimen-wrapper">
-        <h2>Workouts</h2>
-        @if (workouts.length === 0) {
-            <mat-card>
-                <mat-card-header class="exercise-list-header">
-                    <h2>You have no workouts yet</h2>
-                </mat-card-header>
-                <mat-card-content>
-                    <p>Create your first workout to start building a routine.</p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-flat-button color="primary" type="button" routerLink="/add-workout">Create workout</button>
-                </mat-card-actions>
-            </mat-card>
-        } @else {
-            <div id="workouts" class="workouts" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" >
-                @for (workout of workouts; track workout.id) {
-                    <div class="workout-card-wrapper cdk-drag" cdkDrag>
-                        <app-workout-card [workout]="workout" [regimen]="true"></app-workout-card>
-                    </div>
-                }
-            </div>
-        }
-    </div>
     }
 </div>

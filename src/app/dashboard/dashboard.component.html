@@ -32,13 +32,35 @@
                         <mat-label>Weight</mat-label>
                         <input matInput type="number"
                                 [(ngModel)]="set.weight" name="weight-exercise-{{ i }}-set-{{ j }}"
-                                required>
+                                #weightModel="ngModel"
+                                required min="0" max="2000">
+                        @if (weightModel.touched) {
+                          @if (weightModel.hasError('required')) {
+                            <mat-error>Weight is required</mat-error>
+                          } @else if (weightModel.hasError('min')) {
+                            <mat-error>Weight can't be negative</mat-error>
+                          } @else if (weightModel.hasError('max')) {
+                            <mat-error>Max is 2000</mat-error>
+                          }
+                        }
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="row-item">
                         <mat-label>Reps</mat-label>
                         <input matInput type="number"
                                 [(ngModel)]="set.reps" name="reps-exercise-{{ i }}-set-{{ j }}"
-                                required>
+                                #repsModel="ngModel"
+                                required min="1" max="1000" step="1" pattern="^[0-9]+$">
+                        @if (repsModel.touched) {
+                          @if (repsModel.hasError('required')) {
+                            <mat-error>Reps is required</mat-error>
+                          } @else if (repsModel.hasError('pattern')) {
+                            <mat-error>Whole numbers only</mat-error>
+                          } @else if (repsModel.hasError('min')) {
+                            <mat-error>Must be at least 1</mat-error>
+                          } @else if (repsModel.hasError('max')) {
+                            <mat-error>Max is 1000</mat-error>
+                          }
+                        }
                       </mat-form-field>
                     </div>
                   }

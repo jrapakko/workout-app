@@ -33,13 +33,15 @@
         </ul>
     </mat-card-content>
 
-    <mat-card-actions class="exercise-list-footer">
-        @if (edit) {
-            <button mat-flat-button color="primary" class="btn-add" (click)="addExercise()">Add Exercise</button>
-            <button mat-flat-button color="primary" class="btn-save" (click)="saveWorkout()">Save Changes</button>
-            <button mat-stroked-button color="warn" class="btn-delete" (click)="deleteWorkout()">Remove Workout</button>
-        } @else if (!regimen) {
-            <button mat-flat-button color="primary" class="btn-edit" (click)="toggleEdit()">Edit</button>
-        }
-    </mat-card-actions>
+    @if (edit || !regimen) {
+        <mat-card-actions class="exercise-list-footer">
+            @if (edit) {
+                <button mat-flat-button color="primary" class="btn-add" (click)="addExercise()">Add Exercise</button>
+                <button mat-flat-button color="primary" class="btn-save" (click)="saveWorkout()">Save Changes</button>
+                <button mat-stroked-button color="warn" class="btn-delete" (click)="deleteWorkout()">Remove Workout</button>
+            } @else {
+                <button mat-flat-button color="primary" class="btn-edit" (click)="toggleEdit()">Edit</button>
+            }
+        </mat-card-actions>
+    }
 </mat-card>

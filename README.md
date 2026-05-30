@@ -6,14 +6,19 @@ Frontend for a Workout Tracking App
 
 ### UI
 
-Routine creation array logic and UI seem to clash on larger workout sizes. TODO: refactor either vertically with drag & drop or use an ordered list.
+Save sets flow has been condensed (smaller weight/reps inputs, tighter card and dashboard spacing) but still needs real-device UX testing to confirm it no longer requires excessive scrolling.
 
-Manually resending routine creation packet does work if you replay the packet in dev tools and edit the ordered array of workout ids.
+Card width is set with `max-width: 45vw`. The routine page stacks to a single column at <=768px, but the two-column 45vw layout can feel cramped at narrow desktop / tablet widths and could use further responsive tuning.
 
+Cross-column drag & drop index behavior on long routine/workout lists has not yet been verified in a running build (see Resolved below).
 
-Clunky save sets flow -- needs to be scrolled too far, paddings should be adjusted and tested for UX
+Mobile navigation hamburger renders as the literal text "menu" instead of an icon (`<mat-icon>menu</mat-icon>` in navbar). The Material Icons font is not loaded, so all `mat-icon` ligatures (menu, arrow_drop_down, logout) show as text. Fix: add the Material Symbols/Icons font (e.g. link in `index.html`) or switch to inline SVG icons.
 
-Save sets validation seems to not be present -- TODO: check if packets are accepted by the backend AND implement validation
+### Resolved
+
+Routine creation drag & drop refactored from a wrapping horizontal list to vertical lists, with Workouts on the left and Routine on the right. This fixes the orientation/wrap mismatch (`cdkDropListOrientation="horizontal"` over a `flex-flow: row wrap` grid) that mis-placed cards on larger workout sizes.
+
+Save sets validation implemented. The frontend validates reps (required, whole number, 1-1000) and weight (required); the backend now enforces reps `@Min(1)` via `@Valid` on the set-logging endpoint, where the constraint was previously dormant (missing `@Valid`). Negative weight is intentionally allowed (assisted / banded movements).
 
 
 ## Angular Specific Readme

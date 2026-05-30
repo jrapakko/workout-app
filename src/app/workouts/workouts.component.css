@@ -8,7 +8,7 @@
 
 .workout-card-wrapper {
   flex: 1 1 350px;
-  max-width: 400px;
+  max-width: 45vw;
   display: flex;
 }
 
