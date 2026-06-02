@@ -12,17 +12,17 @@
 
   <button mat-button class="nav-desktop user-menu-trigger" [matMenuTriggerFor]="userMenu" aria-label="Open user menu">
     {{ userName }}
-    <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    <mat-icon iconPositionEnd svgIcon="arrow_drop_down"></mat-icon>
   </button>
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
+      <mat-icon svgIcon="logout"></mat-icon>
       <span>Logout</span>
     </button>
   </mat-menu>
 
   <button mat-icon-button class="nav-mobile" [matMenuTriggerFor]="menu" aria-label="Open navigation menu">
-    <mat-icon>menu</mat-icon>
+    <mat-icon svgIcon="menu"></mat-icon>
   </button>
   <mat-menu #menu="matMenu">
     <div class="mobile-menu-user" mat-menu-item disabled>{{ userName }}</div>

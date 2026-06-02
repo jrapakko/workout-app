@@ -12,13 +12,13 @@ Card width is set with `max-width: 45vw`. The routine page stacks to a single co
 
 Cross-column drag & drop index behavior on long routine/workout lists has not yet been verified in a running build (see Resolved below).
 
-Mobile navigation hamburger renders as the literal text "menu" instead of an icon (`<mat-icon>menu</mat-icon>` in navbar). The Material Icons font is not loaded, so all `mat-icon` ligatures (menu, arrow_drop_down, logout) show as text. Fix: add the Material Symbols/Icons font (e.g. link in `index.html`) or switch to inline SVG icons.
-
 ### Resolved
 
 Routine creation drag & drop refactored from a wrapping horizontal list to vertical lists, with Workouts on the left and Routine on the right. This fixes the orientation/wrap mismatch (`cdkDropListOrientation="horizontal"` over a `flex-flow: row wrap` grid) that mis-placed cards on larger workout sizes.
 
-Save sets validation implemented. The frontend validates reps (required, whole number, 1-1000) and weight (required); the backend now enforces reps `@Min(1)` via `@Valid` on the set-logging endpoint, where the constraint was previously dormant (missing `@Valid`). Negative weight is intentionally allowed (assisted / banded movements).
+Save sets validation implemented. The frontend validates reps (required, whole number, 1-1000) and weight (required, -2000 to 2000); the backend now enforces reps `@Min(1)` via `@Valid` on the set-logging endpoint, where the constraint was previously dormant (missing `@Valid`). Negative weight is intentionally allowed on both ends (assisted / banded movements).
+
+Navbar icons no longer depend on the external Material Icons font. The menu / arrow_drop_down / logout glyphs are registered as inline SVG literals (`MatIconRegistry.addSvgIconLiteral`) and ship in the JS bundle, so mobile content blockers that block the Google Fonts request no longer leave the hamburger rendering as the literal text "menu".
 
 
 ## Angular Specific Readme
