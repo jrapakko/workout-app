@@ -1,12 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { AuthService } from '../auth.service';
+
+// Keep in sync with the navbar.component.css media query that swaps the desktop
+// links for the mobile hamburger.
+const MOBILE_BREAKPOINT = '(max-width: 768px)';
 
 // Inline SVG icons (Material 24x24 paths) registered with MatIconRegistry so
 // the navbar never depends on the external Material Icons font loading at
@@ -32,9 +36,22 @@ const SVG_ICONS: Record<string, string> = {
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   @Input() title = 'Workout App';
   userName: string = 'User';
+
+  // Both menu triggers (desktop user menu + mobile hamburger).
+  @ViewChildren(MatMenuTrigger) private menuTriggers!: QueryList<MatMenuTrigger>;
+
+  private readonly mobileQuery = window.matchMedia(MOBILE_BREAKPOINT);
+
+  // When the viewport crosses the breakpoint, the open menu's trigger button
+  // gets display:none but its overlay panel stays open (orphaned). Close any
+  // open menu on the crossing. Uses matchMedia's `change` (fires only on the
+  // crossing) rather than window:resize, which on mobile fires constantly as
+  // the address bar collapses during scroll.
+  private readonly onBreakpointChange = () =>
+    this.menuTriggers?.forEach(trigger => trigger.closeMenu());
 
   constructor(
     private readonly authService: AuthService,
@@ -50,6 +67,11 @@ export class NavbarComponent implements OnInit {
     this.authService.getUserName().subscribe(name => {
       this.userName = name || 'User';
     });
+    this.mobileQuery.addEventListener('change', this.onBreakpointChange);
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener('change', this.onBreakpointChange);
   }
 
   logout(): void {
